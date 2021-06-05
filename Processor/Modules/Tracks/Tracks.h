@@ -10,13 +10,16 @@ class Tracks {
 
 public:
     Tracks() {
-        for (int track = 0; track < Config::Tracks::count; track++) {
-            Track* trk = new Track();
-            trk->setOwner(this);
-            trk->setIndex(track);
-            tracks.add(trk);
+        for (int index = 0; index < Config::Tracks::count; index++) {
+            tracks.add(new Track(this, index));
         }
     }
+    
+    void processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
+        for (Track* track : tracks) {
+            track->processBlock(buffer, midiMessages);
+        }
+    };
     
     bool doForAllTracks(Action action, ActionMode mode = ActionMode::Single) {
         for (int track = 0; track < Config::Tracks::count; track++) doForTrack(track, action, mode);
@@ -47,6 +50,23 @@ public:
         return true;
     }
     
+    int setOverdubLayer(int index) {
+        overdubLayer = index;
+        return overdubLayer;
+    };
+    
+    int getOverdubLayer() {
+        return overdubLayer;
+    };
+    
+    void unsetOverdubLayer() {
+        overdubLayer = -1;
+    };
+    
+    bool hasOverdubLayer() {
+        return overdubLayer != -1;
+    };
+    
     int setLastSelectedTrackIndex(int index) {
         lastSelectedTrackIndex = index;
         return lastSelectedTrackIndex;
@@ -72,6 +92,7 @@ public:
     }
  
 private:
+    int overdubLayer = -1;
     int lastSelectedTrackIndex = -1;
     juce::OwnedArray<Track> tracks;
 };

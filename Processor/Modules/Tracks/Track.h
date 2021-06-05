@@ -26,14 +26,17 @@ public:
         Toggle
     };
     
+    Track(Tracks* owner, int trackIndex) : owner(owner), trackIndex(trackIndex) {
+        for (int index = 0; index < Config::Tracks::count; index++) {
+            loops.add(new Loop(this, trackIndex, index));
+        }
+    }
+    
     void setOwner(Tracks* owner) {
         this->owner = owner;
     }
     
-    int setIndex(int index) {
-        trackIndex = index;
-        return index;
-    }
+    void processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages);
     
     void executeAction(Action action, ActionMode mode) {
         switch (action) {
@@ -87,6 +90,7 @@ public:
     
 private:
     Tracks* owner;
+    juce::OwnedArray<Loop> loops;
 
     int trackIndex = -1;
     bool _isPlaying = false;
@@ -96,7 +100,6 @@ private:
     bool _isSelected = false;
     bool _hasRecords = false;
 
-    juce::OwnedArray<Loop> loops;
     
     bool getValueBasedOnMode(bool value, ActionMode mode) {
         switch (mode) {

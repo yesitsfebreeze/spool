@@ -2,6 +2,13 @@
 #include "Tracks.h"
 
 
+
+void Track::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
+    for (Loop* loop : loops) {
+        loop->processBlock(buffer,midiMessages);
+    }
+}
+    
 void Track::select(ActionMode mode){
     bool value = getValueBasedOnMode(_isSelected, mode);
     

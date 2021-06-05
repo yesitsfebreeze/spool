@@ -124,12 +124,18 @@ void Commands::registerTrackCommandActions() {
         });
         
         owner->commandQueue.registerCommandAction(trackCmd, Type::Hold, TriggerType::Instant, [this, track] (bool FN) {
-            // go to overdub layer
+            if (!FN) owner->tracks.doForTrack(track, TrackAction::Play, TrackActionMode::Toggle);
+            if (FN)  owner->tracks.doForTrack(track, TrackAction::Stop, TrackActionMode::Toggle);
         });
         
         owner->commandQueue.registerCommandAction(trackCmd, Type::DoublePress, TriggerType::Instant, [this, track] (bool FN) {
-            if (!FN) owner->tracks.doForTrack(track, TrackAction::Play, TrackActionMode::Toggle);
-            if (FN)  owner->tracks.doForTrack(track, TrackAction::Stop, TrackActionMode::Toggle);
+            if (owner->tracks.hasOverdubLayer()) {
+                owner->tracks.unsetOverdubLayer();
+            } else {
+                owner->tracks.setOverdubLayer(track);
+            }
+            
+            DBG(owner->tracks.getOverdubLayer());
         });
         
         owner->commandQueue.registerCommandAction(trackCmd, Type::DoubleHold, TriggerType::Instant, [this, track] (bool FN) {

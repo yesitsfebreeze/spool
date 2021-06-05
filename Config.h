@@ -9,10 +9,6 @@
 namespace Config
 {
 
-// debugs
-const bool DebugKeys = false;
-
-
 const int windowAspectRatio = 1;
 const int defaultWindowSize = 900;
 const int minimumWindowSize = 700;

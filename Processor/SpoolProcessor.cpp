@@ -141,9 +141,10 @@ bool SpoolProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const {
 }
 #endif
 
-void SpoolProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
+void SpoolProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
     
     sequencer->getNextAudioBlock(buffer);
+    tracks.processBlock(buffer, midiMessages);
     buffer.clear();
 //    juce::ScopedNoDenormals noDenormals;
 //    auto totalNumInputChannels  = getTotalNumInputChannels();

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Modules/CommandQueue.h"
+#include "Modules/Tracks/Track.h"
 
 class SpoolProcessor;
 
@@ -9,6 +10,8 @@ public:
     using Type = QueueCommand::ActionType;
     using TriggerType = QueueCommand::TriggerType;
     using Cmd = Config::Command::ID;
+    using TrackAction = Track::Action;
+    using TrackActionMode = Track::ActionMode;
     
     bool isFunctionDown = false;
     

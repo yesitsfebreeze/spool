@@ -17,7 +17,7 @@ const int windowAspectRatio = 1;
 const int defaultWindowSize = 900;
 const int minimumWindowSize = 700;
 
-const float updateCycle = 1000 / 60; // ms - latter divider represents fps
+const float updateCycle = 1000 / 60; // ms - divider represents fps
 
 const int borderRadius = 10;
 const int borderWidth = 4;
@@ -32,6 +32,7 @@ const int MaxRecordLength = 32;
 const int doublePressTimeWindow = 200;
 const int holdTimeout = 500; // ms
 const int debounceTimeout = 200; // ms
+const int FNResetDelay = 100; // ms
 const int recordLengthDebounceTime = 1000; // ms
 
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "Modules/Tracks.h"
+#include "Modules/Tracks/Tracks.h"
 #include "Modules/Effects.h"
 #include "Modules/CommandQueue.h"
 #include "Commands.h"

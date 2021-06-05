@@ -7,6 +7,8 @@ void Track::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& mid
     for (Loop* loop : loops) {
         loop->processBlock(buffer,midiMessages);
     }
+    
+    // procces track effects
 }
     
 void Track::select(ActionMode mode){
@@ -70,8 +72,6 @@ void Track::cancelRecord(){
 void Track::clear(){
 
 };
-
-
 
 
 // private

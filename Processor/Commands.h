@@ -13,8 +13,6 @@ public:
     using TrackAction = Track::Action;
     using TrackActionMode = Track::ActionMode;
     
-    bool isFunctionDown = false;
-    
     const bool playOnBeat = true;
     const bool dontPlayOnBeat = false;
     const bool playOnAllBeats = false;

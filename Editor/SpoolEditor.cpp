@@ -1,13 +1,14 @@
 #include "../Processor/SpoolProcessor.h"
 #include "SpoolEditor.h"
 #include "../Config.h"
-
+#include "UI/Base/UI.h"
 
 //==============================================================================
 SpoolEditor::SpoolEditor (SpoolProcessor& p) : AudioProcessorEditor (&p), audioProcessor (p) {
+    ui.reset(new UI());
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (400, 300);
+    setSize(Config::defaultWindowSize, Config::defaultWindowSize);
     
     // commandmanager
     commandManager.registerAllCommandsForTarget(this);
@@ -16,13 +17,18 @@ SpoolEditor::SpoolEditor (SpoolProcessor& p) : AudioProcessorEditor (&p), audioP
     juce::Timer::callAfterDelay (300, [this] { grabKeyboardFocus(); });
     
     audioProcessor.editorTimerCallback = [this] (bool isBeat, bool isUpBeat) {timerCallback(isBeat,isUpBeat);};
+    
+    addAndMakeVisible(ui.get());
+    
+    ui->setReferences(&audioProcessor, this);
 }
 
 SpoolEditor::~SpoolEditor() {
+    ui.reset();
 }
 
 void SpoolEditor::timerCallback(bool isBeat, bool isUpBeat) {
-    
+
 }
 
 
@@ -43,18 +49,19 @@ bool SpoolEditor::perform (const InvocationInfo& info) {
     if (!executed) {
         DBG("Not implemented yet");
     }
-
     return true;
+}
+
+void SpoolEditor::executeCommand(Config::Command::ID commandID, bool isKeyDown) {
+    juce::ApplicationCommandTarget::InvocationInfo* info = new juce::ApplicationCommandTarget::InvocationInfo(commandID);
+    info->isKeyDown = isKeyDown;
+    commandManager.invoke(*info, true);
 }
 
 //==============================================================================
 void SpoolEditor::paint (juce::Graphics& g) {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-
-    g.setColour (juce::Colours::white);
-    g.setFont (15.0f);
-    g.drawFittedText ("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
+    juce::Rectangle<float> bounds = getLocalBounds().toFloat();
+    ui->setBounds(0, 0, bounds.getWidth(), bounds.getHeight());
 }
 
 void SpoolEditor::resized() {

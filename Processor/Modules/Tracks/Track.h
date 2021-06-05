@@ -7,7 +7,7 @@
 class Tracks;
 
 class Track {
-public:
+public:    
     enum Action {
         Select,
         Mute,
@@ -87,12 +87,22 @@ public:
     bool isSelected() {
         return _isSelected;
     }
+
+    bool setPressed(bool state) {
+        _isPressed = state;
+        return _isPressed;
+    }
+
+    bool isPressed() {
+        return _isPressed;
+    }
     
 private:
     Tracks* owner;
     juce::OwnedArray<Loop> loops;
 
     int trackIndex = -1;
+    bool _isPressed = false;
     bool _isPlaying = false;
     bool _isStopped = false;
     bool _isMuted = false;

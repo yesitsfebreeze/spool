@@ -93,6 +93,10 @@ class CommandQueue {
 public:
 
     bool isFunctionDown = false;
+    bool isMuteDown = false;
+    bool isPlayDown = false;
+    bool isRecordDown = false;
+    
     bool canExecuteFnFunctions = true;
     juce::int64 currentTime = 0;
     Config::Command::ID FNCommandID;
@@ -201,6 +205,7 @@ private:
             }
 
             if (!command->wasDoublePressed && command->pressCounter > 1) {
+                if (command->onInstantPress != nullptr) command->onInstantPress(FN);
                 clearQueueAction(command->cmdID);
                 command->wasDoublePressed = true;
                 return;

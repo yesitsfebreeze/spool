@@ -56,13 +56,13 @@ public:
 
     // vars
     std::function<void(bool isBeat, bool isUpbeat)> editorTimerCallback;
+    Sequencer* sequencer;
     CommandQueue commandQueue;
     Tracks tracks;
     Effects effects;
 
 private:
     Commands commands;
-    Sequencer* sequencer;
     
     juce::int64 getCurrentTime() {
         return juce::Time::getCurrentTime().toMilliseconds();

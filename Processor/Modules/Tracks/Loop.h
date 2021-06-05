@@ -9,7 +9,10 @@ public:
     }
     
     void processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
-        DBG(trackIndex << " : " << loopIndex);
+//  DBG(trackIndex << " : " << loopIndex);
+    // only if playing && has recoring
+        // play loop
+        // procces loop fx
     };
         
     void record() {

@@ -14,8 +14,9 @@ const int defaultWindowSize = 900;
 const int minimumWindowSize = 700;
 
 const float updateCycle = 1000 / 60; // ms - divider represents fps
+const float uiFPS = 30;
 
-const int borderRadius = 10;
+const int borderRadius = 6;
 const int borderWidth = 4;
 const int padding = 16;
 const int mouseLeftClickKeyCode = 1337; // ms
@@ -29,6 +30,7 @@ const int doublePressTimeWindow = 200;
 const int holdTimeout = 500; // ms
 const int debounceTimeout = 200; // ms
 const int FNResetDelay = 100; // ms
+const int TrackResetDelay = 150; // ms
 const int recordLengthDebounceTime = 1000; // ms
 
 

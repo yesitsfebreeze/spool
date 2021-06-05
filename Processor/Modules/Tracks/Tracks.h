@@ -50,6 +50,10 @@ public:
         return true;
     }
     
+    Track* getTrack(int index) {
+        return tracks[index];
+    }
+    
     int setOverdubLayer(int index) {
         overdubLayer = index;
         return overdubLayer;

@@ -16,22 +16,28 @@ void Commands::registerFunctionCommandActions() {
     });
 
     owner->commandQueue.registerCommandAction(Cmd::Function, Type::Hold, TriggerType::Instant, [this] (bool FN) {
-        owner->commandQueue.isFunctionDown = true;
         owner->tracks.doForAllTracks(TrackAction::Select, TrackActionMode::Off);
     });
     
     owner->commandQueue.registerCommandAction(Cmd::Function, Type::DoublePress, TriggerType::Instant, [this] (bool FN) {
-        owner->commandQueue.isFunctionDown = true;
         owner->tracks.doForAllTracks(TrackAction::Select, TrackActionMode::Toggle);
     });
 
     owner->commandQueue.registerCommandAction(Cmd::Function, Type::DoubleHold, TriggerType::Instant, [this] (bool FN) {
-        owner->commandQueue.isFunctionDown = true;
         owner->tracks.doForAllTracks(TrackAction::Select, TrackActionMode::On);
     });
 }
 
 void Commands::registerMuteCommandActions() {
+    owner->commandQueue.registerCommandAction(Cmd::Mute, Type::InstantPress, TriggerType::Instant, [this] (bool FN) {
+        DBG("press");
+        owner->commandQueue.isMuteDown = true;
+    });
+
+    owner->commandQueue.registerCommandAction(Cmd::Mute, Type::Release, TriggerType::Instant, [this] (bool FN) {
+        owner->commandQueue.isMuteDown = false;
+    });
+    
     owner->commandQueue.registerCommandAction(Cmd::Mute, Type::Press, TriggerType::OnUpBeat, [this] (bool FN) {
 //        DBG("mute: press" << (FN ? " FN" : ""));
         //TODO: implement mute press
@@ -58,6 +64,14 @@ void Commands::registerMuteCommandActions() {
 }
 
 void Commands::registerPlayCommandActions() {
+    owner->commandQueue.registerCommandAction(Cmd::Play, Type::InstantPress, TriggerType::Instant, [this] (bool FN) {
+        owner->commandQueue.isPlayDown = true;
+    });
+
+    owner->commandQueue.registerCommandAction(Cmd::Play, Type::Release, TriggerType::Instant, [this] (bool FN) {
+        owner->commandQueue.isPlayDown = false;
+    });
+    
     owner->commandQueue.registerCommandAction(Cmd::Play, Type::Press, TriggerType::OnUpBeat, [this] (bool FN) {
         if (!FN) owner->tracks.doForAllTracks(TrackAction::Play, TrackActionMode::On);
         if (FN) owner->tracks.doForAllTracks(TrackAction::Play, TrackActionMode::Toggle);
@@ -85,6 +99,14 @@ void Commands::registerPlayCommandActions() {
 
 
 void Commands::registerRecordCommandActions() {
+    owner->commandQueue.registerCommandAction(Cmd::Record, Type::InstantPress, TriggerType::Instant, [this] (bool FN) {
+        owner->commandQueue.isRecordDown = true;
+    });
+
+    owner->commandQueue.registerCommandAction(Cmd::Record, Type::Release, TriggerType::Instant, [this] (bool FN) {
+        owner->commandQueue.isRecordDown = false;
+    });
+    
     owner->commandQueue.registerCommandAction(Cmd::Record, Type::Press, TriggerType::Instant, [this] (bool FN) {
         if (!FN) owner->tracks.doForLastSelectedOrFreeTrack(TrackAction::Record);
         if (FN) owner->tracks.doForAllTracks(TrackAction::CancelRecord);
@@ -118,6 +140,15 @@ void Commands::registerTrackCommandActions() {
     for (int track = 0;track < Config::Tracks::count; track++) {
         Cmd trackCmd = static_cast<Cmd>(track + firstTrackEnum);
 
+        owner->commandQueue.registerCommandAction(trackCmd, Type::InstantPress, TriggerType::Instant, [this, track] (bool FN) {
+            owner->tracks.getTrack(track)->setPressed(true);
+        });
+
+        owner->commandQueue.registerCommandAction(trackCmd, Type::Release, TriggerType::Instant, [this, track] (bool FN) {
+            juce::Timer::callAfterDelay(Config::TrackResetDelay, [this, track] { owner->tracks.getTrack(track)->setPressed(false); });
+            
+        });
+        
         owner->commandQueue.registerCommandAction(trackCmd, Type::Press, TriggerType::Instant, [this, track] (bool FN) {
             if (!FN) owner->tracks.doForTrack(track, TrackAction::Select, TrackActionMode::Toggle);
             if (FN)  owner->effects.doForTrack(track, Effects::Type::Select, Effects::Action::Toggle);

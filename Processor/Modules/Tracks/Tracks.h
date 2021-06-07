@@ -3,23 +3,40 @@
 #include "../../../Config.h"
 #include "Track.h"
 
+class SpoolProcessor;
+
 class Tracks {
 
     using Action = Track::Action;
     using ActionMode = Track::ActionMode;
 
 public:
-    Tracks() {
-        for (int index = 0; index < Config::Tracks::count; index++) {
-            tracks.add(new Track(this, index));
+    SpoolProcessor* owner;
+
+    Tracks(SpoolProcessor* owner) : owner(owner) {
+        for (int track = 0; track < Config::Tracks::count; track++) {
+            tracks.add(new Track(this, track));
         }
     }
     
-    void processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
+    void processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
         for (Track* track : tracks) {
-            track->processBlock(buffer, midiMessages);
+            track->processBlockBefore(buffer, midiMessages);
         }
     };
+    
+    void processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
+        for (Track* track : tracks) {
+            track->processBlockAfter(buffer, midiMessages);
+        }
+    };
+    
+    void beatCallback(bool isUpBeat) {
+        for (int track = 0; track < Config::Tracks::count; track++) {
+            Track* trk = tracks[track];
+            trk->beatCallback(isUpBeat);
+        }
+    }
     
     bool doForAllTracks(Action action, ActionMode mode = ActionMode::Single) {
         for (int track = 0; track < Config::Tracks::count; track++) doForTrack(track, action, mode);

@@ -73,9 +73,9 @@ void UI::resized() {
     controlGroupTwoUI.setPadding(rowHeight * 0.3, Config::padding, rowHeight * 0.25, Config::padding);
 
     sequencerUI.setBounds(0, 0, leftOffset, topArea);
-    sequencerUI.setPadding(Config::padding * 2, Config::padding, Config::padding * 2, Config::padding);
+    sequencerUI.setPadding(Config::padding * 1.5, Config::padding, Config::padding * 1.5, Config::padding);
     
     peakMeterUI.setBounds(w - leftOffset, 0, leftOffset, topArea);
-    peakMeterUI.setPadding(Config::padding * 2, Config::padding, Config::padding * 2, Config::padding);
+    peakMeterUI.setPadding(Config::padding * 1.5, Config::padding, Config::padding * 1.5, Config::padding);
     
 }

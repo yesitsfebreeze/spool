@@ -72,4 +72,6 @@ void StandaloneApp::systemRequestedQuit() {
     }
 }
 
+#if JUCE_USE_CUSTOM_PLUGIN_STANDALONE_APP
 START_JUCE_APPLICATION(StandaloneApp);
+#endif

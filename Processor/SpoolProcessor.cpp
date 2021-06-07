@@ -20,8 +20,8 @@ SpoolProcessor::SpoolProcessor()
     : AudioProcessor (BusesProperties().withInput  ("Input",  juce::AudioChannelSet::stereo(), true).withOutput ("Output", juce::AudioChannelSet::stereo(), true))
 #endif
 {
-    sequencer = new Sequencer();
-    sequencer->setOwner(this);
+    sequencer.reset(new Sequencer(this));
+    tracks.reset(new Tracks(this));
     commands.setOwner(this);
     commandQueue.FNCommandID = Config::Command::Function;
     startTimer(Config::updateCycle);
@@ -29,6 +29,8 @@ SpoolProcessor::SpoolProcessor()
 
 SpoolProcessor::~SpoolProcessor()
 {
+    sequencer.reset();
+    tracks.reset();
 }
 
 void SpoolProcessor::timerCallback() {
@@ -38,10 +40,16 @@ void SpoolProcessor::timerCallback() {
     commandQueue.setCurrentTime(time);
     commandQueue.process(false, false);
     editorTimerCallback(false, false);
+    
+    commandQueue.setFunctionDown(isFunctionDown);
+    commandQueue.setMuteDown(isMuteDown);
+    commandQueue.setPlayDown(isPlayDown);
+    commandQueue.setRecordDown(isRecordDown);
 }
 
 void SpoolProcessor::beatCallback(bool isUpBeat) {
     commandQueue.process(true, isUpBeat);
+    tracks->beatCallback(isUpBeat);
 }
 
 
@@ -142,11 +150,14 @@ bool SpoolProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const {
 #endif
 
 void SpoolProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
-    
+    juce::ScopedNoDenormals noDenormals;
+
     sequencer->getNextAudioBlock(buffer);
-    tracks.processBlock(buffer, midiMessages);
+    tracks->processBlockBefore(buffer, midiMessages);
     buffer.clear();
-//    juce::ScopedNoDenormals noDenormals;
+    tracks->processBlockAfter(buffer, midiMessages);
+
+    
 //    auto totalNumInputChannels  = getTotalNumInputChannels();
 //    auto totalNumOutputChannels = getTotalNumOutputChannels();
 //

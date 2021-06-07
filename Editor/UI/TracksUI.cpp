@@ -23,7 +23,7 @@ void TracksUI::onSetReferences() {
     int buttonSize = buttons.size();
     for (int i = 0; i < buttonSize; ++i) {
         buttons[i]->setReferences(processor, editor);
-        buttons[i]->track = processor->tracks.getTrack(i);
+        buttons[i]->track = processor->tracks->getTrack(i);
     }
 }
 
@@ -60,12 +60,17 @@ void TrackButtonUI::removeForcedColor() {
 void TrackButtonUI::getButtonColors() {
     isDepressed = track->isPressed() || track->isSelected();
     
+    
+    
     if (isColorForced) return;
 
-    if (isRecording) {
+    if (processor->isEffectMode()) {
+        borderColor = Config::Colors::blue;
+        fillColor = Config::Colors::blue;
+    } else if (isRecording) {
        borderColor = Config::Colors::red;
        fillColor = Config::Colors::red;
-    } else if (isMuted) {
+    } else if (track->isMuted()) {
         borderColor = Config::Colors::yellow;
         fillColor = Config::Colors::yellow;
     } else if (isPlaying && !hasGroupColor) {

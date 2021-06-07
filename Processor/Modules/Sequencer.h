@@ -6,8 +6,8 @@
 
 class Sequencer {
 public:
-    void setOwner(SpoolProcessor* owner) {
-        this->owner = owner;
+    Sequencer(SpoolProcessor* owner):owner(owner) {
+        
     }
     
     bool isRunning = false;

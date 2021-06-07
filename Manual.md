@@ -1,6 +1,5 @@
 # Documentation
 
-
 Notes:
 - bpm is fixed on 125bpm until there is a bpm knob present 
 

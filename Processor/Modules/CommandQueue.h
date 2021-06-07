@@ -92,10 +92,45 @@ public:
 class CommandQueue {
 public:
 
-    bool isFunctionDown = false;
-    bool isMuteDown = false;
-    bool isPlayDown = false;
-    bool isRecordDown = false;
+    bool _isFunctionDown = false;
+    bool _isMuteDown = false;
+    bool _isPlayDown = false;
+    bool _isRecordDown = false;
+    
+    bool setFunctionDown(bool state) {
+        _isFunctionDown = state;
+        return _isFunctionDown;
+    }
+    bool isFunctionDown() {
+        return _isFunctionDown;
+    }
+
+    bool setMuteDown(bool state) {
+        _isMuteDown = state;
+        return _isMuteDown;
+    }
+
+    bool isMuteDown() {
+        return _isMuteDown;
+    }
+
+    bool setPlayDown(bool state) {
+        _isPlayDown = state;
+        return _isPlayDown;
+    }
+
+    bool isPlayDown() {
+        return _isPlayDown;
+    }
+
+    bool setRecordDown(bool state) {
+        _isRecordDown = state;
+        return _isRecordDown;
+    }
+
+    bool isRecordDown() {
+        return _isRecordDown;
+    }
     
     bool canExecuteFnFunctions = true;
     juce::int64 currentTime = 0;
@@ -193,7 +228,7 @@ private:
     void handleCommandState(QueueCommand* command, juce::int64 currentTime) {
         juce::int64 holdTimeoutTarget = command->triggerTime + Config::holdTimeout;
         
-        bool FN = isFunctionDown || command->cmdID == FNCommandID;
+        bool FN = _isFunctionDown || command->cmdID == FNCommandID;
         
         if (command->isPressed) {
             command->isReleased = false;
@@ -241,7 +276,7 @@ private:
             command->clearedDoublePress = false;
             
             if (!command->isReleased) {
-                if (command->onRelease != nullptr) command->onRelease(isFunctionDown);
+                if (command->onRelease != nullptr) command->onRelease(isFunctionDown());
                 command->isReleased = true;
             };
             

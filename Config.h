@@ -26,8 +26,8 @@ const int defaultRecordLength = 4; // bars
 const int MaxRecordLength = 32;
 
 // timing relevant stuff
-const int doublePressTimeWindow = 200;
-const int holdTimeout = 500; // ms
+const int doublePressTimeWindow = 250;
+const int holdTimeout = 333; // ms
 const int debounceTimeout = 200; // ms
 const int FNResetDelay = 100; // ms
 const int TrackResetDelay = 150; // ms

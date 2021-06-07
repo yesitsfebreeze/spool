@@ -53,9 +53,10 @@ bool SpoolEditor::perform (const InvocationInfo& info) {
 }
 
 void SpoolEditor::executeCommand(Config::Command::ID commandID, bool isKeyDown) {
-    juce::ApplicationCommandTarget::InvocationInfo* info = new juce::ApplicationCommandTarget::InvocationInfo(commandID);
-    info->isKeyDown = isKeyDown;
-    commandManager.invoke(*info, true);
+    commandInfo.reset(new InvocationInfo(commandID));
+    commandInfo->isKeyDown = isKeyDown;
+    commandManager.invoke(*commandInfo, false);
+    commandInfo.reset();
 }
 
 //==============================================================================

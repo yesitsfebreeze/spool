@@ -45,10 +45,10 @@ void ControlButtonsUI::onSetReferences() {
 }
 
 void ControlButtonsUI::update() {
-    functionButton->isDepressed = processor->commandQueue.isFunctionDown;
-    muteButton->isDepressed = processor->commandQueue.isMuteDown;
-    playButton->isDepressed = processor->commandQueue.isPlayDown;
-    recordButton->isDepressed = processor->commandQueue.isRecordDown;
+    functionButton->isDepressed = processor->isFunctionDown;
+    muteButton->isDepressed = processor->isMuteDown;
+    playButton->isDepressed = processor->isPlayDown;
+    recordButton->isDepressed = processor->isRecordDown;
 }
 
 void ControlButtonsUI::resized() {

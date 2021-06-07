@@ -9,6 +9,8 @@ class UI;
 class SpoolEditor : public juce::AudioProcessorEditor, public juce::ApplicationCommandTarget {
 
 public:
+    using InvocationInfo = juce::ApplicationCommandTarget::InvocationInfo;
+
     SpoolEditor (SpoolProcessor&);
     ~SpoolEditor() override;
     
@@ -25,10 +27,13 @@ public:
     juce::ApplicationCommandManager commandManager;
     CommandDefinitions commandDefinitions;
     SpoolProcessor& audioProcessor;
+    
+    
 
 private:
     std::unique_ptr<UI> ui;
     void timerCallback(bool isBeat, bool isUpBeat);
+    std::unique_ptr<InvocationInfo> commandInfo;
     
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SpoolEditor)

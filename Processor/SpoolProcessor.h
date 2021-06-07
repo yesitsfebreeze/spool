@@ -29,7 +29,6 @@ public:
     void beatCallback(bool isUpBeat);
     void processBlock (juce::AudioBuffer<float>&, juce::MidiBuffer&) override;
 
-
     //==============================================================================
     juce::AudioProcessorEditor* createEditor() override;
     bool hasEditor() const override;
@@ -53,16 +52,35 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    
+    int getRecordLength() {
+        return 5;
+    }
+    
+    bool setEffectMode(bool state) {
+        effectMode = state;
+        return effectMode;
+    }
+    
+    bool isEffectMode() {
+        return effectMode;
+    }
 
     // vars
     std::function<void(bool isBeat, bool isUpbeat)> editorTimerCallback;
-    Sequencer* sequencer;
+    std::unique_ptr<Sequencer> sequencer;
+    std::unique_ptr<Tracks> tracks;
     CommandQueue commandQueue;
-    Tracks tracks;
     Effects effects;
+    
+    bool isFunctionDown = false;
+    bool isMuteDown = false;
+    bool isPlayDown = false;
+    bool isRecordDown = false;
 
 private:
     Commands commands;
+    bool effectMode = false;
     
     juce::int64 getCurrentTime() {
         return juce::Time::getCurrentTime().toMilliseconds();

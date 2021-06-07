@@ -40,3 +40,4 @@ public:
 private:
     SpoolProcessor* owner;
 };
+

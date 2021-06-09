@@ -2,8 +2,8 @@
 
 #include <JuceHeader.h>
 #include "Modules/Tracks/Tracks.h"
-#include "Modules/Effects.h"
-#include "Modules/CommandQueue.h"
+#include "Modules/Effects/Effects.h"
+#include "Modules/Commands/CommandQueue.h"
 #include "Commands.h"
 
 
@@ -26,7 +26,7 @@ public:
    #endif
 
     void timerCallback() override;
-    void beatCallback(bool isUpBeat);
+    void beatCallback(int beat, bool isUpBeat);
     void processBlock (juce::AudioBuffer<float>&, juce::MidiBuffer&) override;
 
     //==============================================================================
@@ -52,9 +52,18 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    void setRecordLength(int length) {
+        recordLength = length;
+    }
+
+    void changeRecordLength(int value) {
+        recordLength += value;
+        
+        DBG(recordLength);
+    }
     
     int getRecordLength() {
-        return 5;
+        return recordLength;
     }
     
     bool setEffectMode(bool state) {
@@ -81,9 +90,16 @@ public:
 private:
     Commands commands;
     bool effectMode = false;
+    juce::int64 loopIndex = 0;
+    float timePerUpdate = 1000 / Config::updateHz;
+    juce::int64 currentTime = 0;
     
-    juce::int64 getCurrentTime() {
-        return juce::Time::getCurrentTime().toMilliseconds();
+    //TODO: set record length via command
+    int recordLength = Config::defaultRecordLength;
+
+    void getCurrentTime() {
+        loopIndex++;
+        currentTime = timePerUpdate * loopIndex;
     }
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SpoolProcessor)

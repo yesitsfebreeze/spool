@@ -12,7 +12,7 @@
 
 #include "SpoolProcessor.h"
 #include "../Editor/SpoolEditor.h"
-#include "Modules/Sequencer.h"
+#include "Modules/Sequencer/Sequencer.h"
 
 //==============================================================================
 SpoolProcessor::SpoolProcessor()
@@ -24,7 +24,7 @@ SpoolProcessor::SpoolProcessor()
     tracks.reset(new Tracks(this));
     commands.setOwner(this);
     commandQueue.FNCommandID = Config::Command::Function;
-    startTimer(Config::updateCycle);
+    startTimerHz(Config::updateHz);
 }
 
 SpoolProcessor::~SpoolProcessor()
@@ -34,10 +34,9 @@ SpoolProcessor::~SpoolProcessor()
 }
 
 void SpoolProcessor::timerCallback() {
-    auto time = getCurrentTime();
-    
+    getCurrentTime();
     sequencer->update();
-    commandQueue.setCurrentTime(time);
+    commandQueue.setCurrentTime(currentTime);
     commandQueue.process(false, false);
     editorTimerCallback(false, false);
     
@@ -47,9 +46,9 @@ void SpoolProcessor::timerCallback() {
     commandQueue.setRecordDown(isRecordDown);
 }
 
-void SpoolProcessor::beatCallback(bool isUpBeat) {
+void SpoolProcessor::beatCallback(int beat,bool isUpBeat) {
     commandQueue.process(true, isUpBeat);
-    tracks->beatCallback(isUpBeat);
+    tracks->beatCallback(beat, isUpBeat);
 }
 
 

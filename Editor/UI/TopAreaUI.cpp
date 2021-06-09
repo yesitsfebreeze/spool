@@ -29,7 +29,7 @@ void TopAreaUI::initializeKnobs() {
 
     };
 
-    bypassKnob->setColor(Config::Colors::groupColorTwo);
+    bypassKnob->setColor(EditorConfig::Colors::groupColorTwo);
     addAndMakeVisible(bypassKnob.get());
 }
 

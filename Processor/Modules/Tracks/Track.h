@@ -3,12 +3,14 @@
 #include <JuceHeader.h>
 #include "SampleHolder.h"
 #include "../../../Config.h"
+#include "../Effects/Effects.h"
 
 class Tracks;
 
 class Track {
 public:
     Tracks* owner;
+    std::unique_ptr<Effects> effects;
     juce::OwnedArray<SampleHolder> sampleHolders;
 
     enum Action {
@@ -31,9 +33,15 @@ public:
     };
     
     Track(Tracks* owner, int trackIndex) : owner(owner), trackIndex(trackIndex) {
-        for (int index = 0; index < Config::Tracks::count; index++) {
+        for (int index = 0; index < Config::trackCount; index++) {
             sampleHolders.add(new SampleHolder(this, trackIndex, index));
         }
+
+        effects.reset(new Effects());
+    }
+    
+    ~Track() {
+        effects.reset();
     }
     
     void setOwner(Tracks* owner) {
@@ -43,7 +51,7 @@ public:
     void processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages);
     void processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages);
 
-    void beatCallback(bool isUpBeat);
+    void beatCallback(int beat,bool isUpBeat);
 
     void executeAction(Action action, ActionMode mode) {
         switch (action) {

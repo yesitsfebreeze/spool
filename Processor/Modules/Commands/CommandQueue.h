@@ -1,7 +1,7 @@
 #pragma once
 #include <JuceHeader.h>
 #include <map>
-#include "../../Config.h"
+#include "../../../Config.h"
 
 struct QueueCommand {
 public:
@@ -322,7 +322,6 @@ private:
     void processCommands(juce::int64 currentTime) {
         for (auto it = commands.begin(); it != commands.end(); it++) {
             QueueCommand* command = it->second;
-            currentTime = juce::Time::getCurrentTime().toMilliseconds();
             handleCommandState(command, currentTime);
             
             juce::int64 inDoublePressTimeoutWindow = currentTime - command->triggerTime >= Config::doublePressTimeWindow;

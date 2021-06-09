@@ -5,8 +5,7 @@
 #include <JuceHeader.h>
 #include "../../../Processor/SpoolProcessor.h"
 #include "../../SpoolEditor.h"
-#include "../../../Config.h"
-
+#include "../../EditorConfig.h"
 
 
 // COMPONENT
@@ -102,10 +101,10 @@ public:
 // BUTTON COMPONENT
 class UIButtonComponent : public AnimatedUIComponent {
 public:
-    juce::Colour fillColor = Config::Colors::light;
+    juce::Colour fillColor = EditorConfig::Colors::light;
     juce::Colour originalFillColor = fillColor;
     
-    juce::Colour borderColor = Config::Colors::light;
+    juce::Colour borderColor = EditorConfig::Colors::light;
     juce::Colour originalBorderColor = fillColor;
     
     int index = 0;
@@ -121,7 +120,7 @@ public:
     juce::Graphics* graphics;
     
     UIButtonComponent(int index) {
-        setFramesPerSecond(Config::uiFPS);
+        setFramesPerSecond(EditorConfig::FPS);
         setMouseCursor(juce::MouseCursor::StandardCursorType::PointingHandCursor);
         this->index = index;
     };
@@ -137,7 +136,7 @@ public:
     
     void paint (juce::Graphics& g) override {
         graphics = &g;
-        g.fillAll(Config::Colors::dark);
+        g.fillAll(EditorConfig::Colors::dark);
         calculateButtonSize();
         getButtonColors();
         beforePaint();
@@ -154,7 +153,7 @@ public:
     }
     
     virtual void getButtonColors() {
-        fillColor = Config::Colors::dark;
+        fillColor = EditorConfig::Colors::dark;
     
         if (isDepressed) {
             fillColor = originalFillColor;
@@ -164,20 +163,20 @@ public:
     virtual void calculateButtonSize() {
         juce::Rectangle<float> bounds = getLocalBounds().toFloat();
 
-        buttonX = Config::borderWidth / 2;
-        buttonY = Config::borderWidth / 2;
-        buttonWidth = bounds.getWidth() - Config::borderWidth;
-        buttonHeight = bounds.getHeight() - Config::borderWidth;
+        buttonX = EditorConfig::borderWidth / 2;
+        buttonY = EditorConfig::borderWidth / 2;
+        buttonWidth = bounds.getWidth() - EditorConfig::borderWidth;
+        buttonHeight = bounds.getHeight() - EditorConfig::borderWidth;
     }
     
     virtual void drawButton() {
-        int p = Config::padding / 2;
+        int p = EditorConfig::padding / 2;
         
         graphics->setColour(fillColor);
-        graphics->fillRoundedRectangle(buttonX + p , buttonY + p , buttonWidth - p * 2 , buttonHeight - p * 2, Config::borderRadius);
+        graphics->fillRoundedRectangle(buttonX + p , buttonY + p , buttonWidth - p * 2 , buttonHeight - p * 2, EditorConfig::borderRadius);
         
         graphics->setColour(borderColor);
-        graphics->drawRoundedRectangle(buttonX + p , buttonY + p , buttonWidth - p * 2 , buttonHeight - p * 2, Config::borderRadius, Config::borderWidth);
+        graphics->drawRoundedRectangle(buttonX + p , buttonY + p , buttonWidth - p * 2 , buttonHeight - p * 2, EditorConfig::borderRadius, EditorConfig::borderWidth);
     }
     
     void resized() override {
@@ -228,9 +227,10 @@ public:
     }
     
     std::function<void(bool increase)> onValueChange;
+    std::function<void(bool increase)> onValueChangeAlternate;
     std::function<void()> onPress;
-    std::function<void()> onRelease;
     std::function<void()> onPressAlternate;
+    std::function<void()> onRelease;
     std::function<void()> onReleaseAlternate;
     
     
@@ -287,11 +287,19 @@ public:
         value = value / sensitivity;
         
         if (value > lastValue) {
-            onValueChange(false);
+            if (event.mods.isRightButtonDown()) {
+                onValueChangeAlternate(false);
+            }else {
+                onValueChange(false);
+            }
             angle += rotationPerStep;
             repaint();
         } else if (value < lastValue) {
-            onValueChange(true);
+            if (event.mods.isRightButtonDown()) {
+                onValueChangeAlternate(true);
+            }else {
+                onValueChange(true);
+            }
             angle -= rotationPerStep;
             repaint();
         }
@@ -349,7 +357,7 @@ private:
     float dotSize = 0.15;
     float dotDistanceFromCenter = 0.8;
     
-    juce::Colour knobColor = Config::Colors::light;
+    juce::Colour knobColor = EditorConfig::Colors::light;
 
     float degreeToRadians(float degree) {
         return (degree * (M_PI / 180));
@@ -375,19 +383,19 @@ private:
             offsetTop = (height - width) / 2;
         }
         
-        offsetTop += Config::borderWidth / 2;
-        offsetLeft += Config::borderWidth / 2;
-        knobSize -= Config::borderWidth;
+        offsetTop += EditorConfig::borderWidth / 2;
+        offsetLeft += EditorConfig::borderWidth / 2;
+        knobSize -= EditorConfig::borderWidth;
         
         juce::Rectangle<float> area {offsetLeft, offsetTop, knobSize, knobSize};
         g.setColour(knobColor);
-        g.drawEllipse(area, Config::borderWidth);
+        g.drawEllipse(area, EditorConfig::borderWidth);
     }
     
     void paintDot(juce::Graphics& g) {
         float calculatedDotSize = knobSize * dotSize;
-        if (calculatedDotSize < Config::borderWidth * 2) {
-            calculatedDotSize = Config::borderWidth * 2;
+        if (calculatedDotSize < EditorConfig::borderWidth * 2) {
+            calculatedDotSize = EditorConfig::borderWidth * 2;
         }
         
         float radius = ((knobSize - calculatedDotSize) / 2) * dotDistanceFromCenter;
@@ -399,7 +407,7 @@ private:
             calculatedDotSize,
             calculatedDotSize
         };
-        g.setColour(Config::Colors::light);
+        g.setColour(EditorConfig::Colors::light);
         g.fillEllipse(dotArea);
     }
 };

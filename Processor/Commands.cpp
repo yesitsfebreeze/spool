@@ -1,6 +1,6 @@
 #include "Commands.h"
 
-#include "Modules/CommandQueue.h"
+#include "Modules/Commands/CommandQueue.h"
 #include "SpoolProcessor.h"
 #include "../Config.h"
 
@@ -111,8 +111,8 @@ void Commands::registerRecordCommandActions() {
     });
 
     // RECORD Hold
-    owner->commandQueue.registerCommandAction(Cmd::Record, Type::Hold, TriggerType::Instant, [this] (bool FN) {
-        if (!FN) owner->tracks->doForSelectedTracks(TrackAction::Stop, TrackActionMode::Toggle);
+    owner->commandQueue.registerCommandAction(Cmd::Record, Type::Hold, TriggerType::OnUpBeat, [this] (bool FN) {
+        if (!FN) owner->tracks->doForSelectedTracks(TrackAction::Stop, TrackActionMode::On);
         if (FN)  owner->tracks->doForAllTracks(TrackAction::Stop, TrackActionMode::On);
     });
     
@@ -128,7 +128,7 @@ void Commands::registerRecordCommandActions() {
 void Commands::registerTrackCommandActions() {
 
     int firstTrackEnum = Cmd::Track1;
-    for (int track = 0;track < Config::Tracks::count; track++) {
+    for (int track = 0;track < Config::trackCount; track++) {
         Cmd trackCmd = static_cast<Cmd>(track + firstTrackEnum);
 
         // TRACK Instant Press
@@ -144,7 +144,7 @@ void Commands::registerTrackCommandActions() {
         // TRACK Press
         owner->commandQueue.registerCommandAction(trackCmd, Type::Press, TriggerType::Instant, [this, track] (bool FN) {
             if (!FN) owner->tracks->doForTrack(track, TrackAction::Select, TrackActionMode::Toggle);
-            if (FN)  owner->effects.doForTrack(track, Effects::Type::Select, Effects::Action::Toggle);
+//            if (FN)  owner->effects.doForTrack(track, Effects::Type::Select, Effects::Action::Toggle);
         });
         
         // TRACK Double Press

@@ -19,7 +19,7 @@ void Sequencer::getNextAudioBlock(juce::AudioBuffer<float>& buffer) {
         if (sampleRemainder == 0) {
             tick = (totalSamples + sample) / interval;
             beat = tick % 4;
-            owner->beatCallback(beat == 0);
+            owner->beatCallback(beat, beat == 0);
         }
     }
     

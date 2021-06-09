@@ -2,13 +2,38 @@
 #include "Track.h"
 #include "Tracks.h"
 
+
+SampleHolder::SampleHolder(Track* owner, int trackIndex, int index) : owner(owner), trackIndex(trackIndex), index(index) {
+    effects.reset(new Effects());
+}
+
+SampleHolder::~SampleHolder() {
+    effects.reset();
+}
+
+void SampleHolder::processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
+    record(buffer);
+    effects->processBlockBefore(buffer, midiMessages);
+};
+
+void SampleHolder::processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
+    playBuffer(buffer);
+    effects->processBlockAfter(buffer, midiMessages);
+};
+
+
+void SampleHolder::beatCallback(int beat, bool isUpBeat) {
+    setRecordState(beat, isUpBeat);
+    setPlayState(beat, isUpBeat);
+}
+
 void SampleHolder::wantsToRecord(int beatLength) {
     this->beatLength = beatLength;
     _wantsToRecord = true;
     owner->setWantsToRecord(_wantsToRecord);
 }
 
-void SampleHolder::startRecording() {
+void SampleHolder::startRecording(int beat) {
     recordedBeats = 0;
     _isRecording = true;
     owner->setRecording(_isRecording);
@@ -16,25 +41,32 @@ void SampleHolder::startRecording() {
     owner->setWantsToRecord(_wantsToRecord);
 }
 
-void SampleHolder::stopRecording() {
+void SampleHolder::stopRecording(int beat) {
     _isRecording = false;
     owner->setRecording(_isRecording);
     _wantsToRecord = false;
     owner->setWantsToRecord(_wantsToRecord);
     _hasSample = true;
     owner->setHasRecords(true);
+    startBeat = beat;
+    
+    if (!_isPlaying) {
+        play(true);
+    }
+    
+    //TODO: play with currentBeatOffset after track is a new recording
 }
 
 
-void SampleHolder::setRecordState(bool isUpBeat) {
+void SampleHolder::setRecordState(int beat, bool isUpBeat) {
     if (isUpBeat && _wantsToRecord) {
-        startRecording();
+        startRecording(beat);
         return;
     }
     
     if (!_isRecording) return;
     if (recordedBeats + 1 == beatLength) {
-        stopRecording();
+        stopRecording(beat);
         return;
     }
     
@@ -42,17 +74,11 @@ void SampleHolder::setRecordState(bool isUpBeat) {
 }
 
 
-void SampleHolder::setPlayState(bool isUpBeat) {
+void SampleHolder::setPlayState(int beat, bool isUpBeat) {
     if (sampleSize == 0 || _isRecording) return;
     if (beatsPlayed % beatLength == 0) restart();
     
     beatsPlayed++;
-}
-
-
-void SampleHolder::beatCallback(bool isUpBeat) {
-    setRecordState(isUpBeat);
-    setPlayState(isUpBeat);
 }
 
 void SampleHolder::restart() {
@@ -83,9 +109,6 @@ void SampleHolder::record(juce::AudioBuffer<float>& buffer) {
     sampleSize += numSamples;
 }
 
-void SampleHolder::processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
-    record(buffer);
-};
 
 void SampleHolder::addToBuffer(juce::AudioBuffer<float>& buffer, int sourceChannel, int outNumSamples, int numSamples) {
     if (_isMuted) return;
@@ -108,7 +131,8 @@ void SampleHolder::addToBuffer(juce::AudioBuffer<float>& buffer, int sourceChann
     }
 }
 
-void SampleHolder::processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
+
+void SampleHolder::playBuffer(juce::AudioBuffer<float>& buffer) {
     if (_isRecording) return;
     if (sampleSize == 0) return;
     if (!_isPlaying) return;
@@ -122,8 +146,8 @@ void SampleHolder::processBlockAfter(juce::AudioBuffer<float>& buffer, juce::Mid
 
     samplesPlayed += outNumSamples;
     samplesPlayed = samplesPlayed % numSamples;
-    
-    //TODO: procces Sample fx here
-};
+}
+
+
 
 

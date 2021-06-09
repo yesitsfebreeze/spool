@@ -1,8 +1,9 @@
 #include "TracksUI.h"
 #include "../../Config.h"
+#include "../EditorConfig.h"
 
 TracksUI::TracksUI() {
-    for (int i = 0; i < Config::Tracks::count; ++i) {
+    for (int i = 0; i < Config::trackCount; ++i) {
         TrackButtonUI* button = new TrackButtonUI(i);
 
         int firstTrackCommandEnum = (int) Cmd::Track1;
@@ -30,7 +31,7 @@ void TracksUI::onSetReferences() {
 void TracksUI::resized() {
     int buttonSize = buttons.size();
     for (int i = 0; i < buttonSize; ++i) {
-        buttons[i]->calculateBounds(getLocalBounds(), i, Config::Tracks::columns, Config::Tracks::rows);
+        buttons[i]->calculateBounds(getLocalBounds(), i, EditorConfig::trackColumns, EditorConfig::trackRows);
     }
 }
 
@@ -65,17 +66,17 @@ void TrackButtonUI::getButtonColors() {
     if (isColorForced) return;
 
     if (processor->isEffectMode()) {
-        borderColor = Config::Colors::blue;
-        fillColor = Config::Colors::blue;
+        borderColor = EditorConfig::Colors::blue;
+        fillColor = EditorConfig::Colors::blue;
     } else if (isRecording) {
-       borderColor = Config::Colors::red;
-       fillColor = Config::Colors::red;
+       borderColor = EditorConfig::Colors::red;
+       fillColor = EditorConfig::Colors::red;
     } else if (track->isMuted()) {
-        borderColor = Config::Colors::yellow;
-        fillColor = Config::Colors::yellow;
+        borderColor = EditorConfig::Colors::yellow;
+        fillColor = EditorConfig::Colors::yellow;
     } else if (isPlaying && !hasGroupColor) {
-        borderColor = Config::Colors::green;
-        fillColor = Config::Colors::green;
+        borderColor = EditorConfig::Colors::green;
+        fillColor = EditorConfig::Colors::green;
     } else {
         if (hasGroupColor) {
             borderColor = groupBorderColor;
@@ -87,7 +88,7 @@ void TrackButtonUI::getButtonColors() {
     }
    
     if (!isDepressed && !isRecording) {
-        fillColor = Config::Colors::dark;
+        fillColor = EditorConfig::Colors::dark;
     }
 }
 
@@ -97,9 +98,9 @@ void TrackButtonUI::afterPaint() {
 //    if (track->percentPlayed == 0) return;
 //
 //    if (track->isSelected) {
-//        graphics->setColour(Config::Colors::dark);
+//        graphics->setColour(EditorConfig::Colors::dark);
 //    } else {
-//        graphics->setColour(Config::Colors::mid);
+//        graphics->setColour(EditorConfig::Colors::mid);
 //    }
 
     

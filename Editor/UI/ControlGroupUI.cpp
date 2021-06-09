@@ -5,11 +5,11 @@ void ControlGroupUI::initializeKnobs() {
     int sensitivity = 20;
     
     
-    juce::Colour groupColor = Config::Colors::groupColorOne;
+    juce::Colour groupColor = EditorConfig::Colors::groupColorOne;
     int recordIncrease = 2;
     if (index == 1) {
         recordIncrease = 1;
-        groupColor = Config::Colors::groupColorTwo;
+        groupColor = EditorConfig::Colors::groupColorTwo;
     }
     
     UIKnobComponent* testKnob1 = knobs.add(new UIKnobComponent());
@@ -30,7 +30,7 @@ void ControlGroupUI::initializeKnobs() {
     testKnob1->onReleaseAlternate = [this] () {
         DBG("onReleaseAlternate");
     };
-    testKnob1->setColor(Config::Colors::green);
+    testKnob1->setColor(EditorConfig::Colors::green);
     addAndMakeVisible(testKnob1);
 
     
@@ -78,16 +78,50 @@ void ControlGroupUI::initializeKnobs() {
     };
     testKnob4->setColor(groupColor);
     addAndMakeVisible(testKnob4);
+    
+    UIKnobComponent* functionKnob = knobs.add(new UIKnobComponent());
+    functionKnob->setSensitivity(sensitivity);
+    functionKnob->setRotationPerStep(22.5);
+    functionKnob->onPress = [this] () {
+//        app->displayRecordLength();
+    };
+    functionKnob->onValueChangeAlternate = [this, recordIncrease] (bool increase) {
+        if (increase) processor->changeRecordLength(+1);
+        if (!increase) processor->changeRecordLength(-1);
+//        app->setRecordLength(increase, recordIncrease);
+    };
+    functionKnob->onValueChange = [this, recordIncrease] (bool increase) {
+        if (increase) processor->changeRecordLength(+2);
+        if (!increase) processor->changeRecordLength(-2);
+//        app->setRecordLength(increase, recordIncrease);
+    };
+    functionKnob->onRelease = [this] () {
+//        app->onRecordLengthRelease();
+    };
+    
+    functionKnob->setColor(EditorConfig::Colors::red);
+    addAndMakeVisible(functionKnob);
 
 
     UIKnobComponent* recordLengthKnob = knobs.add(new UIKnobComponent());
     recordLengthKnob->setSensitivity(sensitivity);
     recordLengthKnob->setRotationPerStep(22.5);
-//    recordLengthKnob->onPress = [this] () {app->displayRecordLength();};
-//    recordLengthKnob->onValueChange = [this, recordIncrease] (bool increase) {app->setRecordLength(increase, recordIncrease);};
-//    recordLengthKnob->onRelease = [this] () {app->onRecordLengthRelease();};
+    recordLengthKnob->onPress = [this] () {
+//        app->displayRecordLength();
+    };
+    recordLengthKnob->onPressAlternate = [this] () {
+        processor->changeRecordLength(+1);
+    };
+    recordLengthKnob->onValueChange = [this, recordIncrease] (bool increase) {
+        if (increase) processor->changeRecordLength(+2);
+        if (!increase) processor->changeRecordLength(-2);
+//        app->setRecordLength(increase, recordIncrease);
+    };
+    recordLengthKnob->onRelease = [this] () {
+//        app->onRecordLengthRelease();
+    };
     
-    recordLengthKnob->setColor(Config::Colors::red);
+    recordLengthKnob->setColor(EditorConfig::Colors::red);
     addAndMakeVisible(recordLengthKnob);
 }
 
@@ -111,7 +145,7 @@ void ControlGroupUI::resized() {
             knob->setBounds(centerX, s * (knobSize + spacing), knobSize, knobSize);
         }
         
-        knob->setPadding(Config::padding / 2);
+        knob->setPadding(EditorConfig::padding / 2);
     }
     
 }

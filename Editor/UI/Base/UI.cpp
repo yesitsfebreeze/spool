@@ -1,5 +1,5 @@
 #include "UI.h"
-#include "../../../Config.h"
+#include "../../EditorConfig.h"
 
 
 UI::UI() {
@@ -26,7 +26,7 @@ void UI::onSetReferences() {
 }
 
 void UI::paint(juce::Graphics& g) {
-    g.fillAll(Config::Colors::dark);
+    g.fillAll(EditorConfig::Colors::dark);
 }
 
 
@@ -58,24 +58,24 @@ void UI::resized() {
     int leftOffset = (w - rowHeight * 4) / 2;
     
     topAreaUI.setBounds(leftOffset, 0, w - leftOffset * 2,topArea);
-    topAreaUI.setPadding(Config::padding / 2);
+    topAreaUI.setPadding(EditorConfig::padding / 2);
 
     tracksUI.setBounds(leftOffset, topArea, rowHeight * 4, rowHeight * 4);
-    tracksUI.setPadding(Config::padding / 2);
+    tracksUI.setPadding(EditorConfig::padding / 2);
 
     controlButtonsUI.setBounds(leftOffset, topArea + rowHeight * 4, rowHeight * 4, rowHeight);
-    controlButtonsUI.setPadding(0, Config::padding / 2, Config::padding / 2, Config::padding / 2);
+    controlButtonsUI.setPadding(0, EditorConfig::padding / 2, EditorConfig::padding / 2, EditorConfig::padding / 2);
 
     controlGroupOneUI.setBounds(0, topArea, leftOffset, h - topArea);
-    controlGroupOneUI.setPadding(rowHeight * 0.3, Config::padding, rowHeight * 0.25, Config::padding);
+    controlGroupOneUI.setPadding(rowHeight * 0.3, EditorConfig::padding, rowHeight * 0.25, EditorConfig::padding);
 
     controlGroupTwoUI.setBounds(w - leftOffset, topArea, leftOffset, h - topArea);
-    controlGroupTwoUI.setPadding(rowHeight * 0.3, Config::padding, rowHeight * 0.25, Config::padding);
+    controlGroupTwoUI.setPadding(rowHeight * 0.3, EditorConfig::padding, rowHeight * 0.25, EditorConfig::padding);
 
     sequencerUI.setBounds(0, 0, leftOffset, topArea);
-    sequencerUI.setPadding(Config::padding * 1.5, Config::padding, Config::padding * 1.5, Config::padding);
+    sequencerUI.setPadding(EditorConfig::padding * 1.5, EditorConfig::padding, EditorConfig::padding * 1.5, EditorConfig::padding);
     
     peakMeterUI.setBounds(w - leftOffset, 0, leftOffset, topArea);
-    peakMeterUI.setPadding(Config::padding * 1.5, Config::padding, Config::padding * 1.5, Config::padding);
+    peakMeterUI.setPadding(EditorConfig::padding * 1.5, EditorConfig::padding, EditorConfig::padding * 1.5, EditorConfig::padding);
     
 }

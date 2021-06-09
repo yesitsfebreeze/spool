@@ -8,7 +8,7 @@ SpoolEditor::SpoolEditor (SpoolProcessor& p) : AudioProcessorEditor (&p), audioP
     ui.reset(new UI());
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize(Config::defaultWindowSize, Config::defaultWindowSize);
+    setSize(EditorConfig::defaultWindowSize, EditorConfig::defaultWindowSize);
     
     // commandmanager
     commandManager.registerAllCommandsForTarget(this);

@@ -2,7 +2,7 @@
 // #include "../utility/juce_CreatePluginFilter.h"
 //#endif
 
-#include "../Config.h"
+#include "../Editor/EditorConfig.h"
 #include "StandaloneWindow.h"
 #include "StandaloneApp.h"
 
@@ -16,7 +16,7 @@ StandaloneWindow::StandaloneWindow(StandaloneApp& app, const juce::String& title
                         const juce::Array<PluginInOuts>& constrainToConfiguration,
                         bool autoOpenMidiDevices
                         )
-    : DocumentWindow (title, Config::Colors::dark, DocumentWindow::allButtons, true), owner(app)
+    : DocumentWindow (title, EditorConfig::Colors::dark, DocumentWindow::allButtons, true), owner(app)
 {
    #if JUCE_IOS || JUCE_ANDROID
     setTitleBarHeight (0);
@@ -72,8 +72,8 @@ void StandaloneWindow::setWindowPosition() {
     int w = props->getIntValue("windowWidth", fallbackValue);
     int h = props->getIntValue("windowHeight", fallbackValue);
 
-    if (w == fallbackValue) w = Config::defaultWindowSize;
-    if (h == fallbackValue) h = Config::defaultWindowSize;
+    if (w == fallbackValue) w = EditorConfig::defaultWindowSize;
+    if (h == fallbackValue) h = EditorConfig::defaultWindowSize;
     
     if (x == fallbackValue && y == fallbackValue) {
         centreWithSize(w, h);
@@ -85,8 +85,8 @@ void StandaloneWindow::setWindowPosition() {
 
 void StandaloneWindow::addConstrainer() {
     sizeConstrainer.reset(new juce::ComponentBoundsConstrainer);
-    sizeConstrainer->setMinimumSize(Config::minimumWindowSize, Config::minimumWindowSize);
-    sizeConstrainer->setFixedAspectRatio(Config::windowAspectRatio);
+    sizeConstrainer->setMinimumSize(EditorConfig::minimumWindowSize, EditorConfig::minimumWindowSize);
+    sizeConstrainer->setFixedAspectRatio(EditorConfig::windowAspectRatio);
     setConstrainer(sizeConstrainer.get());
 }
 

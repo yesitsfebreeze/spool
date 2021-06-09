@@ -1,17 +1,19 @@
 #pragma once
 #include <JuceHeader.h>
+#include "../Effects/Effects.h"
 
 class Track;
 
 class SampleHolder {
 public:
-    SampleHolder(Track* owner, int trackIndex, int index) : owner(owner), trackIndex(trackIndex), index(index) {
-        
-    }
+    std::unique_ptr<Effects> effects;
+    
+    SampleHolder(Track* owner, int trackIndex, int index);
+    ~SampleHolder();
     
     void processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages);
     void processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages);
-    void beatCallback(bool isUpBeat);
+    void beatCallback(int beat, bool isUpBeat);
     void wantsToRecord(int beatCount);
     void clear();
     void restart();
@@ -22,6 +24,7 @@ public:
     
     void play(bool state) {
         _isPlaying = state;
+        _isStopped = false;
     }
     
     bool isPlaying() {
@@ -67,14 +70,15 @@ private:
     int sampleSize = 0;
     int recordedBeats = 0;
     int samplesPlayed = 0;
+    int startBeat = 0;
     int beatsPlayed = 0;
     
     void record(juce::AudioBuffer<float>& buffer);
-    void setRecordState(bool isUpBeat);
-    void startRecording();
-    void stopRecording();
-    
-    void setPlayState(bool isUpBeat);
+    void playBuffer(juce::AudioBuffer<float>& buffer);
+    void setRecordState(int beat, bool isUpBeat);
+    void startRecording(int beat);
+    void stopRecording(int beat);
+    void setPlayState(int beat, bool isUpBeat);
     
     void addToBuffer(juce::AudioBuffer<float>& buffer, int sourceChannel, int outNumSamples, int numSamples);
 };

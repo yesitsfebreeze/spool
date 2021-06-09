@@ -5,18 +5,20 @@
 
 void Track::processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
     for (SampleHolder* sampleHolder : sampleHolders) sampleHolder->processBlockBefore(buffer, midiMessages);
+    
+    effects->processBlockBefore(buffer, midiMessages);
 }
 
 
 void Track::processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
     for (SampleHolder* sampleHolder : sampleHolders) sampleHolder->processBlockAfter(buffer, midiMessages);
     
-    //TODO: procces track effects
+    effects->processBlockAfter(buffer, midiMessages);
 }
 
-void Track::beatCallback(bool isUpBeat) {
+void Track::beatCallback(int beat, bool isUpBeat) {
     for (SampleHolder* sampleHolder : sampleHolders) {
-        sampleHolder->beatCallback(isUpBeat);
+        sampleHolder->beatCallback(beat, isUpBeat);
     }
 }
 
@@ -70,16 +72,12 @@ void Track::stop(ActionMode mode) {
     } else {
         for (SampleHolder* sampleHolder : sampleHolders) sampleHolder->stop(_isStopped);
     }
-    
-    if (_isStopped) {
-        DBG("stopped");
-    } else {
-        DBG("started");
-    }
 };
 
 void Track::restart() {
-    DBG(trackIndex << " restart");
+    for (SampleHolder* sampleHolder : sampleHolders) {
+        sampleHolder->restart();
+    }
 }
 
 void Track::record() {
@@ -112,7 +110,7 @@ void Track::clear() {
 void Track::setLastSelectedTrackIndex() {
    bool hasTracksSelected = false;
    juce::OwnedArray<Track>& tracks = owner->getTracks();
-   for (int trk = 0; trk < Config::Tracks::count; trk++) {
+   for (int trk = 0; trk < Config::trackCount; trk++) {
        if (tracks[trk]->isSelected()) {
            hasTracksSelected = true;
        }

@@ -2,7 +2,7 @@
 #include "../../Config.h"
 
 PeakMeterUI::PeakMeterUI() {
-    setFramesPerSecond(Config::uiFPS);
+    setFramesPerSecond(EditorConfig::FPS);
 }
 
 PeakMeterUI::~PeakMeterUI() {
@@ -10,7 +10,7 @@ PeakMeterUI::~PeakMeterUI() {
 }
 
 void PeakMeterUI::paint(juce::Graphics& g) {
-    g.fillAll(Config::Colors::dark);
+    g.fillAll(EditorConfig::Colors::dark);
     juce::Rectangle<float> bounds = getLocalBounds().toFloat();
     
     int w = bounds.getWidth();
@@ -26,7 +26,7 @@ void PeakMeterUI::paint(juce::Graphics& g) {
     
     int borderRadius = barWidth / 2;
     
-    if (Config::borderRadius == 0) {
+    if (EditorConfig::borderRadius == 0) {
         borderRadius = 0;
     }
     
@@ -34,16 +34,16 @@ void PeakMeterUI::paint(juce::Graphics& g) {
         int barOffsetX = xOffset * peak + peak * barWidth;
         
         if (peak == 0) {
-            g.setColour(Config::Colors::peakOne);
+            g.setColour(EditorConfig::Colors::peakOne);
         }
         if (peak == 1) {
-            g.setColour(Config::Colors::peakTwo);
+            g.setColour(EditorConfig::Colors::peakTwo);
         }
         if (peak == 2) {
-            g.setColour(Config::Colors::peakThree);
+            g.setColour(EditorConfig::Colors::peakThree);
         }
         if (peak == 3) {
-            g.setColour(Config::Colors::peakFour);
+            g.setColour(EditorConfig::Colors::peakFour);
             
         }
         
@@ -51,12 +51,12 @@ void PeakMeterUI::paint(juce::Graphics& g) {
         
         g.fillRoundedRectangle(barOffsetX, yOffset, barWidth, barHeight, borderRadius);
         g.drawRoundedRectangle(
-           barOffsetX + Config::borderWidth / 2,
-           yOffset + Config::borderWidth / 2,
-           barWidth - Config::borderWidth,
-           barHeight - Config::borderWidth,
+           barOffsetX + EditorConfig::borderWidth / 2,
+           yOffset + EditorConfig::borderWidth / 2,
+           barWidth - EditorConfig::borderWidth,
+           barHeight - EditorConfig::borderWidth,
            borderRadius,
-           Config::borderWidth
+           EditorConfig::borderWidth
        );
     }
 }

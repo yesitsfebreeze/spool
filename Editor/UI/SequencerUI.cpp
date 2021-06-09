@@ -1,9 +1,9 @@
 #include "SequencerUI.h"
 #include "../../Config.h"
-#include "../../Processor/Modules/Sequencer.h"
+#include "../../Processor/Modules/Sequencer/Sequencer.h"
 
 SequencerUI::SequencerUI() {
-    setFramesPerSecond(Config::uiFPS);
+    setFramesPerSecond(EditorConfig::FPS);
 }
 
 SequencerUI::~SequencerUI() {
@@ -12,7 +12,7 @@ SequencerUI::~SequencerUI() {
 
 
 void SequencerUI::paint(juce::Graphics& g) {
-    g.fillAll(Config::Colors::dark);
+    g.fillAll(EditorConfig::Colors::dark);
     juce::Rectangle<float> bounds = getLocalBounds().toFloat();
     
     int w = bounds.getWidth();
@@ -28,10 +28,10 @@ void SequencerUI::paint(juce::Graphics& g) {
     
 
     int tick = sequencerTick % 4;
-    int borderRadius = barWidth / 2;
-    if (borderRadius > Config::borderRadius) borderRadius = Config::borderRadius;
+    int borderRadius = (barWidth - EditorConfig::borderWidth) / 2;
+    if (borderRadius > EditorConfig::borderRadius) borderRadius = EditorConfig::borderRadius;
     
-    if (Config::borderRadius == 0) {
+    if (EditorConfig::borderRadius == 0) {
         borderRadius = 0;
     }
     
@@ -39,26 +39,19 @@ void SequencerUI::paint(juce::Graphics& g) {
         
         int barOffsetX = xOffset * beat + beat * barWidth;
         if (!isRunning) {
-            g.setColour(Config::Colors::light);
+            g.setColour(EditorConfig::Colors::light);
         } else {
             if (beat == tick) {
-                g.setColour(Config::Colors::red);
+                g.setColour(EditorConfig::Colors::red);
                 g.fillRoundedRectangle(barOffsetX, yOffset, barWidth, barHeight, borderRadius);
             } else if (beat < tick) {
-                g.setColour(Config::Colors::red);
+                g.setColour(EditorConfig::Colors::darkRed);
             } else {
-                g.setColour(Config::Colors::light);
+                g.setColour(EditorConfig::Colors::mid);
             }
         }
         
-        g.drawRoundedRectangle(
-           barOffsetX + Config::borderWidth / 2,
-           yOffset + Config::borderWidth / 2,
-           barWidth - Config::borderWidth,
-           barHeight - Config::borderWidth,
-           borderRadius,
-           Config::borderWidth
-       );
+        g.fillRoundedRectangle(barOffsetX, yOffset, barWidth, barHeight, borderRadius);
     }
 }
 

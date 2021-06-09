@@ -1,8 +1,8 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "../../Config.h"
-#include "../SpoolProcessor.h"
+#include "../../../Config.h"
+#include "../../SpoolProcessor.h"
 
 class Sequencer {
 public:

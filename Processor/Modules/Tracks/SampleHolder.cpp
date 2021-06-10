@@ -33,6 +33,14 @@ void SampleHolder::wantsToRecord(int beatLength) {
     owner->setWantsToRecord(_wantsToRecord);
 }
 
+void SampleHolder::cancelRecord() {
+    if (!_wantsToRecord) return;
+
+    this->beatLength = 0;
+    _wantsToRecord = false;
+    owner->setWantsToRecord(_wantsToRecord);
+}
+
 void SampleHolder::startRecording(int beat) {
     recordedBeats = 0;
     _isRecording = true;

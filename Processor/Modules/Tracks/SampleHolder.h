@@ -15,6 +15,7 @@ public:
     void processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages);
     void beatCallback(int beat, bool isUpBeat);
     void wantsToRecord(int beatCount);
+    void cancelRecord();
     void clear();
     void restart();
     

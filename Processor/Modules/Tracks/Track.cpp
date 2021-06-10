@@ -45,6 +45,8 @@ void Track::mute(ActionMode mode) {
 void Track::cue(ActionMode mode) {
     bool value = getValueBasedOnMode(_isCueued, mode);
     _isCueued = value;
+    
+    //TODO: implement cue channel
     if (_isCueued) {
         DBG("on cue");
     } else {
@@ -90,11 +92,15 @@ void Track::record() {
         }
     }
     
+    
+    //TODO: Flash all buttons red to indicate full buffer
     DBG("all samples are filled");
 };
 
 void Track::cancelRecord() {
-    DBG(trackIndex << " cancel record");
+    for (SampleHolder* sampleHolder : sampleHolders) {
+        sampleHolder->cancelRecord();
+    }
 };
 
 void Track::clear() {

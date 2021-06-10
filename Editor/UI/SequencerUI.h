@@ -16,5 +16,7 @@ public:
 private:
     bool selected = false;
     bool isRunning = false;
+    bool lightState = false;
+    bool lightStateChanged = false;
     int sequencerTick = 0;
 };

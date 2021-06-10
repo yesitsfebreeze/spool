@@ -17,41 +17,56 @@ void SequencerUI::paint(juce::Graphics& g) {
     
     int w = bounds.getWidth();
     int h = bounds.getHeight();
+    int dotSize = (w / 2) / 3;
     
-    int barWidth = w / 6;
-    float xOffset = (w - barWidth * 4) / 3;
-    int barHeight = h;
-    float yOffset = 0;
+    float factor = (float)w/float(h);
     
-    if (barWidth < 5) barWidth = 5;
-    if (barHeight < 5) barHeight = 5;
+    int marginHorizontal = (factor > 1) ? (w - h) / 2 : 0;
+    int marginVertical = (factor < 1) ? (h - w) / 2 : 0;
     
-
+    
+    DBG(marginHorizontal);
+    DBG(marginVertical);
+    
+    int top = marginVertical;
+    int right = w - dotSize - marginHorizontal;
+    int bottom = h - dotSize - marginVertical;
+    int left = marginHorizontal;
+    
     int tick = sequencerTick % 4;
-    int borderRadius = (barWidth - EditorConfig::borderWidth) / 2;
-    if (borderRadius > EditorConfig::borderRadius) borderRadius = EditorConfig::borderRadius;
+    if (tick == 0) {
+        if (!lightStateChanged) {
+            lightState = !lightState;
+            lightStateChanged = true;
+        }
+    } else {
+        lightStateChanged = false;
+    };
     
-    if (EditorConfig::borderRadius == 0) {
-        borderRadius = 0;
-    }
-    
-    for (auto beat = 0; beat < 4; beat++) {
+    for (auto dot = 0; dot < 4; dot++) {
+        juce::Point<int> pos;
         
-        int barOffsetX = xOffset * beat + beat * barWidth;
+        if (dot == 0) pos.setXY(left, top);
+        if (dot == 1) pos.setXY(right, top);
+        if (dot == 2) pos.setXY(right, bottom);
+        if (dot == 3) pos.setXY(left, bottom);
+        
+        juce::Colour inactiveColor = EditorConfig::Colors::mid;
+        juce::Colour activeColor = EditorConfig::Colors::red;
+
         if (!isRunning) {
-            g.setColour(EditorConfig::Colors::light);
+            g.setColour(inactiveColor);
         } else {
-            if (beat == tick) {
-                g.setColour(EditorConfig::Colors::red);
-                g.fillRoundedRectangle(barOffsetX, yOffset, barWidth, barHeight, borderRadius);
-            } else if (beat < tick) {
-                g.setColour(EditorConfig::Colors::darkRed);
+            if (dot == tick) {
+                g.setColour(lightState ? activeColor : inactiveColor);
+            } else if (dot < tick) {
+                g.setColour(lightState ? activeColor : inactiveColor);
             } else {
-                g.setColour(EditorConfig::Colors::mid);
+                g.setColour(lightState ? inactiveColor : activeColor);
             }
         }
         
-        g.fillRoundedRectangle(barOffsetX, yOffset, barWidth, barHeight, borderRadius);
+        g.fillEllipse(pos.x, pos.y, dotSize, dotSize);
     }
 }
 

@@ -6,7 +6,7 @@ UI::UI() {
     addAndMakeVisible(topAreaUI);
     addAndMakeVisible(tracksUI);
     addAndMakeVisible(sequencerUI);
-    addAndMakeVisible(peakMeterUI);
+    addAndMakeVisible(RMSMeterUI);
     addAndMakeVisible(controlButtonsUI);
     addAndMakeVisible(controlGroupOneUI);
     addAndMakeVisible(controlGroupTwoUI);
@@ -19,7 +19,7 @@ void UI::onSetReferences() {
     topAreaUI.setReferences(processor, editor);
     tracksUI.setReferences(processor, editor);
     sequencerUI.setReferences(processor, editor);
-    peakMeterUI.setReferences(processor, editor);
+    RMSMeterUI.setReferences(processor, editor);
     controlButtonsUI.setReferences(processor, editor);
     controlGroupOneUI.setReferences(processor, editor);
     controlGroupTwoUI.setReferences(processor, editor);
@@ -75,7 +75,7 @@ void UI::resized() {
     sequencerUI.setBounds(0, 0, leftOffset, topArea);
     sequencerUI.setPadding(EditorConfig::padding * 1.5, EditorConfig::padding, EditorConfig::padding * 1.5, EditorConfig::padding);
     
-    peakMeterUI.setBounds(w - leftOffset, 0, leftOffset, topArea);
-    peakMeterUI.setPadding(EditorConfig::padding * 1.5, EditorConfig::padding, EditorConfig::padding * 1.5, EditorConfig::padding);
+    RMSMeterUI.setBounds(w - leftOffset, 0, leftOffset, topArea);
+    RMSMeterUI.setPadding(EditorConfig::padding * 1.5, EditorConfig::padding, EditorConfig::padding * 1.5, EditorConfig::padding);
     
 }

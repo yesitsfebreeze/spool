@@ -37,7 +37,7 @@ public:
             sampleHolders.add(new SampleHolder(this, trackIndex, index));
         }
 
-        effects.reset(new Effects());
+        effects.reset(new Effects(trackIndex));
     }
     
     ~Track() {

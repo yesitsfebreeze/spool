@@ -4,8 +4,8 @@
 #include "FXBase.h"
 #include "FXList.h"
 
-Effects::Effects() {
-    effects.add(new DelayFX());
+Effects::Effects(int track, int sample): track(track), sample(sample) {
+    effects.add(new DelayFX(0, track, sample));
 }
 
 Effects::~Effects() {

@@ -43,6 +43,23 @@ namespace Config {
             Track16
         };
     }
+
+    namespace Parameters {
+        enum SpoolParam {
+            Bypass
+        };
+    
+        enum TrackParam {
+            Volume,
+            Panning
+        };
+
+        enum EffectParam {
+            Wet,
+            ValueOne,
+            ValueTwo,
+        };
+    }
 }
 
 

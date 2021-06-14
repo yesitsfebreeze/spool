@@ -5,7 +5,7 @@
 #include "../TopAreaUI.h"
 #include "../TracksUI.h"
 #include "../SequencerUI.h"
-#include "../PeakMeterUI.h"
+#include "../RMSMeterUI.h"
 #include "../ControlButtonsUI.h"
 #include "../ControlGroupUI.h"
 
@@ -23,7 +23,7 @@ public:
     TopAreaUI topAreaUI;
     TracksUI tracksUI;
     SequencerUI sequencerUI;
-    PeakMeterUI peakMeterUI;
+    RMSMeterUI RMSMeterUI;
     ControlButtonsUI controlButtonsUI;
     ControlGroupUI controlGroupOneUI {0};
     ControlGroupUI controlGroupTwoUI  {1};

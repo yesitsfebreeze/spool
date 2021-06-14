@@ -25,6 +25,13 @@ SpoolProcessor::SpoolProcessor()
     commands.setOwner(this);
     commandQueue.FNCommandID = Config::Command::Function;
     startTimerHz(Config::updateHz);
+    
+    
+    juce::Timer::callAfterDelay (2000, [this] {
+        Parameters::set(Parameters::buildParamName(Config::Parameters::EffectParam::Wet, 0, 0), 1);
+        Parameters::set(Parameters::buildParamName(Config::Parameters::EffectParam::ValueOne, 0, 0), 1);
+        Parameters::set(Parameters::buildParamName(Config::Parameters::EffectParam::ValueTwo, 0, 0), 1);
+    });
 }
 
 SpoolProcessor::~SpoolProcessor()
@@ -113,9 +120,50 @@ void SpoolProcessor::changeProgramName (int index, const juce::String& newName) 
 
 //==============================================================================
 void SpoolProcessor::prepareToPlay (double sampleRate, int samplesPerBlock) {
+    processSpec.sampleRate = sampleRate;
+    processSpec.maximumBlockSize = samplesPerBlock;
+    processSpec.numChannels = getTotalNumOutputChannels();
+    
     sequencer->prepareToPlay(samplesPerBlock, sampleRate);
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
+}
+
+
+void SpoolProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
+    juce::ScopedNoDenormals noDenormals;
+
+    sequencer->getNextAudioBlock(buffer);
+    tracks->processBlockBefore(buffer, midiMessages);
+    buffer.clear();
+    tracks->processBlockAfter(buffer, midiMessages);
+
+
+    
+//    auto totalNumInputChannels  = getTotalNumInputChannels();
+//    auto totalNumOutputChannels = getTotalNumOutputChannels();
+//
+//    // In case we have more outputs than inputs, this code clears any output
+//    // channels that didn't contain input data, (because these aren't
+//    // guaranteed to be empty - they may contain garbage).
+//    // This is here to avoid people getting screaming feedback
+//    // when they first compile a plugin, but obviously you don't need to keep
+//    // this code if your algorithm always overwrites all the output channels.
+//    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
+//        buffer.clear (i, 0, buffer.getNumSamples());
+//
+//    // This is the place where you'd normally do the guts of your plugin's
+//    // audio processing...
+//    // Make sure to reset the state if your inner loop is processing
+//    // the samples and the outer loop is handling the channels.
+//    // Alternatively, you can process the samples with the channels
+//    // interleaved by keeping the same state.
+//    for (int channel = 0; channel < totalNumInputChannels; ++channel)
+//    {
+//        auto* channelData = buffer.getWritePointer (channel);
+//
+//        // ..do something to the data...
+//    }
 }
 
 void SpoolProcessor::releaseResources() {
@@ -148,40 +196,6 @@ bool SpoolProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const {
 }
 #endif
 
-void SpoolProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
-    juce::ScopedNoDenormals noDenormals;
-
-    sequencer->getNextAudioBlock(buffer);
-    tracks->processBlockBefore(buffer, midiMessages);
-    buffer.clear();
-    tracks->processBlockAfter(buffer, midiMessages);
-
-    
-//    auto totalNumInputChannels  = getTotalNumInputChannels();
-//    auto totalNumOutputChannels = getTotalNumOutputChannels();
-//
-//    // In case we have more outputs than inputs, this code clears any output
-//    // channels that didn't contain input data, (because these aren't
-//    // guaranteed to be empty - they may contain garbage).
-//    // This is here to avoid people getting screaming feedback
-//    // when they first compile a plugin, but obviously you don't need to keep
-//    // this code if your algorithm always overwrites all the output channels.
-//    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-//        buffer.clear (i, 0, buffer.getNumSamples());
-//
-//    // This is the place where you'd normally do the guts of your plugin's
-//    // audio processing...
-//    // Make sure to reset the state if your inner loop is processing
-//    // the samples and the outer loop is handling the channels.
-//    // Alternatively, you can process the samples with the channels
-//    // interleaved by keeping the same state.
-//    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-//    {
-//        auto* channelData = buffer.getWritePointer (channel);
-//
-//        // ..do something to the data...
-//    }
-}
 
 //==============================================================================
 bool SpoolProcessor::hasEditor() const {

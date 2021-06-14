@@ -2,9 +2,9 @@
 
 #include <JuceHeader.h>
 #include "Modules/Tracks/Tracks.h"
-#include "Modules/Effects/Effects.h"
 #include "Modules/Commands/CommandQueue.h"
 #include "Commands.h"
+#include "Parameteres.h"
 
 
 // forward refs
@@ -58,8 +58,6 @@ public:
 
     void changeRecordLength(int value) {
         recordLength += value;
-        
-        DBG(recordLength);
     }
     
     int getRecordLength() {
@@ -80,7 +78,7 @@ public:
     std::unique_ptr<Sequencer> sequencer;
     std::unique_ptr<Tracks> tracks;
     CommandQueue commandQueue;
-    Effects effects;
+    juce::dsp::ProcessSpec processSpec;
     
     bool isFunctionDown = false;
     bool isMuteDown = false;

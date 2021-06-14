@@ -1,22 +1,22 @@
-#include "PeakMeterUI.h"
+#include "RMSMeterUI.h"
 #include "../../Config.h"
 
-PeakMeterUI::PeakMeterUI() {
+RMSMeterUI::RMSMeterUI() {
     setFramesPerSecond(EditorConfig::FPS);
 }
 
-PeakMeterUI::~PeakMeterUI() {
+RMSMeterUI::~RMSMeterUI() {
     
 }
 
-void PeakMeterUI::paint(juce::Graphics& g) {
+void RMSMeterUI::paint(juce::Graphics& g) {
     g.fillAll(EditorConfig::Colors::dark);
     juce::Rectangle<float> bounds = getLocalBounds().toFloat();
     
     int w = bounds.getWidth();
     int h = bounds.getHeight();
     
-    int barWidth = w / 6;
+    int barWidth = w / 8;
     float xOffset = (w - barWidth * 4) / 3;
     int barHeight = h;
     float yOffset = 0;
@@ -47,8 +47,6 @@ void PeakMeterUI::paint(juce::Graphics& g) {
             
         }
         
-        
-        
         g.fillRoundedRectangle(barOffsetX, yOffset, barWidth, barHeight, borderRadius);
         g.drawRoundedRectangle(
            barOffsetX + EditorConfig::borderWidth / 2,
@@ -61,9 +59,9 @@ void PeakMeterUI::paint(juce::Graphics& g) {
     }
 }
 
-void PeakMeterUI::update() {
+void RMSMeterUI::update() {
 
 }
 
-void PeakMeterUI::resized() {
+void RMSMeterUI::resized() {
 }

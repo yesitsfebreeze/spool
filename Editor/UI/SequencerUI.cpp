@@ -24,10 +24,6 @@ void SequencerUI::paint(juce::Graphics& g) {
     int marginHorizontal = (factor > 1) ? (w - h) / 2 : 0;
     int marginVertical = (factor < 1) ? (h - w) / 2 : 0;
     
-    
-    DBG(marginHorizontal);
-    DBG(marginVertical);
-    
     int top = marginVertical;
     int right = w - dotSize - marginHorizontal;
     int bottom = h - dotSize - marginVertical;

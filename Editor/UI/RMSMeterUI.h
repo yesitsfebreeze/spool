@@ -4,11 +4,11 @@
 #include "../../Config.h"
 #include "Base/UIComponents.h"
 
-class PeakMeterUI : public AnimatedUIComponent {
+class RMSMeterUI : public AnimatedUIComponent {
     
 public:
-    PeakMeterUI();
-    ~PeakMeterUI();
+    RMSMeterUI();
+    ~RMSMeterUI();
     void update() override;
     void paint (juce::Graphics& g) override;
     void resized() override;

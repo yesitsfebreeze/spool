@@ -4,7 +4,7 @@
 
 
 SampleHolder::SampleHolder(Track* owner, int trackIndex, int index) : owner(owner), trackIndex(trackIndex), index(index) {
-    effects.reset(new Effects());
+    effects.reset(new Effects(trackIndex, index));
 }
 
 SampleHolder::~SampleHolder() {

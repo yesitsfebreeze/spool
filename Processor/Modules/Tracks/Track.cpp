@@ -3,17 +3,36 @@
 #include "../../SpoolProcessor.h"
 
 
+Track::Track(Tracks* owner, int trackIndex) : owner(owner), trackIndex(trackIndex) {
+    for (int index = 0; index < Config::trackCount; index++) {
+        sampleHolders.add(new SampleHolder(this, trackIndex, index));
+    }
+
+    effects.reset(new Effects(owner->owner, trackIndex));
+}
+
+void Track::prepareToPlay(double sampleRate, int samplesPerBlock) {
+    effects->prepareToPlay(sampleRate, samplesPerBlock);
+    for (SampleHolder* sampleHolder : sampleHolders) {
+        sampleHolder->prepareToPlay(sampleRate, sampleRate);
+    }
+}
+
 void Track::processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
     for (SampleHolder* sampleHolder : sampleHolders) sampleHolder->processBlockBefore(buffer, midiMessages);
+    if (hasRecords()) effects->processBlockBefore(buffer, midiMessages);
     
-    effects->processBlockBefore(buffer, midiMessages);
+    // add to main buffer
+    
 }
 
 
 void Track::processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
     for (SampleHolder* sampleHolder : sampleHolders) sampleHolder->processBlockAfter(buffer, midiMessages);
+
+    if (hasRecords()) effects->processBlockAfter(buffer, midiMessages);
     
-    effects->processBlockAfter(buffer, midiMessages);
+    // add to main buffer
 }
 
 void Track::beatCallback(int beat, bool isUpBeat) {

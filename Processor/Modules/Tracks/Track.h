@@ -32,13 +32,7 @@ public:
         Toggle
     };
     
-    Track(Tracks* owner, int trackIndex) : owner(owner), trackIndex(trackIndex) {
-        for (int index = 0; index < Config::trackCount; index++) {
-            sampleHolders.add(new SampleHolder(this, trackIndex, index));
-        }
-
-        effects.reset(new Effects(trackIndex));
-    }
+    Track(Tracks* owner, int trackIndex);
     
     ~Track() {
         effects.reset();
@@ -48,10 +42,12 @@ public:
         this->owner = owner;
     }
     
+    
+    void prepareToPlay(double sampleRate, int samplesPerBlock);
     void processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages);
     void processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages);
 
-    void beatCallback(int beat,bool isUpBeat);
+    void beatCallback(int beat, bool isUpBeat);
 
     void executeAction(Action action, ActionMode mode) {
         switch (action) {
@@ -151,6 +147,8 @@ public:
 
     
 private:
+    juce::AudioBuffer<float> trackBuffer;
+    
     int trackIndex = -1;
     bool _isPressed = false;
     bool _isPlaying = false;

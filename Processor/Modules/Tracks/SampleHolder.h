@@ -11,6 +11,7 @@ public:
     SampleHolder(Track* owner, int trackIndex, int index);
     ~SampleHolder();
     
+    void prepareToPlay(double sampleRate, int samplesPerBlock);
     void processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages);
     void processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages);
     void beatCallback(int beat, bool isUpBeat);

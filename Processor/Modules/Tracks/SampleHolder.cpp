@@ -4,21 +4,26 @@
 
 
 SampleHolder::SampleHolder(Track* owner, int trackIndex, int index) : owner(owner), trackIndex(trackIndex), index(index) {
-    effects.reset(new Effects(trackIndex, index));
+    effects.reset(new Effects(owner->owner->owner, trackIndex, index));
 }
 
 SampleHolder::~SampleHolder() {
     effects.reset();
 }
 
+
+void SampleHolder::prepareToPlay(double sampleRate, int samplesPerBlock) {
+    effects->prepareToPlay(sampleRate, samplesPerBlock);
+}
+
 void SampleHolder::processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
     record(buffer);
-    effects->processBlockBefore(buffer, midiMessages);
+    if (_hasSample) effects->processBlockBefore(buffer, midiMessages);
 };
 
 void SampleHolder::processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
+    if (_hasSample) effects->processBlockAfter(buffer, midiMessages);
     playBuffer(buffer);
-    effects->processBlockAfter(buffer, midiMessages);
 };
 
 

@@ -1,11 +1,13 @@
 #include <JuceHeader.h>
 #include "../../../Config.h"
 #include "Effects.h"
-#include "FXBase.h"
-#include "FXList.h"
+#include "BaseEffect.h"
+#include "EffectList.h"
+#include "../../SpoolProcessor.h"
 
-Effects::Effects(int track, int sample): track(track), sample(sample) {
-    effects.add(new DelayFX(0, track, sample));
+Effects::Effects(SpoolProcessor* processor, int track, int sample): processor(processor), track(track), sample(sample) {
+    effects.add(new DelayEffect(processor, effects.size(), track, sample));
+    effects.add(new PanningEffect(processor, effects.size(), track, sample));
 }
 
 Effects::~Effects() {
@@ -13,14 +15,20 @@ Effects::~Effects() {
 }
 
 
+void Effects::prepareToPlay(double sampleRate, int samplesPerBlock) {
+    for (BaseEffect* effect : effects) {
+        effect->prepareToPlay(sampleRate, samplesPerBlock);
+    }
+}
+
 void Effects::processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
-    for (FXBase* effect : effects) {
+    for (BaseEffect* effect : effects) {
         effect->processBlockBefore(buffer, midiMessages);
     }
 };
 
 void Effects::processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
-    for (FXBase* effect : effects) {
+    for (BaseEffect* effect : effects) {
         effect->processBlockAfter(buffer, midiMessages);
     }
 };

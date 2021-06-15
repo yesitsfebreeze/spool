@@ -19,16 +19,18 @@ public:
         }
     }
     
-    void processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
+    void prepareToPlay(double sampleRate, int samplesPerBlock) {
         for (Track* track : tracks) {
-            track->processBlockBefore(buffer, midiMessages);
+            track->prepareToPlay(sampleRate, samplesPerBlock);
         }
+    }
+    
+    void processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
+        for (Track* track : tracks) track->processBlockBefore(buffer, midiMessages);
     };
     
     void processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
-        for (Track* track : tracks) {
-            track->processBlockAfter(buffer, midiMessages);
-        }
+        for (Track* track : tracks) track->processBlockAfter(buffer, midiMessages);
     };
     
     void beatCallback(int beat, bool isUpBeat) {

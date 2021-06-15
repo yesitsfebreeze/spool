@@ -25,6 +25,12 @@ SpoolProcessor::SpoolProcessor()
     commands.setOwner(this);
     commandQueue.FNCommandID = Config::Command::Function;
     startTimerHz(Config::updateHz);
+    
+    // effect = 0;
+    // track = 0;
+    // sample = 0;
+    // value = 0.5;
+    // Parameters::set(Parameters::buildParamName(Config::Parameters::EffectParam::Wet, effect, track, sample), value);
 
 }
 
@@ -45,11 +51,6 @@ void SpoolProcessor::timerCallback() {
     commandQueue.setMuteDown(isMuteDown);
     commandQueue.setPlayDown(isPlayDown);
     commandQueue.setRecordDown(isRecordDown);
-    
-    if (currentTime % 5000 == 0) {
-        Parameters::set(Parameters::buildParamName(Config::Parameters::EffectParam::Wet, 0, 0, 0), (tmpBool) ? 1 : 0);
-        tmpBool = !tmpBool;
-    }
 }
 
 void SpoolProcessor::beatCallback(int beat,bool isUpBeat) {

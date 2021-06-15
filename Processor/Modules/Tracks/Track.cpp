@@ -21,18 +21,22 @@ void Track::prepareToPlay(double sampleRate, int samplesPerBlock) {
 void Track::processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
     for (SampleHolder* sampleHolder : sampleHolders) sampleHolder->processBlockBefore(buffer, midiMessages);
     if (hasRecords()) effects->processBlockBefore(buffer, midiMessages);
-    
-    // add to main buffer
-    
 }
 
 
 void Track::processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
-    for (SampleHolder* sampleHolder : sampleHolders) sampleHolder->processBlockAfter(buffer, midiMessages);
-
-    if (hasRecords()) effects->processBlockAfter(buffer, midiMessages);
+    int numChannels = buffer.getNumChannels();
+    int numSamples = buffer.getNumSamples();
+    trackBuffer.setSize(numChannels, numSamples);
+    trackBuffer.clear();
     
-    // add to main buffer
+    for (SampleHolder* sampleHolder : sampleHolders) sampleHolder->processBlockAfter(trackBuffer, midiMessages);
+    
+    if (hasRecords()) effects->processBlockAfter(trackBuffer, midiMessages);
+    
+    for (int ch = 0; ch < numChannels; ++ch) {
+        buffer.addFrom(ch, 0, trackBuffer, ch, 0, numSamples);
+    }
 }
 
 void Track::beatCallback(int beat, bool isUpBeat) {

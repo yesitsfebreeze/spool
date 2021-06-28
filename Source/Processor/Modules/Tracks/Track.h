@@ -22,7 +22,10 @@ public:
         Restart,
         Record,
         CancelRecord,
-        Clear
+        Clear,
+        AddToGroupOne,
+        AddToGroupTwo,
+        RemoveGroup,
     };
 
     enum ActionMode {
@@ -80,6 +83,15 @@ public:
             case Action::Clear:
                 clear();
                 break;
+            case Action::AddToGroupOne:
+                _group = 0;
+                break;
+            case  Action::AddToGroupTwo:
+                _group = 1;
+                break;
+            case Action::RemoveGroup:
+                _group = -1;
+                break;
             default:
                 break;
         }
@@ -94,6 +106,25 @@ public:
     void record();
     void cancelRecord();
     void clear();
+    
+    
+    //  grouping
+    bool isInGroup() {
+        return _group != -1;
+    }
+    
+    bool isInSpecificGroup(int group) {
+        return _group == group;
+    }
+    
+    int setGroup(int group) {
+        _group = group;
+        return group;
+    }
+    
+    int getGroup() {
+        return _group;
+    }
     
     
     // flags
@@ -146,12 +177,12 @@ public:
         return _hasRecords;
     }
     
-
-    
 private:
     juce::AudioBuffer<float> trackBuffer;
     
     int trackIndex = -1;
+    int _group = -1;
+
     bool _isPressed = false;
     bool _isPlaying = false;
     bool _isStopped = true;
@@ -161,6 +192,7 @@ private:
     bool _wantsToRecord = false;
     bool _isRecording = false;
     bool _hasRecords = false;
+    
 
     
     bool getValueBasedOnMode(bool value, ActionMode mode);

@@ -45,11 +45,16 @@ public:
         return true;
     }
 
+    bool doForUnselectedTracks(Action action, ActionMode mode = ActionMode::Single) {
+        for (int track = 0; track < Config::TrackCount; track++) doForTrack(track, action, mode, false, true);
+        return true;
+    }
+    
     bool doForSelectedTracks(Action action, ActionMode mode = ActionMode::Single) {
         for (int track = 0; track < Config::TrackCount; track++) doForTrack(track, action, mode, true);
         return true;
     }
-    
+
     bool doForLastSelectedOrFreeTrack(Action action, ActionMode mode = ActionMode::Single) {
         if (!hasTracksSelected()) {
             Track* trk = getFirstFreeTrack();
@@ -62,9 +67,10 @@ public:
         return true;
     }
 
-    bool doForTrack(int track, Action action, ActionMode mode = ActionMode::Single, bool mustBeSelected = false) {
+    bool doForTrack(int track, Action action, ActionMode mode = ActionMode::Single, bool mustBeSelected = false, bool mustBeUnselected = false) {
         Track* trk = tracks[track];
         if (!trk->isSelected() && mustBeSelected) return false;
+        if (trk->isSelected() && mustBeUnselected) return false;
         trk->executeAction(action, mode);
         return true;
     }
@@ -113,9 +119,28 @@ public:
     juce::OwnedArray<Track>& getTracks() {
         return tracks;
     }
+
+//    juce::OwnedArray<Track> getSelectedTracks() {
+//        for (int track = 0; track < Config::TrackCount; track++) {
+//            Track* trk = tracks[track];
+//            if (!trk->hasRecords()) {
+//                return trk;
+//            }
+//        }
+//    }
+    
+    void addSelectedTrack(int trackIndex) {
+        selectedTracks[trackIndex] = true;
+    }
+    
+    void removeSelectedTrack(int trackIndex) {
+        selectedTracks[trackIndex] = false;
+    }
+    
  
 private:
     int overdubLayer = -1;
     int lastSelectedTrackIndex = -1;
     juce::OwnedArray<Track> tracks;
+    bool selectedTracks[];
 };

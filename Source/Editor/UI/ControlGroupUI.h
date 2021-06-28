@@ -9,6 +9,8 @@ class ControlGroupUI : public UIComponent {
 public:
     int index;
     
+    using TrackAction = Track::Action;
+    using TrackActionMode = Track::ActionMode;
 
     ControlGroupUI(int index) {
         this->index = index;
@@ -24,6 +26,8 @@ public:
     }
     
     void initializeKnobs();
+    
+    void addToGroup();
     
     void addVolumeKnob();
     void addParamTwoKnob();

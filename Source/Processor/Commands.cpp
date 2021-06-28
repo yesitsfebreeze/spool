@@ -24,12 +24,14 @@ void Commands::registerFunctionCommandActions() {
     
     // FUNCTION Double Press
     owner->commandQueue.registerCommandAction(Cmd::Function, Type::DoublePress, TriggerType::Instant, [this] (bool FN) {
-        owner->tracks->doForAllTracks(TrackAction::Select, TrackActionMode::Toggle);
+        owner->tracks->doForUnselectedTracks(TrackAction::RemoveGroup);
+        owner->tracks->doForAllTracks(TrackAction::Select, TrackActionMode::Off);
+        
     });
 
     // FUNCTION Double Hold
     owner->commandQueue.registerCommandAction(Cmd::Function, Type::DoubleHold, TriggerType::Instant, [this] (bool FN) {
-        owner->tracks->doForAllTracks(TrackAction::Select, TrackActionMode::Off);
+        owner->tracks->doForAllTracks(TrackAction::Select, TrackActionMode::Toggle);
     });
 }
 

@@ -7,8 +7,9 @@
 class Track;
 
 class TrackButtonUI : public UIButtonComponent {
+    
 public:
-
+    
     TrackButtonUI(int index) : UIButtonComponent(index) {}
 
     Track* track;

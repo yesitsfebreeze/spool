@@ -35,19 +35,6 @@ void TracksUI::resized() {
     }
 }
 
-
-void TrackButtonUI::setGroupColor(juce::Colour borderColor, juce::Colour fillColor) {
-    hasGroupColor = true;
-    groupBorderColor = borderColor;
-    groupFillColor = fillColor;
-}
-
-void TrackButtonUI::removeGroupColor() {
-    hasGroupColor = false;
-    groupBorderColor = originalBorderColor;
-    groupFillColor = originalFillColor;
-}
-
 void TrackButtonUI::forceColor(juce::Colour borderColor, juce::Colour fillColor) {
     isColorForced = true;
     this->borderColor = borderColor;
@@ -60,9 +47,7 @@ void TrackButtonUI::removeForcedColor() {
 
 void TrackButtonUI::getButtonColors() {
     isDepressed = track->isPressed() || track->isSelected();
-    
-    
-    
+
     if (isColorForced) return;
 
     if (processor->isEffectMode()) {
@@ -74,13 +59,19 @@ void TrackButtonUI::getButtonColors() {
     } else if (track->isMuted()) {
         borderColor = EditorConfig::Colors::Yellow;
         fillColor = EditorConfig::Colors::Yellow;
-    } else if (isPlaying && !hasGroupColor) {
+    } else if (isPlaying && !track->isInGroup()) {
         borderColor = EditorConfig::Colors::Green;
         fillColor = EditorConfig::Colors::Green;
     } else {
-        if (hasGroupColor) {
-            borderColor = groupBorderColor;
-            fillColor = groupFillColor;
+        if (track->isInGroup()) {
+            if (track->getGroup() == 0) {
+                borderColor = EditorConfig::Colors::GroupColorOne;
+                fillColor = EditorConfig::Colors::GroupColorOne;
+            } else if (track->getGroup() == 1) {
+                borderColor = EditorConfig::Colors::GroupColorTwo;
+                fillColor = EditorConfig::Colors::GroupColorTwo;
+            }
+            
         } else {
             borderColor = originalBorderColor;
             fillColor = originalFillColor;

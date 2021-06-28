@@ -3,17 +3,26 @@
 
 void ControlGroupUI::initializeKnobs() {
     addVolumeKnob();
-    addParamTwoKnob();
-    addParamOneKnob();
     addDryWetKnob();
+    addParamOneKnob();
+    addParamTwoKnob();
 }
 
+void ControlGroupUI::addToGroup() {
+    if (index == 0) processor->tracks->doForSelectedTracks(TrackAction::AddToGroupOne);
+    if (index == 1) processor->tracks->doForSelectedTracks(TrackAction::AddToGroupTwo);
+    processor->tracks->doForAllTracks(TrackAction::Select, TrackActionMode::Off);
+}
 
 
 void ControlGroupUI::addVolumeKnob() {
     UIKnobComponent* volumeKnob = knobs.add(new UIKnobComponent());
     volumeKnob->setSensitivity(Config::KnobSensitivity);
 
+    volumeKnob->onInteract = [this] () {
+        addToGroup();
+    };
+        
     volumeKnob->onValueChange = [this] (bool increase) {
         float value = Parameters::getTrackEffectParam(0,1, Config::Parameters::Wet);
         if (increase) value += Config::ParamChangePerStep;
@@ -41,8 +50,16 @@ void ControlGroupUI::addVolumeKnob() {
 void ControlGroupUI::addParamTwoKnob() {
     UIKnobComponent* paramTwoKnob = knobs.add(new UIKnobComponent());
     paramTwoKnob->setSensitivity(Config::KnobSensitivity);
+    
+    paramTwoKnob->onInteract = [this] () {
+        addToGroup();
+    };
+
     paramTwoKnob->onValueChange = [this] (bool increase) {
-//        app->setRecordLength(increase, recordIncrease);
+        float value = Parameters::getTrackEffectParam(0,1, Config::Parameters::ParamOne);
+        if (increase) value += Config::ParamChangePerStep;
+        if (!increase) value -= Config::ParamChangePerStep;
+        Parameters::setTrackEffectParam(0, 0, Config::Parameters::ParamOne, value);
     };
     paramTwoKnob->onPress = [this] () {
 //        app->addSelectedTracksToGroup(index);
@@ -64,9 +81,18 @@ void ControlGroupUI::addParamTwoKnob() {
 void ControlGroupUI::addParamOneKnob() {
     UIKnobComponent* paramOneKnob = knobs.add(new UIKnobComponent());
     paramOneKnob->setSensitivity(Config::KnobSensitivity);
-    paramOneKnob->onValueChange = [this] (bool increase) {
-//        app->setRecordLength(increase, recordIncrease);
+    
+    paramOneKnob->onInteract = [this] () {
+        addToGroup();
     };
+
+    paramOneKnob->onValueChange = [this] (bool increase) {
+        float value = Parameters::getTrackEffectParam(0,1, Config::Parameters::ParamTwo);
+        if (increase) value += Config::ParamChangePerStep;
+        if (!increase) value -= Config::ParamChangePerStep;
+        Parameters::setTrackEffectParam(0, 0, Config::Parameters::ParamTwo, value);
+    };
+
     paramOneKnob->onPress = [this] () {
 //        app->addSelectedTracksToGroup(index);
     };
@@ -87,6 +113,11 @@ void ControlGroupUI::addParamOneKnob() {
 void ControlGroupUI::addDryWetKnob() {
     UIKnobComponent* dryWetKnob = knobs.add(new UIKnobComponent());
     dryWetKnob->setSensitivity(Config::KnobSensitivity);
+
+    dryWetKnob->onInteract = [this] () {
+        addToGroup();
+    };
+
     dryWetKnob->onValueChange = [this] (bool increase) {
 //        app->setRecordLength(increase, recordIncrease);
     };

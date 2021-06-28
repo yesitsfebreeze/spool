@@ -226,6 +226,7 @@ public:
         setOpaque(false);
     }
     
+    std::function<void()> onInteract;
     std::function<void(bool increase)> onValueChange;
     std::function<void(bool increase)> onValueChangeAlternate;
     std::function<void()> onPress;
@@ -289,6 +290,7 @@ public:
             }else {
                 onValueChange(false);
             }
+            onInteract();
             angle += rotationPerStep;
             repaint();
         } else if (value < lastValue) {
@@ -297,6 +299,7 @@ public:
             }else {
                 onValueChange(true);
             }
+            onInteract();
             angle -= rotationPerStep;
             repaint();
         }
@@ -306,22 +309,34 @@ public:
     
     void mouseDown(const juce::MouseEvent& event) override {
         if (event.mods.isRightButtonDown()) {
-            if (onPressAlternate != nullptr) onPressAlternate();
+            if (onPressAlternate != nullptr) {
+                onPressAlternate();
+                onInteract();
+            }
             return;
         }
 
-        if (onPress != nullptr) onPress();
+        if (onPress != nullptr) {
+            onPress();
+            onInteract();
+        }
     }
     
     void mouseUp(const juce::MouseEvent& event) override {
         lastValue = 0;
         activated = false;
         if (event.mods.isRightButtonDown()) {
-            if (onReleaseAlternate != nullptr) onReleaseAlternate();
+            if (onReleaseAlternate != nullptr) {
+                onReleaseAlternate();
+                onInteract();
+            }
             return;
         }
         
-        if (onRelease != nullptr) onRelease();
+        if (onRelease != nullptr) {
+            onRelease();
+            onInteract();
+        }
     }
 
 

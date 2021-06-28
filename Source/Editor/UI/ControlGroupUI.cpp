@@ -15,15 +15,12 @@ void ControlGroupUI::addVolumeKnob() {
     volumeKnob->setSensitivity(Config::KnobSensitivity);
 
     volumeKnob->onValueChange = [this] (bool increase) {
-
         float value = Parameters::getTrackEffectParam(0,1, Config::Parameters::Wet);
         if (increase) value += Config::ParamChangePerStep;
         if (!increase) value -= Config::ParamChangePerStep;
-//        Parameters::setParam(Config::Parameters::Volume, value);
-        Parameters::setTrackEffectParam(0, 1, Config::Parameters::Wet, value);
-        
-//        app->setRecordLength(increase, recordIncrease);
+        Parameters::setTrackEffectParam(0, 0, Config::Parameters::Wet, value);
     };
+    
     volumeKnob->onPress = [this] () {
 //        app->addSelectedTracksToGroup(index);
     };

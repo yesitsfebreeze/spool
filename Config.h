@@ -18,6 +18,9 @@ namespace Config {
     const int TrackResetDelay = 150; // ms
     const int recordLengthDebounceTime = 1000; // ms
 
+
+    const int knobSensitivity = 20;
+
     namespace Command {
         enum ID {
             Settings = 1,

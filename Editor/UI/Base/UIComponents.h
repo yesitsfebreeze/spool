@@ -184,7 +184,7 @@ public:
     };
 
 
-    void calculateBounds(juce::Rectangle<int> bounds, int buttonIndex, int columns,  int rows = 1) {
+    void calculateBounds(juce::Rectangle<int> bounds, int buttonIndex, int columns,  int rows = 1, float heightFactor = 1) {
         grid.setX(columns);
         grid.setY(rows);
         position.setX(buttonIndex % columns);
@@ -196,7 +196,7 @@ public:
         int x = buttonWidth * position.x;
         int y = buttonHeight * position.y;
         int w = buttonWidth;
-        int h = buttonHeight;
+        int h = buttonHeight * heightFactor;
         
         setBounds(x, y, w, h);
     };

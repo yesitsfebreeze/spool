@@ -19,6 +19,8 @@ namespace EditorConfig {
     const int trackColumns = 4;
     const int trackRows = 4;
 
+    const float dotSize = 0.6;
+
     const float FPS = 30;
 
     namespace Colors {

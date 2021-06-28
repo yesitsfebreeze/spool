@@ -56,26 +56,24 @@ void UI::resized() {
     int topArea = h * 0.12;
     int rowHeight = (h - topArea) / 5 ;
     int leftOffset = (w - rowHeight * 4) / 2;
-    
-    topAreaUI.setBounds(leftOffset, 0, w - leftOffset * 2,topArea);
-    topAreaUI.setPadding(EditorConfig::padding / 2);
 
-    tracksUI.setBounds(leftOffset, topArea, rowHeight * 4, rowHeight * 4);
+    tracksUI.setBounds(leftOffset, 0, rowHeight * 4, rowHeight * 4);
     tracksUI.setPadding(EditorConfig::padding / 2);
 
-    controlButtonsUI.setBounds(leftOffset, topArea + rowHeight * 4, rowHeight * 4, rowHeight);
+    controlGroupOneUI.setBounds(0, 0, leftOffset, rowHeight * 3);
+    controlGroupOneUI.setPadding(EditorConfig::padding / 2);
+    
+    controlGroupTwoUI.setBounds(w - leftOffset, 0, leftOffset, rowHeight * 3);
+    controlGroupTwoUI.setPadding(EditorConfig::padding / 2);
+
+    sequencerUI.setBounds(0, rowHeight * 3, leftOffset, rowHeight);
+    sequencerUI.setPadding(EditorConfig::padding * 2);
+
+    RMSMeterUI.setBounds(w - leftOffset, rowHeight * 3, leftOffset, rowHeight);
+    RMSMeterUI.setPadding(EditorConfig::padding * 1.5, EditorConfig::padding * 2, EditorConfig::padding * 1.5, EditorConfig::padding * 2);
+
+    controlButtonsUI.setBounds(leftOffset, rowHeight * 4, rowHeight * 4, rowHeight);
     controlButtonsUI.setPadding(0, EditorConfig::padding / 2, EditorConfig::padding / 2, EditorConfig::padding / 2);
 
-    controlGroupOneUI.setBounds(0, topArea, leftOffset, h - topArea);
-    controlGroupOneUI.setPadding(rowHeight * 0.3, EditorConfig::padding, rowHeight * 0.25, EditorConfig::padding);
-
-    controlGroupTwoUI.setBounds(w - leftOffset, topArea, leftOffset, h - topArea);
-    controlGroupTwoUI.setPadding(rowHeight * 0.3, EditorConfig::padding, rowHeight * 0.25, EditorConfig::padding);
-
-    sequencerUI.setBounds(0, 0, leftOffset, topArea);
-    sequencerUI.setPadding(EditorConfig::padding * 1.5, EditorConfig::padding, EditorConfig::padding * 1.5, EditorConfig::padding);
-    
-    RMSMeterUI.setBounds(w - leftOffset, 0, leftOffset, topArea);
-    RMSMeterUI.setPadding(EditorConfig::padding * 1.5, EditorConfig::padding, EditorConfig::padding * 1.5, EditorConfig::padding);
     
 }

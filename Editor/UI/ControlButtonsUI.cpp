@@ -54,6 +54,6 @@ void ControlButtonsUI::update() {
 void ControlButtonsUI::resized() {
     int buttonCount = buttons.size();
     for (int i = 0; i < buttonCount; ++i) {
-        buttons[i]->calculateBounds(getLocalBounds(), i, buttonCount);
+        buttons[i]->calculateBounds(getLocalBounds(), i, buttonCount, 1, 0.75);
     }
 }

@@ -15,48 +15,28 @@ void RMSMeterUI::paint(juce::Graphics& g) {
     
     int w = bounds.getWidth();
     int h = bounds.getHeight();
+    int dotSize = w / 2 * EditorConfig::dotSize;
+    int offsetX = (w - dotSize) / 2;
+    int spacing = (h - (dotSize * 4)) / 3;
     
-    int barWidth = w / 8;
-    float xOffset = (w - barWidth * 4) / 3;
-    int barHeight = h;
-    float yOffset = 0;
     
-    if (barWidth < 5) barWidth = 5;
-    if (barHeight < 5) barHeight = 5;
-    
-    int borderRadius = barWidth / 2;
-    
-    if (EditorConfig::borderRadius == 0) {
-        borderRadius = 0;
-    }
     
     for (auto peak = 0; peak < 4; peak++) {
-        int barOffsetX = xOffset * peak + peak * barWidth;
-        
+        if (peak == 0) g.setColour(EditorConfig::Colors::peakFour);
+        if (peak == 1) g.setColour(EditorConfig::Colors::peakThree);
+        if (peak == 2) g.setColour(EditorConfig::Colors::peakTwo);
+        if (peak == 3) g.setColour(EditorConfig::Colors::peakOne);
+
+
         if (peak == 0) {
-            g.setColour(EditorConfig::Colors::peakOne);
-        }
-        if (peak == 1) {
-            g.setColour(EditorConfig::Colors::peakTwo);
-        }
-        if (peak == 2) {
-            g.setColour(EditorConfig::Colors::peakThree);
-        }
-        if (peak == 3) {
-            g.setColour(EditorConfig::Colors::peakFour);
+            g.fillEllipse(offsetX, 0, dotSize , dotSize);
+        } else {
             
+            g.fillEllipse(offsetX, (spacing + dotSize) * peak, dotSize , dotSize);
         }
         
-        g.fillRoundedRectangle(barOffsetX, yOffset, barWidth, barHeight, borderRadius);
-        g.drawRoundedRectangle(
-           barOffsetX + EditorConfig::borderWidth / 2,
-           yOffset + EditorConfig::borderWidth / 2,
-           barWidth - EditorConfig::borderWidth,
-           barHeight - EditorConfig::borderWidth,
-           borderRadius,
-           EditorConfig::borderWidth
-       );
     }
+    
 }
 
 void RMSMeterUI::update() {

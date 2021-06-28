@@ -17,7 +17,7 @@ void SequencerUI::paint(juce::Graphics& g) {
     
     int w = bounds.getWidth();
     int h = bounds.getHeight();
-    int dotSize = (w / 2) / 3;
+    int dotSize = (w / 2) * EditorConfig::dotSize;
     
     float factor = (float)w/float(h);
     

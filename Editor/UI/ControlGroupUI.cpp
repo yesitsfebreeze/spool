@@ -2,127 +2,107 @@
 
 
 void ControlGroupUI::initializeKnobs() {
-    int sensitivity = 20;
-    
-    
-    juce::Colour groupColor = EditorConfig::Colors::groupColorOne;
-    int recordIncrease = 2;
-    if (index == 1) {
-        recordIncrease = 1;
-        groupColor = EditorConfig::Colors::groupColorTwo;
-    }
-    
-    UIKnobComponent* testKnob1 = knobs.add(new UIKnobComponent());
-    testKnob1->setSensitivity(sensitivity);
-    testKnob1->setRotationPerStep(360 / sensitivity);
-    testKnob1->onValueChange = [this] (bool increase) {
+    addVolumeKnob();
+    addParamTwoKnob();
+    addParamOneKnob();
+    addDryWetKnob();
+}
+
+
+
+void ControlGroupUI::addVolumeKnob() {
+    UIKnobComponent* volumeKnob = knobs.add(new UIKnobComponent());
+    volumeKnob->setSensitivity(Config::knobSensitivity);
+    volumeKnob->setRotationPerStep(360 / Config::knobSensitivity);
+    volumeKnob->onValueChange = [this] (bool increase) {
 //        app->setRecordLength(increase, recordIncrease);
     };
-    testKnob1->onPress = [this] () {
+    volumeKnob->onPress = [this] () {
 //        app->addSelectedTracksToGroup(index);
     };
-    testKnob1->onRelease = [this] () {
+    volumeKnob->onRelease = [this] () {
 //        app->onRecordLengthRelease();
     };
-    testKnob1->onPressAlternate = [this] () {
+    volumeKnob->onPressAlternate = [this] () {
         DBG("onPressAlternate");
     };
-    testKnob1->onReleaseAlternate = [this] () {
+    volumeKnob->onReleaseAlternate = [this] () {
         DBG("onReleaseAlternate");
     };
-    testKnob1->setColor(EditorConfig::Colors::green);
-    addAndMakeVisible(testKnob1);
+    volumeKnob->setColor(EditorConfig::Colors::green);
+    addAndMakeVisible(volumeKnob);
+}
 
-    
-    UIKnobComponent* testKnob2 = knobs.add(new UIKnobComponent());
-    testKnob2->setSensitivity(sensitivity);
-    testKnob2->setRotationPerStep(360 / sensitivity);
-    testKnob2->onValueChange = [this] (bool increase) {
+
+void ControlGroupUI::addParamTwoKnob() {
+    UIKnobComponent* paramTwoKnob = knobs.add(new UIKnobComponent());
+    paramTwoKnob->setSensitivity(Config::knobSensitivity);
+    paramTwoKnob->setRotationPerStep(360 / Config::knobSensitivity);
+    paramTwoKnob->onValueChange = [this] (bool increase) {
 //        app->setRecordLength(increase, recordIncrease);
     };
-    testKnob2->onPress = [this] () {
+    paramTwoKnob->onPress = [this] () {
 //        app->addSelectedTracksToGroup(index);
     };
-    testKnob2->onRelease = [this] () {
+    paramTwoKnob->onRelease = [this] () {
 //        app->onRecordLengthRelease();
     };
-    testKnob2->setColor(groupColor);
-    addAndMakeVisible(testKnob2);
-    
-    UIKnobComponent* testKnob3 = knobs.add(new UIKnobComponent());
-    testKnob3->setSensitivity(sensitivity);
-    testKnob3->setRotationPerStep(360 / sensitivity);
-    testKnob3->onValueChange = [this] (bool increase) {
+    paramTwoKnob->onPressAlternate = [this] () {
+        DBG("onPressAlternate");
+    };
+    paramTwoKnob->onReleaseAlternate = [this] () {
+        DBG("onReleaseAlternate");
+    };
+    paramTwoKnob->setColor(groupColor);
+    addAndMakeVisible(paramTwoKnob);
+}
+
+
+void ControlGroupUI::addParamOneKnob() {
+    UIKnobComponent* paramOneKnob = knobs.add(new UIKnobComponent());
+    paramOneKnob->setSensitivity(Config::knobSensitivity);
+    paramOneKnob->setRotationPerStep(360 / Config::knobSensitivity);
+    paramOneKnob->onValueChange = [this] (bool increase) {
 //        app->setRecordLength(increase, recordIncrease);
     };
-    testKnob3->onPress = [this] () {
+    paramOneKnob->onPress = [this] () {
 //        app->addSelectedTracksToGroup(index);
     };
-    testKnob3->onRelease = [this] () {
+    paramOneKnob->onRelease = [this] () {
 //        app->onRecordLengthRelease();
     };
-    testKnob3->setColor(groupColor);
-    addAndMakeVisible(testKnob3);
+    paramOneKnob->onPressAlternate = [this] () {
+        DBG("onPressAlternate");
+    };
+    paramOneKnob->onReleaseAlternate = [this] () {
+        DBG("onReleaseAlternate");
+    };
+    paramOneKnob->setColor(groupColor);
+    addAndMakeVisible(paramOneKnob);
+}
 
-    UIKnobComponent* testKnob4 = knobs.add(new UIKnobComponent());
-    testKnob4->setSensitivity(sensitivity);
-    testKnob4->setRotationPerStep(360 / sensitivity);
-    testKnob4->onValueChange = [this] (bool increase) {
+
+void ControlGroupUI::addDryWetKnob() {
+    UIKnobComponent* dryWetKnob = knobs.add(new UIKnobComponent());
+    dryWetKnob->setSensitivity(Config::knobSensitivity);
+    dryWetKnob->setRotationPerStep(360 / Config::knobSensitivity);
+    dryWetKnob->onValueChange = [this] (bool increase) {
 //        app->setRecordLength(increase, recordIncrease);
     };
-    testKnob4->onPress = [this] () {
+    dryWetKnob->onPress = [this] () {
 //        app->addSelectedTracksToGroup(index);
     };
-    testKnob4->onRelease = [this] () {
+    dryWetKnob->onRelease = [this] () {
 //        app->onRecordLengthRelease();
     };
-    testKnob4->setColor(groupColor);
-    addAndMakeVisible(testKnob4);
-    
-    UIKnobComponent* functionKnob = knobs.add(new UIKnobComponent());
-    functionKnob->setSensitivity(sensitivity);
-    functionKnob->setRotationPerStep(22.5);
-    functionKnob->onPress = [this] () {
-//        app->displayRecordLength();
+    dryWetKnob->onPressAlternate = [this] () {
+        DBG("onPressAlternate");
     };
-    functionKnob->onValueChangeAlternate = [this, recordIncrease] (bool increase) {
-        if (increase) processor->changeRecordLength(+1);
-        if (!increase) processor->changeRecordLength(-1);
-//        app->setRecordLength(increase, recordIncrease);
+    dryWetKnob->onReleaseAlternate = [this] () {
+        DBG("onReleaseAlternate");
     };
-    functionKnob->onValueChange = [this, recordIncrease] (bool increase) {
-        if (increase) processor->changeRecordLength(+2);
-        if (!increase) processor->changeRecordLength(-2);
-//        app->setRecordLength(increase, recordIncrease);
-    };
-    functionKnob->onRelease = [this] () {
-//        app->onRecordLengthRelease();
-    };
-    
-    functionKnob->setColor(EditorConfig::Colors::red);
-    addAndMakeVisible(functionKnob);
-
-
-    UIKnobComponent* recordLengthKnob = knobs.add(new UIKnobComponent());
-    recordLengthKnob->setSensitivity(sensitivity);
-    recordLengthKnob->setRotationPerStep(22.5);
-    recordLengthKnob->onPress = [this] () {
-//        app->displayRecordLength();
-    };
-    recordLengthKnob->onPressAlternate = [this] () {
-        processor->changeRecordLength(+1);
-    };
-    recordLengthKnob->onValueChange = [this, recordIncrease] (bool increase) {
-        if (increase) processor->changeRecordLength(+2);
-        if (!increase) processor->changeRecordLength(-2);
-//        app->setRecordLength(increase, recordIncrease);
-    };
-    recordLengthKnob->onRelease = [this] () {
-//        app->onRecordLengthRelease();
-    };
-    
-    recordLengthKnob->setColor(EditorConfig::Colors::red);
-    addAndMakeVisible(recordLengthKnob);
+    dryWetKnob->setColor(groupColor);
+    addAndMakeVisible(dryWetKnob);
 }
 
 
@@ -145,7 +125,7 @@ void ControlGroupUI::resized() {
             knob->setBounds(centerX, s * (knobSize + spacing), knobSize, knobSize);
         }
         
-        knob->setPadding(EditorConfig::padding / 2);
+        knob->setPadding(EditorConfig::padding * 0.6);
     }
     
 }

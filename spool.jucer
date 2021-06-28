@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="Lq6hAg" name="spool" projectType="audioplug" useAppConfig="1"
+              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
+  <MAINGROUP id="kHqQxn" name="spool">
+    <GROUP id="{8F0165AB-93B1-F523-4B7E-BBDC1C30D57F}" name="Source">
+      <GROUP id="{54C22E89-3C49-94F6-2643-CCCA1D5C70A0}" name="Editor">
+        <GROUP id="{248EA9BB-0DE2-8464-DA09-89939D7CF616}" name="UI">
+          <GROUP id="{7314DDE8-3D63-76BC-33F4-720EE8ECAB3F}" name="Base">
+            <FILE id="u1azCt" name="UI.cpp" compile="1" resource="0" file="Source/Editor/UI/Base/UI.cpp"/>
+            <FILE id="AIsq3P" name="UI.h" compile="0" resource="0" file="Source/Editor/UI/Base/UI.h"/>
+            <FILE id="aSRHxg" name="UIComponents.h" compile="0" resource="0" file="Source/Editor/UI/Base/UIComponents.h"/>
+          </GROUP>
+          <FILE id="QRrUyF" name="ControlButtonsUI.cpp" compile="1" resource="0"
+                file="Source/Editor/UI/ControlButtonsUI.cpp"/>
+          <FILE id="iSvzfQ" name="ControlButtonsUI.h" compile="0" resource="0"
+                file="Source/Editor/UI/ControlButtonsUI.h"/>
+          <FILE id="CmwY3j" name="ControlGroupUI.cpp" compile="1" resource="0"
+                file="Source/Editor/UI/ControlGroupUI.cpp"/>
+          <FILE id="o5sBMZ" name="ControlGroupUI.h" compile="0" resource="0"
+                file="Source/Editor/UI/ControlGroupUI.h"/>
+          <FILE id="BqbeCW" name="RMSMeterUI.cpp" compile="1" resource="0" file="Source/Editor/UI/RMSMeterUI.cpp"/>
+          <FILE id="FJYyeE" name="RMSMeterUI.h" compile="0" resource="0" file="Source/Editor/UI/RMSMeterUI.h"/>
+          <FILE id="rReHNQ" name="SequencerUI.cpp" compile="1" resource="0" file="Source/Editor/UI/SequencerUI.cpp"/>
+          <FILE id="mWfmgV" name="SequencerUI.h" compile="0" resource="0" file="Source/Editor/UI/SequencerUI.h"/>
+          <FILE id="gE16pa" name="TopAreaUI.cpp" compile="1" resource="0" file="Source/Editor/UI/TopAreaUI.cpp"/>
+          <FILE id="SxeaPr" name="TopAreaUI.h" compile="0" resource="0" file="Source/Editor/UI/TopAreaUI.h"/>
+          <FILE id="JJLJ31" name="TracksUI.cpp" compile="1" resource="0" file="Source/Editor/UI/TracksUI.cpp"/>
+          <FILE id="xh9JfD" name="TracksUI.h" compile="0" resource="0" file="Source/Editor/UI/TracksUI.h"/>
+        </GROUP>
+        <FILE id="vFkcHo" name="CommandDefinitions.h" compile="0" resource="0"
+              file="Source/Editor/CommandDefinitions.h"/>
+        <FILE id="QkNxvT" name="EditorConfig.h" compile="0" resource="0" file="Source/Editor/EditorConfig.h"/>
+        <FILE id="ffckSo" name="SpoolEditor.cpp" compile="1" resource="0" file="Source/Editor/SpoolEditor.cpp"/>
+        <FILE id="G0tICH" name="SpoolEditor.h" compile="0" resource="0" file="Source/Editor/SpoolEditor.h"/>
+      </GROUP>
+      <GROUP id="{749F0BDF-E901-1A75-3724-2E7D40FA35C5}" name="Processor">
+        <GROUP id="{5F1096FF-66A3-F2AF-05C7-1EF80F115FAB}" name="Modules">
+          <GROUP id="{170199A0-EE20-57B8-2499-20344D96DC51}" name="Commands">
+            <FILE id="L710yj" name="CommandQueue.h" compile="0" resource="0" file="Source/Processor/Modules/Commands/CommandQueue.h"/>
+          </GROUP>
+          <GROUP id="{51C9340F-2FFB-60B5-7CFE-72E2EB609D60}" name="Effects">
+            <GROUP id="{5398026C-2DD7-0683-3BAF-D708456A98AF}" name="EffectClasses">
+              <FILE id="T6gL2b" name="AutoPanEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/EffectClasses/AutoPanEffect.h"/>
+              <FILE id="u0wwWD" name="CompressorEffect.h" compile="0" resource="0"
+                    file="Source/Processor/Modules/Effects/EffectClasses/CompressorEffect.h"/>
+              <FILE id="lkiWCx" name="DelayEffect.cpp" compile="1" resource="0" file="Source/Processor/Modules/Effects/EffectClasses/DelayEffect.cpp"/>
+              <FILE id="tBzwmB" name="DelayEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/EffectClasses/DelayEffect.h"/>
+              <FILE id="frUY1l" name="NoiseEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/EffectClasses/NoiseEffect.h"/>
+              <FILE id="tsP8RR" name="PanningEffect.cpp" compile="1" resource="0"
+                    file="Source/Processor/Modules/Effects/EffectClasses/PanningEffect.cpp"/>
+              <FILE id="lpVFeR" name="PanningEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/EffectClasses/PanningEffect.h"/>
+              <FILE id="LYXE7A" name="PhaserEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/EffectClasses/PhaserEffect.h"/>
+              <FILE id="eJoQSd" name="ReverbEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/EffectClasses/ReverbEffect.h"/>
+              <FILE id="WybZud" name="TremoloEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/EffectClasses/TremoloEffect.h"/>
+            </GROUP>
+            <FILE id="bKCcva" name="BaseEffect.cpp" compile="1" resource="0" file="Source/Processor/Modules/Effects/BaseEffect.cpp"/>
+            <FILE id="Cdv3JI" name="BaseEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/BaseEffect.h"/>
+            <FILE id="eXl9Tr" name="EffectList.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/EffectList.h"/>
+            <FILE id="PQqZoy" name="Effects.cpp" compile="1" resource="0" file="Source/Processor/Modules/Effects/Effects.cpp"/>
+            <FILE id="ITwu61" name="Effects.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/Effects.h"/>
+          </GROUP>
+          <GROUP id="{66392EEE-BB8A-6CC5-2975-118737CE6B7D}" name="Sequencer">
+            <FILE id="auxOqr" name="Sequencer.cpp" compile="1" resource="0" file="Source/Processor/Modules/Sequencer/Sequencer.cpp"/>
+            <FILE id="QFq4ZV" name="Sequencer.h" compile="0" resource="0" file="Source/Processor/Modules/Sequencer/Sequencer.h"/>
+          </GROUP>
+          <GROUP id="{925DF0E7-C796-96F8-A8ED-9819DD1F4E76}" name="Tracks">
+            <FILE id="jJ2wEL" name="SampleHolder.cpp" compile="1" resource="0"
+                  file="Source/Processor/Modules/Tracks/SampleHolder.cpp"/>
+            <FILE id="eQI57B" name="SampleHolder.h" compile="0" resource="0" file="Source/Processor/Modules/Tracks/SampleHolder.h"/>
+            <FILE id="aF4brt" name="Track.cpp" compile="1" resource="0" file="Source/Processor/Modules/Tracks/Track.cpp"/>
+            <FILE id="Mkg0to" name="Track.h" compile="0" resource="0" file="Source/Processor/Modules/Tracks/Track.h"/>
+            <FILE id="Lnmhp1" name="Tracks.h" compile="0" resource="0" file="Source/Processor/Modules/Tracks/Tracks.h"/>
+          </GROUP>
+        </GROUP>
+        <FILE id="LCQUT0" name="Commands.cpp" compile="1" resource="0" file="Source/Processor/Commands.cpp"/>
+        <FILE id="frSH22" name="Commands.h" compile="0" resource="0" file="Source/Processor/Commands.h"/>
+        <FILE id="hz3Xhn" name="Parameteres.cpp" compile="1" resource="0" file="Source/Processor/Parameteres.cpp"/>
+        <FILE id="K760Gz" name="Parameteres.h" compile="0" resource="0" file="Source/Processor/Parameteres.h"/>
+        <FILE id="Al59kZ" name="SpoolProcessor.cpp" compile="1" resource="0"
+              file="Source/Processor/SpoolProcessor.cpp"/>
+        <FILE id="BpJdFO" name="SpoolProcessor.h" compile="0" resource="0"
+              file="Source/Processor/SpoolProcessor.h"/>
+      </GROUP>
+      <GROUP id="{7C4E0883-99B2-D758-EDB1-2ED10231C181}" name="Standalone">
+        <FILE id="VDqI4M" name="StandaloneApp.cpp" compile="1" resource="0"
+              file="Source/Standalone/StandaloneApp.cpp"/>
+        <FILE id="X7WnZU" name="StandaloneApp.h" compile="0" resource="0" file="Source/Standalone/StandaloneApp.h"/>
+        <FILE id="N4bDqX" name="StandaloneMainComponent.cpp" compile="1" resource="0"
+              file="Source/Standalone/StandaloneMainComponent.cpp"/>
+        <FILE id="A8hJBQ" name="StandaloneMainComponent.h" compile="0" resource="0"
+              file="Source/Standalone/StandaloneMainComponent.h"/>
+        <FILE id="gEIMN2" name="StandaloneMenu.h" compile="0" resource="0"
+              file="Source/Standalone/StandaloneMenu.h"/>
+        <FILE id="lFNsA1" name="StandaloneNotificationComponent.h" compile="0"
+              resource="0" file="Source/Standalone/StandaloneNotificationComponent.h"/>
+        <FILE id="bPtbl1" name="StandalonePluginHolder.cpp" compile="1" resource="0"
+              file="Source/Standalone/StandalonePluginHolder.cpp"/>
+        <FILE id="uxakH1" name="StandalonePluginHolder.h" compile="0" resource="0"
+              file="Source/Standalone/StandalonePluginHolder.h"/>
+        <FILE id="UE576G" name="StandaloneSettingsComponent.h" compile="0"
+              resource="0" file="Source/Standalone/StandaloneSettingsComponent.h"/>
+        <FILE id="KPWcut" name="StandaloneWindow.cpp" compile="1" resource="0"
+              file="Source/Standalone/StandaloneWindow.cpp"/>
+        <FILE id="FPYk54" name="StandaloneWindow.h" compile="0" resource="0"
+              file="Source/Standalone/StandaloneWindow.h"/>
+      </GROUP>
+      <FILE id="NO59ro" name="Config.h" compile="0" resource="0" file="Source/Config.h"/>
+      <FILE id="BeCJ3y" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+      <FILE id="UfwDuW" name="PluginProcessor.h" compile="0" resource="0"
+            file="Source/PluginProcessor.h"/>
+      <FILE id="mThIGP" name="UserAppConfig.h" compile="0" resource="0" file="../../../UserAppConfig.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX" microphonePermissionNeeded="1">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="spool"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="spool"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_audio_basics" path="../../modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../modules"/>
+        <MODULEPATH id="juce_core" path="../../modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../modules"/>
+        <MODULEPATH id="juce_dsp" path="../../modules"/>
+        <MODULEPATH id="juce_events" path="../../modules"/>
+        <MODULEPATH id="juce_graphics" path="../../modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"
+            useGlobalPath="1"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_dsp" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+  <LIVE_SETTINGS>
+    <OSX/>
+  </LIVE_SETTINGS>
+</JUCERPROJECT>

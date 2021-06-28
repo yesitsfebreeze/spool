@@ -17,19 +17,22 @@ public:
     
 
     bool selected = false;
-    
-    juce::String wetParam;
+
+    float wetReal = 0.0f;
+    float wetMidi = 0.0f;
     float wet = 0.0f;
     
-    juce::String valueOneParam;
-    float valueOne = 0.0f;
+    float paramOneReal = 0.0f;
+    float paramOneMidi = 0.0f;
+    float paramOne = 0.0f;
     
-    juce::String valueTwoParam;
-    float valueTwo = 0.0f;
+    float paramTwoReal = 0.0f;
+    float paramTwoMidi = 0.0f;
+    float paramTwo = 0.0f;
     
     BaseEffect(SpoolProcessor* processor, int index, int track, int sample = -1);
     
-    
+    void getParamValues(juce::ValueTree& tree, const juce::Identifier& param = juce::Identifier::null);
     void valueTreePropertyChanged(juce::ValueTree& tree, const juce::Identifier& param) override;
     
     virtual ~BaseEffect() {};
@@ -39,8 +42,16 @@ public:
     virtual void processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {};
     
     virtual void onWetChanged() {};
-    virtual void onValueOneChanged() {};
-    virtual void onValueTwoChanged() {};
+    virtual void onParamOneChanged() {};
+    virtual void onParamTwoChanged() {};
+    
+    juce::var clampValue(juce::var value) {
+        if (value.isDouble()) {
+            if ((double) value >= Config::MaxParamValue) return Config::MaxParamValue;
+            if ((double) value <= Config::MinParamValue) return Config::MinParamValue;
+        }
+        return value;
+    }
     
     bool toggleSelect() {
         selected = !selected;

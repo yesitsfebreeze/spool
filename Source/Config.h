@@ -2,24 +2,29 @@
 
 #include <JuceHeader.h>
 
+#ifndef ConfigLoaded
+#define ConfigLoaded 1
+
 namespace Config {
 
-    const float updateHz = 60; // hertz
-    const double defaultPBM = 128;
-    const int defaultRecordLength = 4; // bars
+    const float UpdateHz = 60; // hertz
+    const double DefaultPBM = 128;
+    const int DefaultRecordLength = 4; // bars
     const int MaxRecordLength = 32;
-    const int trackCount = 16;
+    const int TrackCount = 16;
 
     // timing relevant stuff
-    const int doublePressTimeWindow = 250;
-    const int holdTimeout = 333; // ms
-    const int debounceTimeout = 200; // ms
+    const int DoublePressTimeWindow = 250;
+    const int HoldTimeout = 333; // ms
+    const int DebounceTimeout = 200; // ms
     const int FNResetDelay = 100; // ms
     const int TrackResetDelay = 150; // ms
-    const int recordLengthDebounceTime = 1000; // ms
+    const int RecordLengthDebounceTime = 1000; // ms
 
 
-    const int knobSensitivity = 20;
+    const double MaxParamValue = 255;
+    const double MinParamValue = 0;
+    const int KnobSensitivity = 20;
 
     namespace Command {
         enum ID {
@@ -47,22 +52,25 @@ namespace Config {
         };
     }
 
-    namespace Parameters {
-        enum SpoolParam {
-            Bypass
-        };
-    
-        enum TrackParam {
-            Volume,
-            Panning
-        };
+    enum Parameters {
+        Bypass,
+        Volume,
+        Panning,
+        Wet,
+        ParamOne,
+        ParamTwo,
+    };
 
-        enum EffectParam {
-            Wet,
-            ValueOne,
-            ValueTwo,
-        };
-    }
+    const juce::String ParameterNames[] {
+        "Bypass",
+        "Volume",
+        "Panning",
+        "Wet",
+        "ParamOne",
+        "ParamTwo",
+    };
+
 }
+#endif
 
 

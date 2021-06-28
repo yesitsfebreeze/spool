@@ -24,14 +24,7 @@ SpoolProcessor::SpoolProcessor()
     tracks.reset(new Tracks(this));
     commands.setOwner(this);
     commandQueue.FNCommandID = Config::Command::Function;
-    startTimerHz(Config::updateHz);
-    
-    // effect = 0;
-    // track = 0;
-    // sample = 0;
-    // value = 0.5;
-    // Parameters::set(Parameters::buildParamName(Config::Parameters::EffectParam::Wet, effect, track, sample), value);
-
+    startTimerHz(Config::UpdateHz);
 }
 
 SpoolProcessor::~SpoolProcessor()

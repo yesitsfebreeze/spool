@@ -14,11 +14,11 @@ public:
         this->index = index;
         
         if (index == 0) {
-            groupColor = EditorConfig::Colors::groupColorOne;
+            groupColor = EditorConfig::Colors::GroupColorOne;
         }
         
         if (index == 1) {
-            groupColor = EditorConfig::Colors::groupColorTwo;
+            groupColor = EditorConfig::Colors::GroupColorTwo;
         }
         initializeKnobs();
     }

@@ -8,52 +8,52 @@
 
 namespace EditorConfig {
 
-    const int windowAspectRatio = 1;
-    const int defaultWindowSize = 900;
-    const int minimumWindowSize = 700;
+    const int WindowAspectRatio = 1;
+    const int DefaultWindowSize = 900;
+    const int MinimumWindowSize = 700;
 
-    const int borderRadius = 6;
-    const int borderWidth = 4;
-    const int padding = 20;
+    const int BorderRadius = 6;
+    const int BorderWidth = 4;
+    const int Padding = 20;
 
-    const int trackColumns = 4;
-    const int trackRows = 4;
+    const int TrackColumns = 4;
+    const int TrackRows = 4;
 
-    const float dotSize = 0.6;
+    const float DotSize = 0.6;
 
     const float FPS = 30;
 
     namespace Colors {
-        const juce::Colour light = juce::Colour { 0xffe9e9ed };
-        const juce::Colour mid = juce::Colour { 0xff414148 };
-        const juce::Colour dark = juce::Colour { 0xff1D1C22 };
-        const juce::Colour blue = juce::Colour { 0xff82DDF5 };
-        const juce::Colour yellow = juce::Colour { 0xffFFE95E };
-        const juce::Colour green = juce::Colour { 0xff78FFA3 };
-        const juce::Colour red = juce::Colour { 0xffFF5452 };
+        const juce::Colour Light = juce::Colour { 0xffe9e9ed };
+        const juce::Colour Mid = juce::Colour { 0xff414148 };
+        const juce::Colour Dark = juce::Colour { 0xff1D1C22 };
+        const juce::Colour Blue = juce::Colour { 0xff82DDF5 };
+        const juce::Colour Yellow = juce::Colour { 0xffFFE95E };
+        const juce::Colour Green = juce::Colour { 0xff78FFA3 };
+        const juce::Colour Red = juce::Colour { 0xffFF5452 };
 
-        const juce::Colour groupColorOne = juce::Colour { 0xffad67ef };
-        const juce::Colour groupColorTwo = juce::Colour { 0xffeda152 };
+        const juce::Colour GroupColorOne = juce::Colour { 0xffad67ef };
+        const juce::Colour GroupColorTwo = juce::Colour { 0xffeda152 };
 
         // peakmeter
-        const juce::Colour peakOne = juce::Colour { 0xffB3FA5C };
-        const juce::Colour peakTwo = juce::Colour { 0xffFAF75C };
-        const juce::Colour peakThree = juce::Colour { 0xffFAB35C };
-        const juce::Colour peakFour = juce::Colour { 0xffFA6C5C };
+        const juce::Colour PeakOne = juce::Colour { 0xffB3FA5C };
+        const juce::Colour PeakTwo = juce::Colour { 0xffFAF75C };
+        const juce::Colour PeakThree = juce::Colour { 0xffFAB35C };
+        const juce::Colour PeakFour = juce::Colour { 0xffFA6C5C };
 
         // automatic variants
-        const juce::Colour lightBlue = blue.interpolatedWith(light, 0.5);
-        const juce::Colour midBlue = blue.interpolatedWith(mid, 0.5);
-        const juce::Colour darkBlue = blue.interpolatedWith(dark, 0.5);
-        const juce::Colour lightYellow = yellow.interpolatedWith(light, 0.5);
-        const juce::Colour midYellow = yellow.interpolatedWith(mid, 0.5);
-        const juce::Colour darkYellow = yellow.interpolatedWith(dark, 0.5);
-        const juce::Colour lightGreen = green.interpolatedWith(light, 0.5);
-        const juce::Colour midGreen = green.interpolatedWith(mid, 0.5);
-        const juce::Colour darkGreen = green.interpolatedWith(dark, 0.5);
-        const juce::Colour lightRed = red.interpolatedWith(light, 0.5);
-        const juce::Colour midRed = red.interpolatedWith(mid, 0.5);
-        const juce::Colour darkRed = red.interpolatedWith(dark, 0.5);
+        const juce::Colour LightBlue = Blue.interpolatedWith(Light, 0.5);
+        const juce::Colour MidBlue = Blue.interpolatedWith(Mid, 0.5);
+        const juce::Colour DarkBlue = Blue.interpolatedWith(Dark, 0.5);
+        const juce::Colour LightYellow = Yellow.interpolatedWith(Light, 0.5);
+        const juce::Colour MidYellow = Yellow.interpolatedWith(Mid, 0.5);
+        const juce::Colour DarkYellow = Yellow.interpolatedWith(Dark, 0.5);
+        const juce::Colour LightGreen = Green.interpolatedWith(Light, 0.5);
+        const juce::Colour MidGreen = Green.interpolatedWith(Mid, 0.5);
+        const juce::Colour DarkGreen = Green.interpolatedWith(Dark, 0.5);
+        const juce::Colour LightRed = Red.interpolatedWith(Light, 0.5);
+        const juce::Colour MidRed = Red.interpolatedWith(Mid, 0.5);
+        const juce::Colour DarkRed = Red.interpolatedWith(Dark, 0.5);
     }
 
     namespace DefaultKeyBind {

@@ -4,12 +4,22 @@
 
 
 Track::Track(Tracks* owner, int trackIndex) : owner(owner), trackIndex(trackIndex) {
-    for (int index = 0; index < Config::trackCount; index++) {
+    for (int index = 0; index < Config::TrackCount; index++) {
         sampleHolders.add(new SampleHolder(this, trackIndex, index));
     }
 
     effects.reset(new Effects(owner->owner, trackIndex));
+    
+
+    Parameters::getValueTree().addListener(this);
 }
+
+void Track::valueTreePropertyChanged(juce::ValueTree& tree, const juce::Identifier& param) {
+    if (!Parameters::isTrack(tree, trackIndex)) return;
+    juce::String paramName = param.toString();
+    
+    DBG(paramName);
+};
 
 void Track::prepareToPlay(double sampleRate, int samplesPerBlock) {
     effects->prepareToPlay(sampleRate, samplesPerBlock);
@@ -139,7 +149,7 @@ void Track::clear() {
 void Track::setLastSelectedTrackIndex() {
    bool hasTracksSelected = false;
    juce::OwnedArray<Track>& tracks = owner->getTracks();
-   for (int trk = 0; trk < Config::trackCount; trk++) {
+   for (int trk = 0; trk < Config::TrackCount; trk++) {
        if (tracks[trk]->isSelected()) {
            hasTracksSelected = true;
        }

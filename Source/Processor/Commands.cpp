@@ -128,7 +128,7 @@ void Commands::registerRecordCommandActions() {
 void Commands::registerTrackCommandActions() {
 
     int firstTrackEnum = Cmd::Track1;
-    for (int track = 0;track < Config::trackCount; track++) {
+    for (int track = 0;track < Config::TrackCount; track++) {
         Cmd trackCmd = static_cast<Cmd>(track + firstTrackEnum);
 
         // TRACK Instant Press

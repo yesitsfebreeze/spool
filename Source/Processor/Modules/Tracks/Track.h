@@ -7,7 +7,7 @@
 
 class Tracks;
 
-class Track {
+class Track : public juce::ValueTree::Listener {
 public:
     Tracks* owner;
     std::unique_ptr<Effects> effects;
@@ -43,6 +43,8 @@ public:
     }
     
     
+    void valueTreePropertyChanged(juce::ValueTree& tree, const juce::Identifier& param) override;
+
     void prepareToPlay(double sampleRate, int samplesPerBlock);
     void processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages);
     void processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages);

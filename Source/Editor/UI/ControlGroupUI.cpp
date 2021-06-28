@@ -12,9 +12,16 @@ void ControlGroupUI::initializeKnobs() {
 
 void ControlGroupUI::addVolumeKnob() {
     UIKnobComponent* volumeKnob = knobs.add(new UIKnobComponent());
-    volumeKnob->setSensitivity(Config::knobSensitivity);
-    volumeKnob->setRotationPerStep(360 / Config::knobSensitivity);
+    volumeKnob->setSensitivity(Config::KnobSensitivity);
+    volumeKnob->setRotationPerStep(360 / Config::KnobSensitivity);
     volumeKnob->onValueChange = [this] (bool increase) {
+
+        float value = Parameters::getTrackEffectParam(0,1, Config::Parameters::Wet);
+        if (increase) value += 1;
+        if (!increase) value -= 1;
+//        Parameters::setParam(Config::Parameters::Volume, value);
+        Parameters::setTrackEffectParam(0, 1, Config::Parameters::Wet, value);
+        
 //        app->setRecordLength(increase, recordIncrease);
     };
     volumeKnob->onPress = [this] () {
@@ -29,15 +36,15 @@ void ControlGroupUI::addVolumeKnob() {
     volumeKnob->onReleaseAlternate = [this] () {
         DBG("onReleaseAlternate");
     };
-    volumeKnob->setColor(EditorConfig::Colors::green);
+    volumeKnob->setColor(EditorConfig::Colors::Green);
     addAndMakeVisible(volumeKnob);
 }
 
 
 void ControlGroupUI::addParamTwoKnob() {
     UIKnobComponent* paramTwoKnob = knobs.add(new UIKnobComponent());
-    paramTwoKnob->setSensitivity(Config::knobSensitivity);
-    paramTwoKnob->setRotationPerStep(360 / Config::knobSensitivity);
+    paramTwoKnob->setSensitivity(Config::KnobSensitivity);
+    paramTwoKnob->setRotationPerStep(360 / Config::KnobSensitivity);
     paramTwoKnob->onValueChange = [this] (bool increase) {
 //        app->setRecordLength(increase, recordIncrease);
     };
@@ -60,8 +67,8 @@ void ControlGroupUI::addParamTwoKnob() {
 
 void ControlGroupUI::addParamOneKnob() {
     UIKnobComponent* paramOneKnob = knobs.add(new UIKnobComponent());
-    paramOneKnob->setSensitivity(Config::knobSensitivity);
-    paramOneKnob->setRotationPerStep(360 / Config::knobSensitivity);
+    paramOneKnob->setSensitivity(Config::KnobSensitivity);
+    paramOneKnob->setRotationPerStep(360 / Config::KnobSensitivity);
     paramOneKnob->onValueChange = [this] (bool increase) {
 //        app->setRecordLength(increase, recordIncrease);
     };
@@ -84,8 +91,8 @@ void ControlGroupUI::addParamOneKnob() {
 
 void ControlGroupUI::addDryWetKnob() {
     UIKnobComponent* dryWetKnob = knobs.add(new UIKnobComponent());
-    dryWetKnob->setSensitivity(Config::knobSensitivity);
-    dryWetKnob->setRotationPerStep(360 / Config::knobSensitivity);
+    dryWetKnob->setSensitivity(Config::KnobSensitivity);
+    dryWetKnob->setRotationPerStep(360 / Config::KnobSensitivity);
     dryWetKnob->onValueChange = [this] (bool increase) {
 //        app->setRecordLength(increase, recordIncrease);
     };
@@ -125,7 +132,7 @@ void ControlGroupUI::resized() {
             knob->setBounds(centerX, s * (knobSize + spacing), knobSize, knobSize);
         }
         
-        knob->setPadding(EditorConfig::padding * 0.6);
+        knob->setPadding(EditorConfig::Padding * 0.6);
     }
     
 }

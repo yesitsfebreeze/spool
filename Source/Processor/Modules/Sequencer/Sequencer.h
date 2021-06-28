@@ -29,5 +29,5 @@ private:
     double sampleRate   { 0 };
     int totalSamples    { 0 };
     int interval        { 0 };
-    double bpm          { Config::defaultPBM };
+    double bpm          { Config::DefaultPBM };
 };

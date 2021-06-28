@@ -109,7 +109,7 @@
       <FILE id="BeCJ3y" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
       <FILE id="UfwDuW" name="PluginProcessor.h" compile="0" resource="0"
             file="Source/PluginProcessor.h"/>
-      <FILE id="mThIGP" name="UserAppConfig.h" compile="0" resource="0" file="../../../UserAppConfig.h"/>
+      <FILE id="R1gAh5" name="UserAppConfig.h" compile="0" resource="0" file="Source/UserAppConfig.h"/>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>

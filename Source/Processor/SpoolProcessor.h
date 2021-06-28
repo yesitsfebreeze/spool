@@ -89,11 +89,11 @@ private:
     Commands commands;
     bool effectMode = false;
     juce::int64 loopIndex = 0;
-    float timePerUpdate = 1000 / Config::updateHz;
+    float timePerUpdate = 1000 / Config::UpdateHz;
     juce::int64 currentTime = 0;
     
     //TODO: set record length via command
-    int recordLength = Config::defaultRecordLength;
+    int recordLength = Config::DefaultRecordLength;
 
     void getCurrentTime() {
         loopIndex++;

@@ -101,10 +101,10 @@ public:
 // BUTTON COMPONENT
 class UIButtonComponent : public AnimatedUIComponent {
 public:
-    juce::Colour fillColor = EditorConfig::Colors::light;
+    juce::Colour fillColor = EditorConfig::Colors::Light;
     juce::Colour originalFillColor = fillColor;
     
-    juce::Colour borderColor = EditorConfig::Colors::light;
+    juce::Colour borderColor = EditorConfig::Colors::Light;
     juce::Colour originalBorderColor = fillColor;
     
     int index = 0;
@@ -136,7 +136,7 @@ public:
     
     void paint (juce::Graphics& g) override {
         graphics = &g;
-        g.fillAll(EditorConfig::Colors::dark);
+        g.fillAll(EditorConfig::Colors::Dark);
         calculateButtonSize();
         getButtonColors();
         beforePaint();
@@ -153,7 +153,7 @@ public:
     }
     
     virtual void getButtonColors() {
-        fillColor = EditorConfig::Colors::dark;
+        fillColor = EditorConfig::Colors::Dark;
     
         if (isDepressed) {
             fillColor = originalFillColor;
@@ -163,20 +163,20 @@ public:
     virtual void calculateButtonSize() {
         juce::Rectangle<float> bounds = getLocalBounds().toFloat();
 
-        buttonX = EditorConfig::borderWidth / 2;
-        buttonY = EditorConfig::borderWidth / 2;
-        buttonWidth = bounds.getWidth() - EditorConfig::borderWidth;
-        buttonHeight = bounds.getHeight() - EditorConfig::borderWidth;
+        buttonX = EditorConfig::BorderWidth / 2;
+        buttonY = EditorConfig::BorderWidth / 2;
+        buttonWidth = bounds.getWidth() - EditorConfig::BorderWidth;
+        buttonHeight = bounds.getHeight() - EditorConfig::BorderWidth;
     }
     
     virtual void drawButton() {
-        int p = EditorConfig::padding / 2;
+        int p = EditorConfig::Padding / 2;
         
         graphics->setColour(fillColor);
-        graphics->fillRoundedRectangle(buttonX + p , buttonY + p , buttonWidth - p * 2 , buttonHeight - p * 2, EditorConfig::borderRadius);
+        graphics->fillRoundedRectangle(buttonX + p , buttonY + p , buttonWidth - p * 2 , buttonHeight - p * 2, EditorConfig::BorderRadius);
         
         graphics->setColour(borderColor);
-        graphics->drawRoundedRectangle(buttonX + p , buttonY + p , buttonWidth - p * 2 , buttonHeight - p * 2, EditorConfig::borderRadius, EditorConfig::borderWidth);
+        graphics->drawRoundedRectangle(buttonX + p , buttonY + p , buttonWidth - p * 2 , buttonHeight - p * 2, EditorConfig::BorderRadius, EditorConfig::BorderWidth);
     }
     
     void resized() override {
@@ -357,7 +357,7 @@ private:
     float dotSize = 0.15;
     float dotDistanceFromCenter = 0.8;
     
-    juce::Colour knobColor = EditorConfig::Colors::light;
+    juce::Colour knobColor = EditorConfig::Colors::Light;
 
     float degreeToRadians(float degree) {
         return (degree * (M_PI / 180));
@@ -383,19 +383,19 @@ private:
             offsetTop = (height - width) / 2;
         }
         
-        offsetTop += EditorConfig::borderWidth / 2;
-        offsetLeft += EditorConfig::borderWidth / 2;
-        knobSize -= EditorConfig::borderWidth;
+        offsetTop += EditorConfig::BorderWidth / 2;
+        offsetLeft += EditorConfig::BorderWidth / 2;
+        knobSize -= EditorConfig::BorderWidth;
         
         juce::Rectangle<float> area {offsetLeft, offsetTop, knobSize, knobSize};
         g.setColour(knobColor);
-        g.drawEllipse(area, EditorConfig::borderWidth);
+        g.drawEllipse(area, EditorConfig::BorderWidth);
     }
     
     void paintDot(juce::Graphics& g) {
         float calculatedDotSize = knobSize * dotSize;
-        if (calculatedDotSize < EditorConfig::borderWidth * 2) {
-            calculatedDotSize = EditorConfig::borderWidth * 2;
+        if (calculatedDotSize < EditorConfig::BorderWidth * 2) {
+            calculatedDotSize = EditorConfig::BorderWidth * 2;
         }
         
         float radius = ((knobSize - calculatedDotSize) / 2) * dotDistanceFromCenter;
@@ -407,7 +407,7 @@ private:
             calculatedDotSize,
             calculatedDotSize
         };
-        g.setColour(EditorConfig::Colors::light);
+        g.setColour(EditorConfig::Colors::Light);
         g.fillEllipse(dotArea);
     }
 };

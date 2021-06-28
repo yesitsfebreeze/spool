@@ -13,8 +13,8 @@ public:
     void processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) override;
 
     void onWetChanged() override;
-    void onValueOneChanged() override;
-    void onValueTwoChanged() override;
+    void onParamOneChanged() override;
+    void onParamTwoChanged() override;
     
 private:
     juce::dsp::Panner<float> panner;

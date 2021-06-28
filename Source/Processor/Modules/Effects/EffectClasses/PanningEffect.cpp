@@ -18,22 +18,24 @@ void PanningEffect::processBlockBefore(juce::AudioBuffer<float>& buffer, juce::M
     
 };
 
-
-void PanningEffect::onWetChanged() {
-    
-};
-
-void PanningEffect::onValueOneChanged() {
-    
-};
-
-void PanningEffect::onValueTwoChanged() {
-    
-};
-
 void PanningEffect::processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
     if (wet > 0) {
         juce::dsp::AudioBlock<float> block (buffer);
         panner.process(juce::dsp::ProcessContextReplacing<float>(block));
     }
+};
+
+void PanningEffect::onWetChanged() {
+    DBG("wet: " + juce::String(wet));
+    DBG("wetMidi: " + juce::String(wetMidi));
+    DBG("wetReal: " + juce::String(wetReal));
+    DBG("----------------");
+};
+
+void PanningEffect::onParamOneChanged() {
+    
+};
+
+void PanningEffect::onParamTwoChanged() {
+    
 };

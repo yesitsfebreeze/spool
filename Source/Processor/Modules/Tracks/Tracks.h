@@ -14,7 +14,7 @@ public:
     SpoolProcessor* owner;
 
     Tracks(SpoolProcessor* owner) : owner(owner) {
-        for (int track = 0; track < Config::trackCount; track++) {
+        for (int track = 0; track < Config::TrackCount; track++) {
             tracks.add(new Track(this, track));
         }
     }
@@ -34,19 +34,19 @@ public:
     };
     
     void beatCallback(int beat, bool isUpBeat) {
-        for (int track = 0; track < Config::trackCount; track++) {
+        for (int track = 0; track < Config::TrackCount; track++) {
             Track* trk = tracks[track];
             trk->beatCallback(beat, isUpBeat);
         }
     }
     
     bool doForAllTracks(Action action, ActionMode mode = ActionMode::Single) {
-        for (int track = 0; track < Config::trackCount; track++) doForTrack(track, action, mode);
+        for (int track = 0; track < Config::TrackCount; track++) doForTrack(track, action, mode);
         return true;
     }
 
     bool doForSelectedTracks(Action action, ActionMode mode = ActionMode::Single) {
-        for (int track = 0; track < Config::trackCount; track++) doForTrack(track, action, mode, true);
+        for (int track = 0; track < Config::TrackCount; track++) doForTrack(track, action, mode, true);
         return true;
     }
     
@@ -100,7 +100,7 @@ public:
     }
     
     Track* getFirstFreeTrack() {
-        for (int track = 0; track < Config::trackCount; track++) {
+        for (int track = 0; track < Config::TrackCount; track++) {
             Track* trk = tracks[track];
             if (!trk->hasRecords()) {
                 return trk;

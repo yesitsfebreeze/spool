@@ -3,7 +3,7 @@
 #include "../EditorConfig.h"
 
 TracksUI::TracksUI() {
-    for (int i = 0; i < Config::trackCount; ++i) {
+    for (int i = 0; i < Config::TrackCount; ++i) {
         TrackButtonUI* button = new TrackButtonUI(i);
 
         int firstTrackCommandEnum = (int) Cmd::Track1;
@@ -31,7 +31,7 @@ void TracksUI::onSetReferences() {
 void TracksUI::resized() {
     int buttonSize = buttons.size();
     for (int i = 0; i < buttonSize; ++i) {
-        buttons[i]->calculateBounds(getLocalBounds(), i, EditorConfig::trackColumns, EditorConfig::trackRows);
+        buttons[i]->calculateBounds(getLocalBounds(), i, EditorConfig::TrackColumns, EditorConfig::TrackRows);
     }
 }
 
@@ -66,17 +66,17 @@ void TrackButtonUI::getButtonColors() {
     if (isColorForced) return;
 
     if (processor->isEffectMode()) {
-        borderColor = EditorConfig::Colors::blue;
-        fillColor = EditorConfig::Colors::blue;
+        borderColor = EditorConfig::Colors::Blue;
+        fillColor = EditorConfig::Colors::Blue;
     } else if (isRecording) {
-       borderColor = EditorConfig::Colors::red;
-       fillColor = EditorConfig::Colors::red;
+       borderColor = EditorConfig::Colors::Red;
+       fillColor = EditorConfig::Colors::Red;
     } else if (track->isMuted()) {
-        borderColor = EditorConfig::Colors::yellow;
-        fillColor = EditorConfig::Colors::yellow;
+        borderColor = EditorConfig::Colors::Yellow;
+        fillColor = EditorConfig::Colors::Yellow;
     } else if (isPlaying && !hasGroupColor) {
-        borderColor = EditorConfig::Colors::green;
-        fillColor = EditorConfig::Colors::green;
+        borderColor = EditorConfig::Colors::Green;
+        fillColor = EditorConfig::Colors::Green;
     } else {
         if (hasGroupColor) {
             borderColor = groupBorderColor;
@@ -88,7 +88,7 @@ void TrackButtonUI::getButtonColors() {
     }
    
     if (!isDepressed && !isRecording) {
-        fillColor = EditorConfig::Colors::dark;
+        fillColor = EditorConfig::Colors::Dark;
     }
 }
 

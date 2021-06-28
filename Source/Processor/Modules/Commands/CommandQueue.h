@@ -60,7 +60,7 @@ public:
     bool clearedPress = false;
     bool clearedDoublePress = false;
 
-    int debounceTimeout = Config::debounceTimeout;
+    int debounceTimeout = Config::DebounceTimeout;
     int debounceBeats = 1;
     
 };
@@ -226,7 +226,7 @@ private:
     }
     
     void handleCommandState(QueueCommand* command, juce::int64 currentTime) {
-        juce::int64 holdTimeoutTarget = command->triggerTime + Config::holdTimeout;
+        juce::int64 holdTimeoutTarget = command->triggerTime + Config::HoldTimeout;
         
         bool FN = _isFunctionDown || command->cmdID == FNCommandID;
         
@@ -310,7 +310,7 @@ private:
             
             if (command->wasPressed) {
                 if (command->actionType == QueueCommand::ActionType::Press) {
-                    QueueAction* action = new QueueAction(command->cmdID, command->triggerTime + Config::doublePressTimeWindow, command->pressTriggerType, command->onPress, FN);
+                    QueueAction* action = new QueueAction(command->cmdID, command->triggerTime + Config::DoublePressTimeWindow, command->pressTriggerType, command->onPress, FN);
                     queue.push_back(action);
                 }
                 command->wasPressed = false;
@@ -324,7 +324,7 @@ private:
             QueueCommand* command = it->second;
             handleCommandState(command, currentTime);
             
-            juce::int64 inDoublePressTimeoutWindow = currentTime - command->triggerTime >= Config::doublePressTimeWindow;
+            juce::int64 inDoublePressTimeoutWindow = currentTime - command->triggerTime >= Config::DoublePressTimeWindow;
             if (!command->isPressed && inDoublePressTimeoutWindow && command->pressCounter > 0) {
                 command->pressCounter--;
             }

@@ -24,7 +24,7 @@ void ControlGroupUI::addVolumeKnob() {
     };
         
     volumeKnob->onValueChange = [this] (bool increase) {
-        float value = Parameters::getTrackEffectParam(0,1, Config::Parameters::Wet);
+        float value = Parameters::getTrackEffectParam(0, 0, Config::Parameters::Wet);
         if (increase) value += Config::ParamChangePerStep;
         if (!increase) value -= Config::ParamChangePerStep;
         Parameters::setTrackEffectParam(0, 0, Config::Parameters::Wet, value);
@@ -56,7 +56,7 @@ void ControlGroupUI::addParamTwoKnob() {
     };
 
     paramTwoKnob->onValueChange = [this] (bool increase) {
-        float value = Parameters::getTrackEffectParam(0,1, Config::Parameters::ParamOne);
+        float value = Parameters::getTrackEffectParam(0, 0, Config::Parameters::ParamOne);
         if (increase) value += Config::ParamChangePerStep;
         if (!increase) value -= Config::ParamChangePerStep;
         Parameters::setTrackEffectParam(0, 0, Config::Parameters::ParamOne, value);
@@ -87,7 +87,7 @@ void ControlGroupUI::addParamOneKnob() {
     };
 
     paramOneKnob->onValueChange = [this] (bool increase) {
-        float value = Parameters::getTrackEffectParam(0,1, Config::Parameters::ParamTwo);
+        float value = Parameters::getTrackEffectParam(0, 0, Config::Parameters::ParamTwo);
         if (increase) value += Config::ParamChangePerStep;
         if (!increase) value -= Config::ParamChangePerStep;
         Parameters::setTrackEffectParam(0, 0, Config::Parameters::ParamTwo, value);

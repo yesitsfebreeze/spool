@@ -20,11 +20,12 @@ namespace Config {
     const int FNResetDelay = 100; // ms
     const int TrackResetDelay = 150; // ms
     const int RecordLengthDebounceTime = 1000; // ms
-
+    
 
     const double MaxParamValue = 255;
     const double MinParamValue = 0;
-    const int KnobSensitivity = 20;
+    const int KnobSensitivity = 360 / 36;
+    const double ParamChangePerStep = MaxParamValue / 360 * KnobSensitivity;
 
     namespace Command {
         enum ID {

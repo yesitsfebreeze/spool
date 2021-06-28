@@ -242,12 +242,9 @@ public:
         knobColor = color;
     }
     
-    void setRotationPerStep(float rotationInDeg) {
-        rotationPerStep = degreeToRadians(rotationInDeg);
-    }
-    
     void setSensitivity(int sens) {
         sensitivity = sens;
+        rotationPerStep = degreeToRadians(sens);
     }
     
     void setDotSize(float size) {

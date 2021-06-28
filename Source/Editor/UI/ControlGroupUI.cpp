@@ -13,12 +13,12 @@ void ControlGroupUI::initializeKnobs() {
 void ControlGroupUI::addVolumeKnob() {
     UIKnobComponent* volumeKnob = knobs.add(new UIKnobComponent());
     volumeKnob->setSensitivity(Config::KnobSensitivity);
-    volumeKnob->setRotationPerStep(360 / Config::KnobSensitivity);
+
     volumeKnob->onValueChange = [this] (bool increase) {
 
         float value = Parameters::getTrackEffectParam(0,1, Config::Parameters::Wet);
-        if (increase) value += 1;
-        if (!increase) value -= 1;
+        if (increase) value += Config::ParamChangePerStep;
+        if (!increase) value -= Config::ParamChangePerStep;
 //        Parameters::setParam(Config::Parameters::Volume, value);
         Parameters::setTrackEffectParam(0, 1, Config::Parameters::Wet, value);
         
@@ -44,7 +44,6 @@ void ControlGroupUI::addVolumeKnob() {
 void ControlGroupUI::addParamTwoKnob() {
     UIKnobComponent* paramTwoKnob = knobs.add(new UIKnobComponent());
     paramTwoKnob->setSensitivity(Config::KnobSensitivity);
-    paramTwoKnob->setRotationPerStep(360 / Config::KnobSensitivity);
     paramTwoKnob->onValueChange = [this] (bool increase) {
 //        app->setRecordLength(increase, recordIncrease);
     };
@@ -68,7 +67,6 @@ void ControlGroupUI::addParamTwoKnob() {
 void ControlGroupUI::addParamOneKnob() {
     UIKnobComponent* paramOneKnob = knobs.add(new UIKnobComponent());
     paramOneKnob->setSensitivity(Config::KnobSensitivity);
-    paramOneKnob->setRotationPerStep(360 / Config::KnobSensitivity);
     paramOneKnob->onValueChange = [this] (bool increase) {
 //        app->setRecordLength(increase, recordIncrease);
     };
@@ -92,7 +90,6 @@ void ControlGroupUI::addParamOneKnob() {
 void ControlGroupUI::addDryWetKnob() {
     UIKnobComponent* dryWetKnob = knobs.add(new UIKnobComponent());
     dryWetKnob->setSensitivity(Config::KnobSensitivity);
-    dryWetKnob->setRotationPerStep(360 / Config::KnobSensitivity);
     dryWetKnob->onValueChange = [this] (bool increase) {
 //        app->setRecordLength(increase, recordIncrease);
     };

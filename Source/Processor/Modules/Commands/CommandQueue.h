@@ -190,9 +190,11 @@ public:
     };
     
     
-    bool triggerCommand(Config::Command::ID commandID, bool isPressed) {
+    bool triggerCommand(Config::Command::ID commandID, bool isPressed, bool isLatching = false) {
         try {
-            executeForCommandsWithID(commandID, [this, isPressed] (QueueCommand* command) {
+            executeForCommandsWithID(commandID, [this, &isPressed, &isLatching] (QueueCommand* command) {
+                if (command->isPressed && isLatching) isPressed = false;
+                
                 if (isPressed && !command->isPressed) {
                     command->isPressed = true;
                     command->triggerTime = currentTime;

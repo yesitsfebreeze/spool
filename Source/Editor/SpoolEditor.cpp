@@ -45,16 +45,17 @@ void SpoolEditor::getCommandInfo (juce::CommandID commandID, juce::ApplicationCo
 }
 
 bool SpoolEditor::perform (const InvocationInfo& info) {
-    bool executed = audioProcessor.commandQueue.triggerCommand((Config::Command::ID) info.commandID, info.isKeyDown);
-    if (!executed) {
-        DBG("Not implemented yet");
-    }
+
+    bool isLatching = commandInfo->commandFlags == CommandDefinitions::CustomCommandFlags::isLatching;
+    bool executed = audioProcessor.commandQueue.triggerCommand((Config::Command::ID) info.commandID, info.isKeyDown, isLatching);
+    if (!executed) DBG("Command is not implemented yet");
     return true;
 }
 
-void SpoolEditor::executeCommand(Config::Command::ID commandID, bool isKeyDown) {
+void SpoolEditor::executeCommand(Config::Command::ID commandID, bool isKeyDown, bool isLatching) {
     commandInfo.reset(new InvocationInfo(commandID));
     commandInfo->isKeyDown = isKeyDown;
+    if (isLatching) commandInfo->commandFlags = CommandDefinitions::CustomCommandFlags::isLatching;
     commandManager.invoke(*commandInfo, false);
     commandInfo.reset();
 }

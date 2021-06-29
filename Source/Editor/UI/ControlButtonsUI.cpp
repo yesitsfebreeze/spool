@@ -10,7 +10,7 @@ ControlButtonsUI::ControlButtonsUI() {
     functionButton->onPress = [this] () { editor->executeCommand(Config::Command::ID::Function, true); };
     functionButton->onRelease = [this] () { editor->executeCommand(Config::Command::ID::Function, false); };
     // right click latch
-    functionButton->onAlternatePress = [this] () { editor->executeCommand(Config::Command::ID::Function, true); };
+    functionButton->onAlternatePress = [this] () { editor->executeCommand(Config::Command::ID::Function, true, true); };
     addAndMakeVisible(functionButton);
     
     // mute button

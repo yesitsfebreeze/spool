@@ -4,8 +4,12 @@
 #include "../Editor/EditorConfig.h"
 
 class CommandDefinitions {
-
 public:
+
+    enum CustomCommandFlags {
+        isLatching                  = 1 << 6,
+    };
+    
     void getAllCommands (juce::Array<juce::CommandID>& commands)
     {
         juce::Array<juce::CommandID> ids {

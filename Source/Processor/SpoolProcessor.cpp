@@ -117,8 +117,8 @@ void SpoolProcessor::prepareToPlay (double sampleRate, int samplesPerBlock) {
     processSpec.maximumBlockSize = samplesPerBlock;
     processSpec.numChannels = getTotalNumOutputChannels();
     
-    sequencer->prepareToPlay(samplesPerBlock, sampleRate);
-    tracks->prepareToPlay(samplesPerBlock, sampleRate);
+    sequencer->prepareToPlay(sampleRate, samplesPerBlock);
+    tracks->prepareToPlay(sampleRate, samplesPerBlock);
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
 }

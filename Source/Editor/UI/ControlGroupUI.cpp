@@ -67,10 +67,10 @@ void ControlGroupUI::addParamTwoKnob() {
     };
 
     paramTwoKnob->onValueChange = [this] (bool increase) {
-        float value = Parameters::getTrackEffectParam(0, 0, Config::Parameters::ParamOne);
+        float value = Parameters::getTrackEffectParam(0, 0, Config::Parameters::ParamTwo);
         if (increase) value += Config::ParamChangePerStep;
         if (!increase) value -= Config::ParamChangePerStep;
-        Parameters::setTrackEffectParam(0, 0, Config::Parameters::ParamOne, value);
+        Parameters::setTrackEffectParam(0, 0, Config::Parameters::ParamTwo, value);
     };
     paramTwoKnob->onPress = [this] () {
 //        app->addSelectedTracksToGroup(index);
@@ -98,10 +98,10 @@ void ControlGroupUI::addParamOneKnob() {
     };
 
     paramOneKnob->onValueChange = [this] (bool increase) {
-        float value = Parameters::getTrackEffectParam(0, 0, Config::Parameters::ParamTwo);
+        float value = Parameters::getTrackEffectParam(0, 0, Config::Parameters::ParamOne);
         if (increase) value += Config::ParamChangePerStep;
         if (!increase) value -= Config::ParamChangePerStep;
-        Parameters::setTrackEffectParam(0, 0, Config::Parameters::ParamTwo, value);
+        Parameters::setTrackEffectParam(0, 0, Config::Parameters::ParamOne, value);
     };
 
     paramOneKnob->onPress = [this] () {

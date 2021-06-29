@@ -127,9 +127,10 @@ void SpoolProcessor::prepareToPlay (double sampleRate, int samplesPerBlock) {
 void SpoolProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
     juce::ScopedNoDenormals noDenormals;
 
-    sequencer->getNextAudioBlock(buffer);
+    sequencer->processBlockBefore(buffer, midiMessages);
     tracks->processBlockBefore(buffer, midiMessages);
     buffer.clear();
+    sequencer->processBlockAfter(buffer, midiMessages);
     tracks->processBlockAfter(buffer, midiMessages);
 }
 

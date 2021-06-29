@@ -4,11 +4,11 @@ void Sequencer::update() {
     interval = (60.f / bpm * sampleRate);
 }
 
-void Sequencer::prepareToPlay(int samplesPerBlockExpected, double rate) {
-    sampleRate = rate;
+void Sequencer::prepareToPlay(double sampleRate, int samplesPerBlock) {
+    this->sampleRate = sampleRate;
 }
 
-void Sequencer::getNextAudioBlock(juce::AudioBuffer<float>& buffer) {
+void Sequencer::processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
     if (interval == 0) return;
     isRunning = true;
     
@@ -25,6 +25,11 @@ void Sequencer::getNextAudioBlock(juce::AudioBuffer<float>& buffer) {
     
     totalSamples += bufferSize;
 }
+
+void Sequencer::processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
+
+}
+
 
 void Sequencer::stop() {
     totalSamples = 0;

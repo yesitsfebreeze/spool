@@ -19,8 +19,9 @@ public:
     double getBpm() {
         return bpm;
     };
-    void prepareToPlay(int samplesPerBlockExpected, double sampleRate);
-    void getNextAudioBlock(juce::AudioBuffer<float>& buffer);
+    void prepareToPlay(double sampleRate, int samplesPerBlock);
+    void processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages);
+    void processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages);
     void stop();
     void pause();
     

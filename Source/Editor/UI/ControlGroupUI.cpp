@@ -9,9 +9,20 @@ void ControlGroupUI::initializeKnobs() {
 }
 
 void ControlGroupUI::addToGroup() {
-    if (index == 0) processor->tracks->doForSelectedTracks(TrackAction::AddToGroupOne);
-    if (index == 1) processor->tracks->doForSelectedTracks(TrackAction::AddToGroupTwo);
-    processor->tracks->doForAllTracks(TrackAction::Select, TrackActionMode::Off);
+    if (index == 0) {
+        processor->tracks->doForSelectedTracks(Track::Action::AddToGroupOne);
+        processor->tracks->doForAllTracks(Track::Action::RemoveEffectGroupOne);
+        processor->tracks->doForSelectedTracks(Track::Action::AddEffectToGroupOne);
+    }
+    
+    if (index == 1) {
+        processor->tracks->doForSelectedTracks(Track::Action::AddToGroupTwo);
+        processor->tracks->doForAllTracks(Track::Action::RemoveEffectGroupTwo);
+        processor->tracks->doForSelectedTracks(Track::Action::AddEffectToGroupTwo);
+    }
+
+    processor->tracks->doForAllTracks(Track::Action::Select, Track::ActionMode::Off);
+    processor->tracks->doForAllTracks(Track::Action::SelectEffect, Track::ActionMode::Off);
 }
 
 

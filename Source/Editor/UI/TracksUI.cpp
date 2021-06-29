@@ -46,14 +46,23 @@ void TrackButtonUI::removeForcedColor() {
 }
 
 void TrackButtonUI::getButtonColors() {
+    if (isColorForced) return;
+    
+    if (processor->isEffectMode()) {
+        isDepressed =  track->isPressed() || track->isEffectSelected();
+
+        borderColor = EditorConfig::Colors::Blue;
+        fillColor = EditorConfig::Colors::Dark;
+        if (isDepressed) {
+            fillColor = EditorConfig::Colors::Blue;
+        }
+        
+        return;
+    }
+
     isDepressed = track->isPressed() || track->isSelected();
 
-    if (isColorForced) return;
-
-    if (processor->isEffectMode()) {
-        borderColor = EditorConfig::Colors::Blue;
-        fillColor = EditorConfig::Colors::Blue;
-    } else if (isRecording) {
+    if (isRecording) {
        borderColor = EditorConfig::Colors::Red;
        fillColor = EditorConfig::Colors::Red;
     } else if (track->isMuted()) {
@@ -71,13 +80,12 @@ void TrackButtonUI::getButtonColors() {
                 borderColor = EditorConfig::Colors::GroupColorTwo;
                 fillColor = EditorConfig::Colors::GroupColorTwo;
             }
-            
         } else {
             borderColor = originalBorderColor;
             fillColor = originalFillColor;
         }
     }
-   
+
     if (!isDepressed && !isRecording) {
         fillColor = EditorConfig::Colors::Dark;
     }

@@ -15,6 +15,7 @@ public:
 
     enum Action {
         Select,
+        SelectEffect,
         Mute,
         Cue,
         Play,
@@ -25,7 +26,11 @@ public:
         Clear,
         AddToGroupOne,
         AddToGroupTwo,
+        AddEffectToGroupOne,
+        AddEffectToGroupTwo,
         RemoveGroup,
+        RemoveEffectGroupOne,
+        RemoveEffectGroupTwo,
     };
 
     enum ActionMode {
@@ -59,6 +64,9 @@ public:
             case Action::Select:
                 select(mode);
                 break;
+            case Action::SelectEffect:
+                select(mode);
+                break;
             case Action::Mute:
                 mute(mode);
                 break;
@@ -86,11 +94,23 @@ public:
             case Action::AddToGroupOne:
                 _group = 0;
                 break;
+            case Action::AddEffectToGroupOne:
+                _effectGroup[0] = true;
+                break;
             case  Action::AddToGroupTwo:
                 _group = 1;
                 break;
+            case Action::AddEffectToGroupTwo:
+                _effectGroup[1] = true;
+                break;
             case Action::RemoveGroup:
                 _group = -1;
+                break;
+            case Action::RemoveEffectGroupOne:
+                _effectGroup[0] = false;
+                break;
+            case Action::RemoveEffectGroupTwo:
+                _effectGroup[1] = false;
                 break;
             default:
                 break;
@@ -130,6 +150,10 @@ public:
     // flags
     bool isSelected() {
         return _isSelected;
+    }
+    
+    bool isEffectSelected() {
+        return _isEffectSelected;
     }
 
     bool setPressed(bool state) {
@@ -182,6 +206,7 @@ private:
     
     int trackIndex = -1;
     int _group = -1;
+    bool _effectGroup[2] = {false, false};
 
     bool _isPressed = false;
     bool _isPlaying = false;
@@ -189,6 +214,7 @@ private:
     bool _isMuted = false;
     bool _isCueued = false;
     bool _isSelected = false;
+    bool _isEffectSelected = false;
     bool _wantsToRecord = false;
     bool _isRecording = false;
     bool _hasRecords = false;

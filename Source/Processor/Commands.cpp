@@ -151,7 +151,7 @@ void Commands::registerTrackCommandActions() {
         // TRACK Press
         owner->commandQueue.registerCommandAction(trackCmd, Type::Press, TriggerType::Instant, [this, track] (bool FN) {
             if (!FN) owner->tracks->doForTrack(track, TrackAction::Select, TrackActionMode::Toggle);
-//            if (FN)  owner->effects.doForTrack(track, Effects::Type::Select, Effects::Action::Toggle);
+            if (FN) owner->tracks->doForTrack(track, TrackAction::SelectEffect, TrackActionMode::Toggle);
         });
         
         // TRACK Double Press
@@ -168,10 +168,10 @@ void Commands::registerTrackCommandActions() {
         
         // TRACK Double Hold
         owner->commandQueue.registerCommandAction(trackCmd, Type::DoubleHold, TriggerType::Instant, [this, track] (bool FN) {
-            if (owner->tracks->hasOverdubLayer()) {
-                owner->tracks->unsetOverdubLayer();
+            if (owner->tracks->hasSampleLayer()) {
+                owner->tracks->unsetSampleLayer();
             } else {
-                owner->tracks->setOverdubLayer(track);
+                owner->tracks->setSampleLayer(track);
             }
         });
 

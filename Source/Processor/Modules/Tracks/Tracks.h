@@ -79,21 +79,21 @@ public:
         return tracks[index];
     }
     
-    int setOverdubLayer(int index) {
-        overdubLayer = index;
-        return overdubLayer;
+    int setSampleLayer(int index) {
+        sampleLayer = index;
+        return sampleLayer;
     };
     
-    int getOverdubLayer() {
-        return overdubLayer;
+    int getSampleLayer() {
+        return sampleLayer;
     };
     
-    void unsetOverdubLayer() {
-        overdubLayer = -1;
+    void unsetSampleLayer() {
+        sampleLayer = -1;
     };
     
-    bool hasOverdubLayer() {
-        return overdubLayer != -1;
+    bool hasSampleLayer() {
+        return sampleLayer != -1;
     };
     
     int setLastSelectedTrackIndex(int index) {
@@ -120,15 +120,6 @@ public:
         return tracks;
     }
 
-//    juce::OwnedArray<Track> getSelectedTracks() {
-//        for (int track = 0; track < Config::TrackCount; track++) {
-//            Track* trk = tracks[track];
-//            if (!trk->hasRecords()) {
-//                return trk;
-//            }
-//        }
-//    }
-    
     void addSelectedTrack(int trackIndex) {
         selectedTracks[trackIndex] = true;
     }
@@ -139,7 +130,7 @@ public:
     
  
 private:
-    int overdubLayer = -1;
+    int sampleLayer = -1;
     int lastSelectedTrackIndex = -1;
     juce::OwnedArray<Track> tracks;
     bool selectedTracks[];

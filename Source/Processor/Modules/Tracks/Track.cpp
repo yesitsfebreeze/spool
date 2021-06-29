@@ -56,8 +56,14 @@ void Track::beatCallback(int beat, bool isUpBeat) {
 }
 
 void Track::select(ActionMode mode) {
-    bool value = getValueBasedOnMode(_isSelected, mode);
+    if (owner->owner->isEffectMode()) {
+        bool value = getValueBasedOnMode(_isEffectSelected, mode);
+        _isEffectSelected = value;
+        return;
+    }
     
+    
+    bool value = getValueBasedOnMode(_isSelected, mode);
     _isSelected = value;
     if (value == true) {
         owner->setLastSelectedTrackIndex(trackIndex);
@@ -73,8 +79,8 @@ void Track::mute(ActionMode mode) {
     bool value = getValueBasedOnMode(_isMuted, mode);
     _isMuted = value;
 
-    if (owner->hasOverdubLayer()) {
-        sampleHolders[owner->getOverdubLayer()]->mute(_isMuted);
+    if (owner->hasSampleLayer()) {
+        sampleHolders[owner->getSampleLayer()]->mute(_isMuted);
     } else {
         for (SampleHolder* sampleHolder : sampleHolders) sampleHolder->mute(_isMuted);
     }
@@ -96,8 +102,8 @@ void Track::play(ActionMode mode) {
     bool value = getValueBasedOnMode(_isPlaying, mode);
     _isPlaying = value;
     
-    if (owner->hasOverdubLayer()) {
-        sampleHolders[owner->getOverdubLayer()]->play(_isPlaying);
+    if (owner->hasSampleLayer()) {
+        sampleHolders[owner->getSampleLayer()]->play(_isPlaying);
     } else {
         for (SampleHolder* sampleHolder : sampleHolders) sampleHolder->play(_isPlaying);
     }
@@ -107,8 +113,8 @@ void Track::stop(ActionMode mode) {
     bool value = getValueBasedOnMode(_isStopped, mode);
     _isStopped = value;
     
-    if (owner->hasOverdubLayer()) {
-        sampleHolders[owner->getOverdubLayer()]->stop(_isStopped);
+    if (owner->hasSampleLayer()) {
+        sampleHolders[owner->getSampleLayer()]->stop(_isStopped);
     } else {
         for (SampleHolder* sampleHolder : sampleHolders) sampleHolder->stop(_isStopped);
     }
@@ -142,8 +148,8 @@ void Track::cancelRecord() {
 };
 
 void Track::clear() {
-    if (owner->hasOverdubLayer()) {
-        sampleHolders[owner->getOverdubLayer()]->clear();
+    if (owner->hasSampleLayer()) {
+        sampleHolders[owner->getSampleLayer()]->clear();
     } else {
         for (SampleHolder* sampleHolder : sampleHolders) sampleHolder->clear();
     }

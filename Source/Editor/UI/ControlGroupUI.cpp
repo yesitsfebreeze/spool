@@ -36,11 +36,11 @@ void ControlGroupUI::addVolumeKnob() {
     volumeKnob->onRelease = [this] () {
 //        app->onRecordLengthRelease();
     };
-    volumeKnob->onPressAlternate = [this] () {
-        DBG("onPressAlternate");
+    volumeKnob->onAlternatePress = [this] () {
+        DBG("onAlternatePress");
     };
-    volumeKnob->onReleaseAlternate = [this] () {
-        DBG("onReleaseAlternate");
+    volumeKnob->onAlternateRelease = [this] () {
+        DBG("onAlternateRelease");
     };
     volumeKnob->setColor(EditorConfig::Colors::Green);
     addAndMakeVisible(volumeKnob);
@@ -67,11 +67,11 @@ void ControlGroupUI::addParamTwoKnob() {
     paramTwoKnob->onRelease = [this] () {
 //        app->onRecordLengthRelease();
     };
-    paramTwoKnob->onPressAlternate = [this] () {
-        DBG("onPressAlternate");
+    paramTwoKnob->onAlternatePress = [this] () {
+        DBG("onAlternatePress");
     };
-    paramTwoKnob->onReleaseAlternate = [this] () {
-        DBG("onReleaseAlternate");
+    paramTwoKnob->onAlternateRelease = [this] () {
+        DBG("onAlternateRelease");
     };
     paramTwoKnob->setColor(groupColor);
     addAndMakeVisible(paramTwoKnob);
@@ -99,11 +99,11 @@ void ControlGroupUI::addParamOneKnob() {
     paramOneKnob->onRelease = [this] () {
 //        app->onRecordLengthRelease();
     };
-    paramOneKnob->onPressAlternate = [this] () {
-        DBG("onPressAlternate");
+    paramOneKnob->onAlternatePress = [this] () {
+        DBG("onAlternatePress");
     };
-    paramOneKnob->onReleaseAlternate = [this] () {
-        DBG("onReleaseAlternate");
+    paramOneKnob->onAlternateRelease = [this] () {
+        DBG("onAlternateRelease");
     };
     paramOneKnob->setColor(groupColor);
     addAndMakeVisible(paramOneKnob);
@@ -127,11 +127,11 @@ void ControlGroupUI::addDryWetKnob() {
     dryWetKnob->onRelease = [this] () {
 //        app->onRecordLengthRelease();
     };
-    dryWetKnob->onPressAlternate = [this] () {
-        DBG("onPressAlternate");
+    dryWetKnob->onAlternatePress = [this] () {
+        DBG("onAlternatePress");
     };
-    dryWetKnob->onReleaseAlternate = [this] () {
-        DBG("onReleaseAlternate");
+    dryWetKnob->onAlternateRelease = [this] () {
+        DBG("onAlternateRelease");
     };
     dryWetKnob->setColor(groupColor);
     addAndMakeVisible(dryWetKnob);

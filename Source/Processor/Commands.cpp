@@ -9,8 +9,14 @@ void Commands::registerFunctionCommandActions() {
     
     // FUNCTION Instant Press
     owner->commandQueue.registerCommandAction(Cmd::Function, Type::InstantPress, TriggerType::Instant, [this] (bool FN) {
-        owner->isFunctionDown = true;
-        owner->setEffectMode(true);
+        DBG("test");
+        if (owner->isFunctionDown) {
+            owner->isFunctionDown = false;
+            owner->setEffectMode(false);
+        } else {
+            owner->isFunctionDown = true;
+            owner->setEffectMode(true);
+        }
     });
     
     // FUNCTION Release

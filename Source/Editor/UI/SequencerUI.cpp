@@ -12,12 +12,12 @@ SequencerUI::~SequencerUI() {
 
 
 void SequencerUI::paint(juce::Graphics& g) {
-    g.fillAll(EditorConfig::Colors::dark);
+    g.fillAll(EditorConfig::Colors::Dark);
     juce::Rectangle<float> bounds = getLocalBounds().toFloat();
     
     int w = bounds.getWidth();
     int h = bounds.getHeight();
-    int dotSize = (w / 2) * EditorConfig::dotSize;
+    int dotSize = (w / 2) * EditorConfig::DotSize;
     
     float factor = (float)w/float(h);
     
@@ -47,8 +47,8 @@ void SequencerUI::paint(juce::Graphics& g) {
         if (dot == 2) pos.setXY(right, bottom);
         if (dot == 3) pos.setXY(left, bottom);
         
-        juce::Colour inactiveColor = EditorConfig::Colors::mid;
-        juce::Colour activeColor = EditorConfig::Colors::red;
+        juce::Colour inactiveColor = EditorConfig::Colors::Mid;
+        juce::Colour activeColor = EditorConfig::Colors::Red;
 
         if (!isRunning) {
             g.setColour(inactiveColor);

@@ -3,7 +3,7 @@
 #include <JuceHeader.h>
 #include "Base/UIComponents.h"
 
-class ControlButtonsUI : public AnimatedUIComponent {
+class ControlButtonsUI : public UIComponentAnimated {
     
 public:
     ControlButtonsUI();

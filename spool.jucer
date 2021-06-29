@@ -7,9 +7,18 @@
       <GROUP id="{54C22E89-3C49-94F6-2643-CCCA1D5C70A0}" name="Editor">
         <GROUP id="{248EA9BB-0DE2-8464-DA09-89939D7CF616}" name="UI">
           <GROUP id="{7314DDE8-3D63-76BC-33F4-720EE8ECAB3F}" name="Base">
+            <GROUP id="{D48B4D14-8CA0-A537-2ED9-27B8AA874691}" name="Components">
+              <FILE id="e8YdYf" name="UIComponent.h" compile="0" resource="0" file="Source/Editor/UI/Base/Components/UIComponent.h"/>
+              <FILE id="T82JVg" name="UIComponentAnimated.h" compile="0" resource="0"
+                    file="Source/Editor/UI/Base/Components/UIComponentAnimated.h"/>
+              <FILE id="QblPTZ" name="UIButtonComponent.h" compile="0" resource="0"
+                    file="Source/Editor/UI/Base/Components/UIButtonComponent.h"/>
+              <FILE id="Y0MgIf" name="UIKnobComponent.h" compile="0" resource="0"
+                    file="Source/Editor/UI/Base/Components/UIKnobComponent.h"/>
+            </GROUP>
             <FILE id="u1azCt" name="UI.cpp" compile="1" resource="0" file="Source/Editor/UI/Base/UI.cpp"/>
             <FILE id="AIsq3P" name="UI.h" compile="0" resource="0" file="Source/Editor/UI/Base/UI.h"/>
-            <FILE id="aSRHxg" name="UIComponents.h" compile="0" resource="0" file="Source/Editor/UI/Base/UIComponents.h"/>
+            <FILE id="raH5yR" name="UIComponents.h" compile="0" resource="0" file="Source/Editor/UI/Base/UIComponents.h"/>
           </GROUP>
           <FILE id="QRrUyF" name="ControlButtonsUI.cpp" compile="1" resource="0"
                 file="Source/Editor/UI/ControlButtonsUI.cpp"/>

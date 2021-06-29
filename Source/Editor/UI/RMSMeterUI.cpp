@@ -10,22 +10,22 @@ RMSMeterUI::~RMSMeterUI() {
 }
 
 void RMSMeterUI::paint(juce::Graphics& g) {
-    g.fillAll(EditorConfig::Colors::dark);
+    g.fillAll(EditorConfig::Colors::Dark);
     juce::Rectangle<float> bounds = getLocalBounds().toFloat();
     
     int w = bounds.getWidth();
     int h = bounds.getHeight();
-    int dotSize = w / 2 * EditorConfig::dotSize;
+    int dotSize = w / 2 * EditorConfig::DotSize;
     int offsetX = (w - dotSize) / 2;
     int spacing = (h - (dotSize * 4)) / 3;
     
     
     
     for (auto peak = 0; peak < 4; peak++) {
-        if (peak == 0) g.setColour(EditorConfig::Colors::peakFour);
-        if (peak == 1) g.setColour(EditorConfig::Colors::peakThree);
-        if (peak == 2) g.setColour(EditorConfig::Colors::peakTwo);
-        if (peak == 3) g.setColour(EditorConfig::Colors::peakOne);
+        if (peak == 0) g.setColour(EditorConfig::Colors::PeakFour);
+        if (peak == 1) g.setColour(EditorConfig::Colors::PeakThree);
+        if (peak == 2) g.setColour(EditorConfig::Colors::PeakTwo);
+        if (peak == 3) g.setColour(EditorConfig::Colors::PeakOne);
 
 
         if (peak == 0) {

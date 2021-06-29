@@ -4,7 +4,7 @@
 #include "../../Config.h"
 #include "Base/UIComponents.h"
 
-class RMSMeterUI : public AnimatedUIComponent {
+class RMSMeterUI : public UIComponentAnimated {
     
 public:
     RMSMeterUI();

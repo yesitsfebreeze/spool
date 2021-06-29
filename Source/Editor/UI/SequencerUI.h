@@ -4,7 +4,7 @@
 #include "../../Config.h"
 #include "Base/UIComponents.h"
 
-class SequencerUI : public AnimatedUIComponent {
+class SequencerUI : public UIComponentAnimated {
     
 public:
     SequencerUI();

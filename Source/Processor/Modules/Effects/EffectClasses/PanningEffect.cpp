@@ -2,7 +2,7 @@
 #include "../../../SpoolProcessor.h"
 
 
-PanningEffect::PanningEffect(SpoolProcessor* processor, int index, int track, int sample) : BaseEffect{ processor, index, track, sample } {
+PanningEffect::PanningEffect(SpoolProcessor* processor, int index, int track, int sample) : Effect{ processor, index, track, sample } {
 }
 
 PanningEffect::~PanningEffect() {

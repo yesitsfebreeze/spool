@@ -1,6 +1,6 @@
 #pragma once
 #include <JuceHeader.h>
-#include "BaseEffect.h"
+#include "Effect.h"
 
 class SpoolProcessor;
 
@@ -10,7 +10,7 @@ public:
     int track = -1;
     int sample = -1;
 
-    juce::OwnedArray<BaseEffect> effects;
+    juce::OwnedArray<Effect> effects;
 
     Effects(SpoolProcessor* processor, int track, int sample = -1);
     ~Effects();

@@ -50,6 +50,10 @@ public:
         this->owner = owner;
     }
     
+    int getIndex() {
+        return trackIndex;
+    }
+    
     
     void valueTreePropertyChanged(juce::ValueTree& tree, const juce::Identifier& param) override;
 
@@ -144,6 +148,10 @@ public:
     
     int getGroup() {
         return _group;
+    }
+    
+    int isInEffectGroup(int group) {
+        return _effectGroup[group];
     }
     
     

@@ -65,12 +65,7 @@ void Track::select(ActionMode mode) {
     
     bool value = getValueBasedOnMode(_isSelected, mode);
     _isSelected = value;
-    if (value == true) {
-        owner->setLastSelectedTrackIndex(trackIndex);
-        owner->addSelectedTrack(trackIndex);
-    } else {
-        owner->removeSelectedTrack(trackIndex);
-    };
+    if (value == true) owner->setLastSelectedTrackIndex(trackIndex);
     
     setLastSelectedTrackIndex();
 };

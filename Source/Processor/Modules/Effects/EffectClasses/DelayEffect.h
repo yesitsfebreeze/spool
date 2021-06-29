@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../BaseEffect.h"
+#include "../Effect.h"
 
 class SpoolProcessor;
 
-class DelayEffect : public BaseEffect {
+class DelayEffect : public Effect {
 public:
     DelayEffect(SpoolProcessor* processor, int index, int track, int sample = -1);
     ~DelayEffect();

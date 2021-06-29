@@ -12,24 +12,24 @@ void Effect::getParamValues(juce::ValueTree& tree, const juce::Identifier& param
     
     if (sample == -1) {
         if (!Parameters::isTrackEffect(tree, track, index)) return;
-        wetReal = Parameters::getTrackEffectParam(track, index, Config::Parameters::Wet);
-        paramOneReal = Parameters::getTrackEffectParam(track, index, Config::Parameters::ParamOne);
-        paramTwoReal = Parameters::getTrackEffectParam(track, index, Config::Parameters::ParamTwo);
+        wetReal.set(Parameters::getTrackEffectParam(track, index, Config::Parameters::Wet));
+        paramOneReal.set(Parameters::getTrackEffectParam(track, index, Config::Parameters::ParamOne));
+        paramTwoReal.set(Parameters::getTrackEffectParam(track, index, Config::Parameters::ParamTwo));
     } else {
         if (!Parameters::isTrackSampleEffect(tree, track, sample, index)) return;
-        wetReal = Parameters::getTrackSampleEffectParam(track, sample, index, Config::Parameters::Wet);
-        paramOneReal = Parameters::getTrackSampleEffectParam(track, sample, index, Config::Parameters::ParamOne);
-        paramTwoReal = Parameters::getTrackSampleEffectParam(track, sample, index, Config::Parameters::ParamTwo);
+        wetReal.set(Parameters::getTrackSampleEffectParam(track, sample, index, Config::Parameters::Wet));
+        paramOneReal.set(Parameters::getTrackSampleEffectParam(track, sample, index, Config::Parameters::ParamOne));
+        paramTwoReal.set(Parameters::getTrackSampleEffectParam(track, sample, index, Config::Parameters::ParamTwo));
     }
     
-    wetMidi = clampValue(wetReal);
-    wet = wetMidi / Config::MaxParamValue;
+    wetMidi.set(clampValue(wetReal.get()));
+    wet.set(wetMidi.get() / Config::MaxParamValue);
     
-    paramOneMidi = clampValue(paramOneReal);
-    paramOne = paramOneMidi / Config::MaxParamValue;
+    paramOneMidi.set(clampValue(paramOneReal.get()));
+    paramOne.set(paramOneMidi.get() / Config::MaxParamValue);
 
-    paramTwoMidi = clampValue(paramTwoReal);
-    paramTwo = paramTwoMidi / Config::MaxParamValue;
+    paramTwoMidi.set(clampValue(paramTwoReal.get()));
+    paramTwo.set(paramTwoMidi.get() / Config::MaxParamValue);
     
     if (param.isNull()) return;
     juce::String paramName = param.toString();

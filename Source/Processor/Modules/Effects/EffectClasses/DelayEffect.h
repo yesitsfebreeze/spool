@@ -9,20 +9,17 @@ public:
     DelayEffect(SpoolProcessor* processor, int index, int track, int sample = -1);
     ~DelayEffect();
     void prepareToPlay(double sampleRate, int samplesPerBlock) override;
-    void processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) override;
     void processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) override;
 
-    void onWetChanged();
-    void onParamOneChanged();
-    void onParamTwoChanged();
+    void onParamOneChanged() override;
 
 private:
-    double mSampleRate = 48000;
-    juce::dsp::DelayLine<float, juce::dsp::DelayLineInterpolationTypes::Linear> delayLine;
+    double sampleRate = -1;
     
-    juce::Atomic<float> wetMix      { 0.f };
-    juce::Atomic<float> delayTime   { 24000.f };
-    juce::Atomic<float> feedback    { 0.3f };
-    juce::SmoothedValue<float, ValueSmoothingTypes::Linear> delaySmoothed;
+    const float minDelayTime = 1000;
+    const float maxDelayTime = 24000;
+    juce::SmoothedValue<float, juce::ValueSmoothingTypes::Linear> delayTimeInterpolation;
+    
+    juce::dsp::DelayLine<float, juce::dsp::DelayLineInterpolationTypes::Linear> delayLine;
     std::vector<float> lastOutput{ 0.f, 0.f }; // for storing feedback val
 };

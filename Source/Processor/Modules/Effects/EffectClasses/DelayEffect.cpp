@@ -10,47 +10,32 @@ DelayEffect::~DelayEffect() {
 
 
 void DelayEffect::prepareToPlay(double sampleRate, int samplesPerBlock) {
-    mSampleRate = sampleRate;
-    delayLine.prepare({ mSampleRate, (uint32)samplesPerBlock, 2 });
-    delaySmoothed.reset(mSampleRate, 1);
-}
-
-void DelayEffect::processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
-    
+    this->sampleRate = sampleRate;
+    delayLine.prepare({ sampleRate, (juce::uint32) samplesPerBlock, 2 });
+    delayTimeInterpolation.reset(sampleRate, 1);
 }
 
 void DelayEffect::processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
+    if (sampleRate < 0) return;
+
     auto buffRead = buffer.getArrayOfReadPointers();
     auto buffWrite = buffer.getArrayOfWritePointers();
 
-    for (int sampleIndex = 0; sampleIndex < buffer.getNumSamples(); sampleIndex++)
-    {
-        delayTime = delaySmoothed.getNextValue();
-        for (int channel = 0; channel < buffer.getNumChannels(); channel++)
-        {
+    for (int sampleIndex = 0; sampleIndex < buffer.getNumSamples(); sampleIndex++) {
+        float delayTime = delayTimeInterpolation.getNextValue();
+        for (int channel = 0; channel < buffer.getNumChannels(); channel++) {
             float drySample = buffRead[channel][sampleIndex];
             delayLine.pushSample(channel, drySample + lastOutput[channel]);
 
-            float delaySample = delayLine.popSample(channel, delayTime.get(), true);
-            delaySample * wetMix.get();
-            buffWrite[channel][sampleIndex] += delaySample;
+            float delaySample = delayLine.popSample(channel, delayTime, true);
+            buffWrite[channel][sampleIndex] += delaySample * wet.get();
 
-            lastOutput[channel] = delaySample * feedback.get();
+            lastOutput[channel] = delaySample * paramTwo.get();
         }
     }
 }
 
-
-void DelayEffect::onWetChanged()
-{
-    wetMix = wet;
-}
-
-void DelayEffect::onParamOneChanged(){
-    auto dTime = mSampleRate * paramOne;
-    delaySmoothed.setTargetValue(dTime);
-}
-
-void DelayEffect::onParamTwoChanged(){
-    feedback = paramTwo;
+void DelayEffect::onParamOneChanged() {
+    float targetDelayTime = minDelayTime + (maxDelayTime - minDelayTime) * paramOne.get();
+    delayTimeInterpolation.setTargetValue(targetDelayTime);
 }

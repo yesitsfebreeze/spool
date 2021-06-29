@@ -15,7 +15,4 @@ public:
     void onWetChanged() override;
     void onParamOneChanged() override;
     void onParamTwoChanged() override;
-    
-private:
-    juce::dsp::Panner<float> panner;
 };

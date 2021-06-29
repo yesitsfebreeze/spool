@@ -7,7 +7,6 @@
 
 Effects::Effects(SpoolProcessor* processor, int track, int sample): processor(processor), track(track), sample(sample) {
     effects.add(new DelayEffect(processor, effects.size(), track, sample));
-    effects.add(new PanningEffect(processor, effects.size(), track, sample));
 }
 
 Effects::~Effects() {

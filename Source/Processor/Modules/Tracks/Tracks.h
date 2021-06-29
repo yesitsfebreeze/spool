@@ -27,29 +27,41 @@ public:
     }
     
     void processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
-        for (Track* track : tracks) track->processBlockBefore(buffer, midiMessages);
+        for (Track* track : tracks) {
+            track->processBlockBefore(buffer, midiMessages);
+        }
     };
     
     void processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
-        for (Track* track : tracks) track->processBlockAfter(buffer, midiMessages);
+        for (Track* track : tracks) {
+            track->processBlockAfter(buffer, midiMessages);
+        }
     };
     
     void beatCallback(int beat, bool isUpBeat) {
-        for (Track* track : tracks) track->beatCallback(beat, isUpBeat);
+        for (Track* track : tracks) {
+            track->beatCallback(beat, isUpBeat);
+        }
     }
     
     bool doForAllTracks(Action action, ActionMode mode = ActionMode::Single) {
-        for (Track* track : tracks) doForTrack(track->getIndex(), action, mode);
+        for (Track* track : tracks) {
+            doForTrack(track->getIndex(), action, mode);
+        }
         return true;
     }
 
     bool doForUnselectedTracks(Action action, ActionMode mode = ActionMode::Single) {
-        for (Track* track : tracks) doForTrack(track->getIndex(), action, mode, false, true);
+        for (Track* track : tracks) {
+            doForTrack(track->getIndex(), action, mode, false, true);
+        }
         return true;
     }
     
     bool doForSelectedTracks(Action action, ActionMode mode = ActionMode::Single) {
-        for (Track* track : tracks) doForTrack(track->getIndex(), action, mode, true);
+        for (Track* track : tracks) {
+            doForTrack(track->getIndex(), action, mode, true);
+        }
         return true;
     }
 
@@ -67,28 +79,45 @@ public:
 
     bool doForTrack(int trackIndex, Action action, ActionMode mode = ActionMode::Single, bool mustBeSelected = false, bool mustBeUnselected = false) {
         Track* track = tracks[trackIndex];
-        if (!track->isSelected() && mustBeSelected) return false;
-        if (track->isSelected() && mustBeUnselected) return false;
+        if (mustBeSelected && (!track->isSelected() && !track->isEffectSelected())) return false;
+        if (mustBeUnselected && (track->isSelected() || track->isEffectSelected())) return false;
         track->executeAction(action, mode);
         return true;
     }
     
     void doCallbackForTracksInGroup(int groupIndex, std::function<void(Track* track)> cb) {
-        for (Track* track : tracks) if (track->getGroup() == groupIndex) cb(track);
+        for (Track* track : tracks) {
+            if (track->getGroup() == groupIndex) {
+                cb(track);
+            }
+        }
     }
     
     void doCallbackForEffectsInGroup(int groupIndex, std::function<void(Track* track, Effect* effect)> cb) {
         doCallbackForTracksInGroup(groupIndex, [this, groupIndex, cb] (Track* track) {
-            for (Track* track : tracks) if (track->isInEffectGroup(groupIndex)) cb(track, track->effects->effects[groupIndex]);
+            for (Track* track : tracks) {
+                if (track->isInEffectGroup(groupIndex)) {
+                    Effect* effect = track->effects->effects[track->getIndex()];
+                    cb(track, effect);
+                }
+            }
         });        
     }
     
     void doCallbackForSelectedTracks(int groupIndex, std::function<void(Track* track)> cb) {
-        for (Track* track : tracks) if (track->isSelected()) cb(track);
+        for (Track* track : tracks) {
+            if (track->isSelected()) {
+                cb(track);
+            }
+        }
     }
     
     void doCallbackForUnselectedTracks(int groupIndex, std::function<void(Track* track)> cb) {
-        for (Track* track : tracks) if (!track->isSelected()) cb(track);
+        for (Track* track : tracks) {
+            if (!track->isSelected()) {
+                cb(track);
+            }
+        }
     }
     
     Track* getTrack(int index) {
@@ -122,7 +151,11 @@ public:
     }
     
     Track* getFirstFreeTrack() {
-        for (Track* track : tracks) if (!track->hasRecords()) return track;
+        for (Track* track : tracks) {
+            if (!track->hasRecords()) {
+                return track;
+            }
+        }
         return nullptr;
     }
     

@@ -16,10 +16,17 @@ void DelayEffect::prepareToPlay(double sampleRate, int samplesPerBlock) {
 }
 
 void DelayEffect::processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
+    DBG(wet.get());
+    DBG(paramOne.get());
+    DBG(paramTwo.get());
+    DBG("-----------");
+    
     if (sampleRate < 0) return;
 
     auto buffRead = buffer.getArrayOfReadPointers();
     auto buffWrite = buffer.getArrayOfWritePointers();
+    
+    
 
     for (int sampleIndex = 0; sampleIndex < buffer.getNumSamples(); sampleIndex++) {
         float delayTime = delayTimeInterpolation.getNextValue();

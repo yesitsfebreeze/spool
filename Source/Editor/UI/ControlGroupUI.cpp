@@ -9,16 +9,23 @@ void ControlGroupUI::initializeKnobs() {
 }
 
 void ControlGroupUI::addToGroup() {
+    
     if (index == 0) {
-        processor->tracks->doForSelectedTracks(Track::Action::AddToGroupOne);
-        processor->tracks->doForAllTracks(Track::Action::RemoveEffectGroupOne);
-        processor->tracks->doForSelectedTracks(Track::Action::AddEffectToGroupOne);
+        if (processor->isEffectMode()) {
+            processor->tracks->doForAllTracks(Track::Action::RemoveEffectGroupOne);
+            processor->tracks->doForSelectedTracks(Track::Action::AddEffectToGroupOne);
+        } else {
+            processor->tracks->doForSelectedTracks(Track::Action::AddToGroupOne);
+        }
     }
     
     if (index == 1) {
-        processor->tracks->doForSelectedTracks(Track::Action::AddToGroupTwo);
-        processor->tracks->doForAllTracks(Track::Action::RemoveEffectGroupTwo);
-        processor->tracks->doForSelectedTracks(Track::Action::AddEffectToGroupTwo);
+        if (processor->isEffectMode()) {
+            processor->tracks->doForAllTracks(Track::Action::RemoveEffectGroupTwo);
+            processor->tracks->doForSelectedTracks(Track::Action::AddEffectToGroupTwo);
+        } else {
+            processor->tracks->doForSelectedTracks(Track::Action::AddToGroupTwo);
+        }
     }
 
     processor->tracks->doForAllTracks(Track::Action::Select, Track::ActionMode::Off);
@@ -76,7 +83,6 @@ void ControlGroupUI::addDryWetKnob() {
 
     dryWetKnob->onValueChange = [this] (bool increase) {
         processor->tracks->doCallbackForEffectsInGroup(index, [this, increase] (Track* track, Effect* effect) {
-            DBG(effect->index);
             float value = Parameters::getTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::Wet);
             if (increase) value += Config::ParamChangePerStep;
             if (!increase) value -= Config::ParamChangePerStep;

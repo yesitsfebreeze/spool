@@ -1,7 +1,7 @@
 #include <JuceHeader.h>
 #include "../../../Config.h"
 #include "Effects.h"
-#include "BaseEffect.h"
+#include "Effect.h"
 #include "EffectList.h"
 #include "../../SpoolProcessor.h"
 
@@ -16,19 +16,19 @@ Effects::~Effects() {
 
 
 void Effects::prepareToPlay(double sampleRate, int samplesPerBlock) {
-    for (BaseEffect* effect : effects) {
+    for (Effect* effect : effects) {
         effect->prepareToPlay(sampleRate, samplesPerBlock);
     }
 }
 
 void Effects::processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
-    for (BaseEffect* effect : effects) {
+    for (Effect* effect : effects) {
         effect->processBlockBefore(buffer, midiMessages);
     }
 };
 
 void Effects::processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
-    for (BaseEffect* effect : effects) {
+    for (Effect* effect : effects) {
         effect->processBlockAfter(buffer, midiMessages);
     }
 };

@@ -1,14 +1,14 @@
-#include "BaseEffect.h"
+#include "Effect.h"
 #include "../../SpoolProcessor.h"
 
-BaseEffect::BaseEffect(SpoolProcessor* processor, int index, int track, int sample) : processor(processor), index(index), track(track), sample(sample) {
+Effect::Effect(SpoolProcessor* processor, int index, int track, int sample) : processor(processor), index(index), track(track), sample(sample) {
     juce::ValueTree& tree = Parameters::getValueTree();
     getParamValues(tree);
     tree.addListener(this);
 };
 
 
-void BaseEffect::getParamValues(juce::ValueTree& tree, const juce::Identifier& param) {
+void Effect::getParamValues(juce::ValueTree& tree, const juce::Identifier& param) {
     
     if (sample == -1) {
         if (!Parameters::isTrackEffect(tree, track, index)) return;
@@ -40,7 +40,7 @@ void BaseEffect::getParamValues(juce::ValueTree& tree, const juce::Identifier& p
 
 }
 
-void BaseEffect::valueTreePropertyChanged(juce::ValueTree& tree, const juce::Identifier& param) {
+void Effect::valueTreePropertyChanged(juce::ValueTree& tree, const juce::Identifier& param) {
     juce::String paramName = param.toString();
     getParamValues(tree, param);
 };

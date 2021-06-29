@@ -2,7 +2,7 @@
 #include "../../../SpoolProcessor.h"
 
 
-DelayEffect::DelayEffect(SpoolProcessor* processor, int index, int track, int sample) : BaseEffect{ processor, index, track, sample } {
+DelayEffect::DelayEffect(SpoolProcessor* processor, int index, int track, int sample) : Effect{ processor, index, track, sample } {
 }
 
 DelayEffect::~DelayEffect() {

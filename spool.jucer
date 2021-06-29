@@ -63,8 +63,8 @@
               <FILE id="eJoQSd" name="ReverbEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/EffectClasses/ReverbEffect.h"/>
               <FILE id="WybZud" name="TremoloEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/EffectClasses/TremoloEffect.h"/>
             </GROUP>
-            <FILE id="bKCcva" name="BaseEffect.cpp" compile="1" resource="0" file="Source/Processor/Modules/Effects/BaseEffect.cpp"/>
-            <FILE id="Cdv3JI" name="BaseEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/BaseEffect.h"/>
+            <FILE id="bKCcva" name="Effect.cpp" compile="1" resource="0" file="Source/Processor/Modules/Effects/Effect.cpp"/>
+            <FILE id="Cdv3JI" name="Effect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/Effect.h"/>
             <FILE id="eXl9Tr" name="EffectList.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/EffectList.h"/>
             <FILE id="PQqZoy" name="Effects.cpp" compile="1" resource="0" file="Source/Processor/Modules/Effects/Effects.cpp"/>
             <FILE id="ITwu61" name="Effects.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/Effects.h"/>

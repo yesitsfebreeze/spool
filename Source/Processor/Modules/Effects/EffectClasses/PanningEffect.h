@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../BaseEffect.h"
+#include "../Effect.h"
 
 class SpoolProcessor;
 
-class PanningEffect : public BaseEffect {
+class PanningEffect : public Effect {
 public:
     PanningEffect(SpoolProcessor* processor, int index, int track, int sample = -1);
     ~PanningEffect();

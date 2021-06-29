@@ -2,6 +2,7 @@
 #include <JuceHeader.h>
 #include "../../../Config.h"
 #include "Track.h"
+#include "../Effects/Effect.h"
 
 class SpoolProcessor;
 
@@ -34,45 +35,60 @@ public:
     };
     
     void beatCallback(int beat, bool isUpBeat) {
-        for (int track = 0; track < Config::TrackCount; track++) {
-            Track* trk = tracks[track];
-            trk->beatCallback(beat, isUpBeat);
-        }
+        for (Track* track : tracks) track->beatCallback(beat, isUpBeat);
     }
     
     bool doForAllTracks(Action action, ActionMode mode = ActionMode::Single) {
-        for (int track = 0; track < Config::TrackCount; track++) doForTrack(track, action, mode);
+        for (Track* track : tracks) doForTrack(track->getIndex(), action, mode);
         return true;
     }
 
     bool doForUnselectedTracks(Action action, ActionMode mode = ActionMode::Single) {
-        for (int track = 0; track < Config::TrackCount; track++) doForTrack(track, action, mode, false, true);
+        for (Track* track : tracks) doForTrack(track->getIndex(), action, mode, false, true);
         return true;
     }
     
     bool doForSelectedTracks(Action action, ActionMode mode = ActionMode::Single) {
-        for (int track = 0; track < Config::TrackCount; track++) doForTrack(track, action, mode, true);
+        for (Track* track : tracks) doForTrack(track->getIndex(), action, mode, true);
         return true;
     }
 
     bool doForLastSelectedOrFreeTrack(Action action, ActionMode mode = ActionMode::Single) {
         if (!hasTracksSelected()) {
-            Track* trk = getFirstFreeTrack();
-            if (trk == nullptr) return false;
+            Track* track = getFirstFreeTrack();
+            if (track == nullptr) return false;
             
-            trk->executeAction(action, mode);
+            track->executeAction(action, mode);
         } else {
             doForTrack(lastSelectedTrackIndex, action, mode, true);
         }
         return true;
     }
 
-    bool doForTrack(int track, Action action, ActionMode mode = ActionMode::Single, bool mustBeSelected = false, bool mustBeUnselected = false) {
-        Track* trk = tracks[track];
-        if (!trk->isSelected() && mustBeSelected) return false;
-        if (trk->isSelected() && mustBeUnselected) return false;
-        trk->executeAction(action, mode);
+    bool doForTrack(int trackIndex, Action action, ActionMode mode = ActionMode::Single, bool mustBeSelected = false, bool mustBeUnselected = false) {
+        Track* track = tracks[trackIndex];
+        if (!track->isSelected() && mustBeSelected) return false;
+        if (track->isSelected() && mustBeUnselected) return false;
+        track->executeAction(action, mode);
         return true;
+    }
+    
+    void doCallbackForTracksInGroup(int groupIndex, std::function<void(Track* track)> cb) {
+        for (Track* track : tracks) if (track->getGroup() == groupIndex) cb(track);
+    }
+    
+    void doCallbackForEffectsInGroup(int groupIndex, std::function<void(Track* track, Effect* effect)> cb) {
+        doCallbackForTracksInGroup(groupIndex, [this, groupIndex, cb] (Track* track) {
+            for (Track* track : tracks) if (track->isInEffectGroup(groupIndex)) cb(track, track->effects->effects[groupIndex]);
+        });        
+    }
+    
+    void doCallbackForSelectedTracks(int groupIndex, std::function<void(Track* track)> cb) {
+        for (Track* track : tracks) if (track->isSelected()) cb(track);
+    }
+    
+    void doCallbackForUnselectedTracks(int groupIndex, std::function<void(Track* track)> cb) {
+        for (Track* track : tracks) if (!track->isSelected()) cb(track);
     }
     
     Track* getTrack(int index) {
@@ -106,32 +122,16 @@ public:
     }
     
     Track* getFirstFreeTrack() {
-        for (int track = 0; track < Config::TrackCount; track++) {
-            Track* trk = tracks[track];
-            if (!trk->hasRecords()) {
-                return trk;
-            }
-        }
-        
+        for (Track* track : tracks) if (!track->hasRecords()) return track;
         return nullptr;
     }
     
     juce::OwnedArray<Track>& getTracks() {
         return tracks;
     }
-
-    void addSelectedTrack(int trackIndex) {
-        selectedTracks[trackIndex] = true;
-    }
-    
-    void removeSelectedTrack(int trackIndex) {
-        selectedTracks[trackIndex] = false;
-    }
-    
  
 private:
     int sampleLayer = -1;
     int lastSelectedTrackIndex = -1;
     juce::OwnedArray<Track> tracks;
-    bool selectedTracks[];
 };

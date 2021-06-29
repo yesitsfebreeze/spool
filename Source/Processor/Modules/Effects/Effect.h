@@ -7,7 +7,7 @@
 
 class SpoolProcessor;
 
-class BaseEffect : public juce::ValueTree::Listener {
+class Effect : public juce::ValueTree::Listener {
 public:
     SpoolProcessor* processor;
 
@@ -30,12 +30,12 @@ public:
     float paramTwoMidi = 0.0f;
     float paramTwo = 0.0f;
     
-    BaseEffect(SpoolProcessor* processor, int index, int track, int sample = -1);
+    Effect(SpoolProcessor* processor, int index, int track, int sample = -1);
     
     void getParamValues(juce::ValueTree& tree, const juce::Identifier& param = juce::Identifier::null);
     void valueTreePropertyChanged(juce::ValueTree& tree, const juce::Identifier& param) override;
     
-    virtual ~BaseEffect() {};
+    virtual ~Effect() {};
 
     virtual void prepareToPlay(double sampleRate, int samplesPerBlock) {};
     virtual void processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {};

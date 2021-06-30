@@ -1,8 +1,8 @@
 #include "Commands.h"
 
-#include "Modules/Commands/CommandQueue.h"
-#include "SpoolProcessor.h"
-#include "../Config.h"
+#include "CommandQueue.h"
+#include "../../SpoolProcessor.h"
+#include "../../../Config.h"
 
 
 void Commands::registerFunctionCommandActions() {
@@ -29,7 +29,7 @@ void Commands::registerFunctionCommandActions() {
     
     // FUNCTION Double Press
     owner->commandQueue.registerCommandAction(Cmd::Function, Type::DoublePress, TriggerType::Instant, [this] (bool FN) {
-        owner->tracks->doForUnselectedTracks(TrackAction::RemoveGroup);
+        owner->tracks->doForUnselectedTracks(TrackAction::RemoveTrackFromAllGroups);
         owner->tracks->doForAllTracks(TrackAction::Select, TrackActionMode::Off);
         
     });

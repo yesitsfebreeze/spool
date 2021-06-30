@@ -24,13 +24,15 @@ public:
         Record,
         CancelRecord,
         Clear,
-        AddToGroupOne,
-        AddToGroupTwo,
-        AddEffectToGroupOne,
-        AddEffectToGroupTwo,
-        RemoveGroup,
-        RemoveEffectGroupOne,
-        RemoveEffectGroupTwo,
+        AddTrackToGroupA,
+        RemoveTrackFromGroupA,
+        AddTrackToGroupB,
+        RemoveTrackFromGroupB,
+        RemoveTrackFromAllGroups,
+        AddEffectToGroupA,
+        RemoveEffectFromGroupA,
+        AddEffectToGroupB,
+        RemoveEffectFromGroupB,
     };
 
     enum ActionMode {
@@ -95,26 +97,32 @@ public:
             case Action::Clear:
                 clear();
                 break;
-            case Action::AddToGroupOne:
-                _group = 0;
+            case Action::AddTrackToGroupA:
+                addTrackToGroupA();
                 break;
-            case Action::AddEffectToGroupOne:
-                _effectGroup[0] = true;
+            case Action::RemoveTrackFromGroupA:
+                removeTrackFromGroupA();
                 break;
-            case  Action::AddToGroupTwo:
-                _group = 1;
+            case Action::AddTrackToGroupB:
+                addTrackToGroupB();
                 break;
-            case Action::AddEffectToGroupTwo:
-                _effectGroup[1] = true;
+            case Action::RemoveTrackFromGroupB:
+                removeTrackFromGroupB();
                 break;
-            case Action::RemoveGroup:
-                _group = -1;
+            case Action::RemoveTrackFromAllGroups:
+                removeTrackFromAllGroups();
                 break;
-            case Action::RemoveEffectGroupOne:
-                _effectGroup[0] = false;
+            case Action::AddEffectToGroupA:
+                addEffectToGroupA();
                 break;
-            case Action::RemoveEffectGroupTwo:
-                _effectGroup[1] = false;
+            case Action::RemoveEffectFromGroupA:
+                removeEffectFromGroupA();
+                break;
+            case Action::AddEffectToGroupB:
+                addEffectToGroupB();
+                break;
+            case Action::RemoveEffectFromGroupB:
+                removeEffectFromGroupB();
                 break;
             default:
                 break;
@@ -130,30 +138,22 @@ public:
     void record();
     void cancelRecord();
     void clear();
+    void addTrackToGroupA();
+    void removeTrackFromGroupA();
+    void addTrackToGroupB();
+    void removeTrackFromGroupB();
+    void removeTrackFromAllGroups();
+    void addEffectToGroupA();
+    void removeEffectFromGroupA();
+    void addEffectToGroupB();
+    void removeEffectFromGroupB();
     
     
     //  grouping
-    bool isInGroup() {
-        return _group != -1;
-    }
-    
-    bool isInSpecificGroup(int group) {
-        return _group == group;
-    }
-    
-    int setGroup(int group) {
-        _group = group;
-        return group;
-    }
-    
-    int getGroup() {
-        return _group;
-    }
-    
-    int isInEffectGroup(int group) {
-        return _effectGroup[group];
-    }
-    
+    bool isGrouped();
+    bool isInGroup(int group);
+    int getGroup();
+    int isInEffectGroup(int group);
     
     // flags
     bool isSelected() {
@@ -213,8 +213,6 @@ private:
     juce::AudioBuffer<float> trackBuffer;
     
     int trackIndex = -1;
-    int _group = -1;
-    bool _effectGroup[2] = {false, false};
 
     bool _isPressed = false;
     bool _isPlaying = false;

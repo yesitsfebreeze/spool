@@ -12,19 +12,21 @@ void ControlGroupUI::addToGroup() {
     
     if (index == 0) {
         if (processor->isEffectMode()) {
-            processor->tracks->doForAllTracks(Track::Action::RemoveEffectGroupOne);
-            processor->tracks->doForSelectedTracks(Track::Action::AddEffectToGroupOne);
+            processor->tracks->doForAllTracks(Track::Action::RemoveEffectFromGroupA);
+            processor->tracks->doForSelectedTracks(Track::Action::AddEffectToGroupA);
         } else {
-            processor->tracks->doForSelectedTracks(Track::Action::AddToGroupOne);
+            processor->tracks->doForSelectedTracks(Track::Action::RemoveTrackFromGroupB);
+            processor->tracks->doForSelectedTracks(Track::Action::AddTrackToGroupA);
         }
     }
     
     if (index == 1) {
         if (processor->isEffectMode()) {
-            processor->tracks->doForAllTracks(Track::Action::RemoveEffectGroupTwo);
-            processor->tracks->doForSelectedTracks(Track::Action::AddEffectToGroupTwo);
+            processor->tracks->doForAllTracks(Track::Action::RemoveEffectFromGroupB);
+            processor->tracks->doForSelectedTracks(Track::Action::AddEffectToGroupB);
         } else {
-            processor->tracks->doForSelectedTracks(Track::Action::AddToGroupTwo);
+            processor->tracks->doForSelectedTracks(Track::Action::RemoveTrackFromGroupA);
+            processor->tracks->doForSelectedTracks(Track::Action::AddTrackToGroupB);
         }
     }
 
@@ -45,7 +47,11 @@ void ControlGroupUI::addVolumeKnob() {
     };
         
     volumeKnob->onValueChange = [this] (bool increase) {
-        processor->tracks->doCallbackForTracksInGroup(index, [this, increase] (Track* track) {
+        ControlGroup group = nullptr;
+        if (index == 0) group = processor->controlGroupA;
+        if (index == 1) group = processor->controlGroupB;
+
+        group.doForTracks([this, increase] (Track* track) {
             float value = Parameters::getTrackParam(track->getIndex(), Config::Parameters::Volume);
             if (increase) value += Config::ParamChangePerStep;
             if (!increase) value -= Config::ParamChangePerStep;
@@ -82,7 +88,11 @@ void ControlGroupUI::addDryWetKnob() {
     };
 
     dryWetKnob->onValueChange = [this] (bool increase) {
-        processor->tracks->doCallbackForEffectsInGroup(index, [this, increase] (Track* track, Effect* effect) {
+        ControlGroup group = nullptr;
+        if (index == 0) group = processor->controlGroupA;
+        if (index == 1) group = processor->controlGroupB;
+        
+        group.doForEffects([this, increase] (Track* track, Effect* effect) {
             float value = Parameters::getTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::Wet);
             if (increase) value += Config::ParamChangePerStep;
             if (!increase) value -= Config::ParamChangePerStep;
@@ -119,7 +129,11 @@ void ControlGroupUI::addParamOneKnob() {
     };
 
     paramOneKnob->onValueChange = [this] (bool increase) {
-        processor->tracks->doCallbackForEffectsInGroup(index, [this, increase] (Track* track, Effect* effect) {
+        ControlGroup group = nullptr;
+        if (index == 0) group = processor->controlGroupA;
+        if (index == 1) group = processor->controlGroupB;
+        
+        group.doForEffects([this, increase] (Track* track, Effect* effect) {
             float value = Parameters::getTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::ParamOne);
             if (increase) value += Config::ParamChangePerStep;
             if (!increase) value -= Config::ParamChangePerStep;
@@ -156,7 +170,11 @@ void ControlGroupUI::addParamTwoKnob() {
     };
 
     paramTwoKnob->onValueChange = [this] (bool increase) {
-        processor->tracks->doCallbackForEffectsInGroup(index, [this, increase] (Track* track, Effect* effect) {
+        ControlGroup group = nullptr;
+        if (index == 0) group = processor->controlGroupA;
+        if (index == 1) group = processor->controlGroupB;
+        
+        group.doForEffects([this, increase] (Track* track, Effect* effect) {
             float value = Parameters::getTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::ParamTwo);
             if (increase) value += Config::ParamChangePerStep;
             if (!increase) value -= Config::ParamChangePerStep;

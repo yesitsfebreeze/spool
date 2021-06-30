@@ -45,8 +45,19 @@
       </GROUP>
       <GROUP id="{749F0BDF-E901-1A75-3724-2E7D40FA35C5}" name="Processor">
         <GROUP id="{5F1096FF-66A3-F2AF-05C7-1EF80F115FAB}" name="Modules">
+          <GROUP id="{FE56A13E-9F1C-57FD-673E-31D3A6C6C5F9}" name="ControlGroup">
+            <FILE id="bUTfcA" name="ControlGroup.cpp" compile="1" resource="0"
+                  file="Source/Processor/Modules/ControlGroup/ControlGroup.cpp"/>
+            <FILE id="Z2SLYf" name="ControlGroup.h" compile="0" resource="0" file="Source/Processor/Modules/ControlGroup/ControlGroup.h"/>
+          </GROUP>
+          <GROUP id="{55BE0EB3-7125-B945-0200-CE84EEB5E92D}" name="Parameters">
+            <FILE id="cxxopt" name="Parameteres.cpp" compile="1" resource="0" file="Source/Processor/Modules/Parameters/Parameteres.cpp"/>
+            <FILE id="qUhFMb" name="Parameteres.h" compile="0" resource="0" file="Source/Processor/Modules/Parameters/Parameteres.h"/>
+          </GROUP>
           <GROUP id="{170199A0-EE20-57B8-2499-20344D96DC51}" name="Commands">
             <FILE id="L710yj" name="CommandQueue.h" compile="0" resource="0" file="Source/Processor/Modules/Commands/CommandQueue.h"/>
+            <FILE id="YzCz9x" name="Commands.cpp" compile="1" resource="0" file="Source/Processor/Modules/Commands/Commands.cpp"/>
+            <FILE id="BCpUCs" name="Commands.h" compile="0" resource="0" file="Source/Processor/Modules/Commands/Commands.h"/>
           </GROUP>
           <GROUP id="{51C9340F-2FFB-60B5-7CFE-72E2EB609D60}" name="Effects">
             <GROUP id="{5398026C-2DD7-0683-3BAF-D708456A98AF}" name="EffectClasses">
@@ -82,10 +93,6 @@
             <FILE id="Lnmhp1" name="Tracks.h" compile="0" resource="0" file="Source/Processor/Modules/Tracks/Tracks.h"/>
           </GROUP>
         </GROUP>
-        <FILE id="LCQUT0" name="Commands.cpp" compile="1" resource="0" file="Source/Processor/Commands.cpp"/>
-        <FILE id="frSH22" name="Commands.h" compile="0" resource="0" file="Source/Processor/Commands.h"/>
-        <FILE id="hz3Xhn" name="Parameteres.cpp" compile="1" resource="0" file="Source/Processor/Parameteres.cpp"/>
-        <FILE id="K760Gz" name="Parameteres.h" compile="0" resource="0" file="Source/Processor/Parameteres.h"/>
         <FILE id="Al59kZ" name="SpoolProcessor.cpp" compile="1" resource="0"
               file="Source/Processor/SpoolProcessor.cpp"/>
         <FILE id="BpJdFO" name="SpoolProcessor.h" compile="0" resource="0"

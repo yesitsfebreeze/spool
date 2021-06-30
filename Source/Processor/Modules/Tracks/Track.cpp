@@ -1,6 +1,7 @@
 #include "Track.h"
 #include "Tracks.h"
 #include "../../SpoolProcessor.h"
+#include "../ControlGroup/ControlGroup.h"
 
 
 Track::Track(Tracks* owner, int trackIndex) : owner(owner), trackIndex(trackIndex) {
@@ -9,8 +10,6 @@ Track::Track(Tracks* owner, int trackIndex) : owner(owner), trackIndex(trackInde
     }
 
     effects.reset(new Effects(owner->owner, trackIndex));
-    
-
     Parameters::getValueTree().addListener(this);
 }
 
@@ -149,6 +148,70 @@ void Track::clear() {
         for (SampleHolder* sampleHolder : sampleHolders) sampleHolder->clear();
     }
 };
+
+bool Track::isGrouped() {
+    return (isInGroup(0) || isInGroup(1));
+}
+
+bool Track::isInGroup(int group) {
+    ControlGroup controlGroup = nullptr;
+    if (group == 0) controlGroup = owner->owner->controlGroupA;
+    if (group == 1) controlGroup = owner->owner->controlGroupB;
+    return controlGroup.containsTrack(trackIndex);
+}
+
+int Track::getGroup() {
+    ControlGroup groupA = owner->owner->controlGroupA;
+    ControlGroup groupB = owner->owner->controlGroupB;
+    if (groupA.containsTrack(trackIndex)) return 0;
+    if (groupB.containsTrack(trackIndex)) return 1;
+
+    return -1;
+}
+
+int Track::isInEffectGroup(int group) {
+    ControlGroup controlGroup = nullptr;
+    if (group == 0) controlGroup = owner->owner->controlGroupA;
+    if (group == 1) controlGroup = owner->owner->controlGroupB;
+    return controlGroup.containsEffect(trackIndex);
+}
+
+void Track::addTrackToGroupA() {
+    owner->owner->controlGroupA.addTrack(trackIndex);
+}
+
+void Track::removeTrackFromGroupA() {
+    owner->owner->controlGroupA.removeTrack(trackIndex);
+}
+
+void Track::addTrackToGroupB() {
+    owner->owner->controlGroupB.addTrack(trackIndex);
+}
+
+void Track::removeTrackFromGroupB() {
+    owner->owner->controlGroupB.removeTrack(trackIndex);
+}
+
+void Track::removeTrackFromAllGroups() {
+    owner->owner->controlGroupA.removeTrack(trackIndex);
+    owner->owner->controlGroupB.removeTrack(trackIndex);
+}
+
+void Track::addEffectToGroupA() {
+    owner->owner->controlGroupA.addEffect(trackIndex);
+}
+
+void Track::removeEffectFromGroupA() {
+    owner->owner->controlGroupA.removeEffect(trackIndex);
+}
+
+void Track::addEffectToGroupB() {
+    owner->owner->controlGroupB.addEffect(trackIndex);
+}
+
+void Track::removeEffectFromGroupB() {
+    owner->owner->controlGroupB.removeEffect(trackIndex);
+}
 
 
 // private

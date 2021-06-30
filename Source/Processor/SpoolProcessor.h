@@ -3,8 +3,9 @@
 #include <JuceHeader.h>
 #include "Modules/Tracks/Tracks.h"
 #include "Modules/Commands/CommandQueue.h"
-#include "Commands.h"
-#include "Parameteres.h"
+#include "Modules/Commands/Commands.h"
+#include "Modules/Parameters/Parameteres.h"
+#include "Modules/ControlGroup/ControlGroup.h"
 
 
 // forward refs
@@ -78,6 +79,8 @@ public:
     std::unique_ptr<Sequencer> sequencer;
     std::unique_ptr<Tracks> tracks;
     CommandQueue commandQueue;
+    ControlGroup controlGroupA;
+    ControlGroup controlGroupB;
     juce::dsp::ProcessSpec processSpec;
     
     bool isFunctionDown = false;

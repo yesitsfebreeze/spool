@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Modules/Commands/CommandQueue.h"
-#include "Modules/Tracks/Track.h"
+#include "CommandQueue.h"
+#include "../Tracks/Track.h"
 
 class SpoolProcessor;
 

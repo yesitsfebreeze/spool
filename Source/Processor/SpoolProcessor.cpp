@@ -15,10 +15,12 @@
 #include "Modules/Sequencer/Sequencer.h"
 
 //==============================================================================
-SpoolProcessor::SpoolProcessor()
+SpoolProcessor::SpoolProcessor():
 #ifndef JucePlugin_PreferredChannelConfigurations
-    : AudioProcessor (BusesProperties().withInput  ("Input",  juce::AudioChannelSet::stereo(), true).withOutput ("Output", juce::AudioChannelSet::stereo(), true))
+    AudioProcessor (BusesProperties().withInput  ("Input",  juce::AudioChannelSet::stereo(), true).withOutput ("Output", juce::AudioChannelSet::stereo(), true)),
 #endif
+controlGroupA(this),
+controlGroupB(this)
 {
     sequencer.reset(new Sequencer(this));
     tracks.reset(new Tracks(this));

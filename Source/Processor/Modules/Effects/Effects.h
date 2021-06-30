@@ -18,7 +18,8 @@ public:
     void prepareToPlay(double sampleRate, int samplesPerBlock);
     void processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages);
     void processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages);
-
-    // do for all
-    // do for selected
+    
+    Effect* getEffect(int index) {
+        return effects[index];
+    }
 };

@@ -68,11 +68,11 @@ void TrackButtonUI::getButtonColors() {
     } else if (track->isMuted()) {
         borderColor = EditorConfig::Colors::Yellow;
         fillColor = EditorConfig::Colors::Yellow;
-    } else if (isPlaying && !track->isInGroup()) {
+    } else if (isPlaying && !track->isGrouped()) {
         borderColor = EditorConfig::Colors::Green;
         fillColor = EditorConfig::Colors::Green;
     } else {
-        if (track->isInGroup()) {
+        if (track->isGrouped()) {
             if (track->getGroup() == 0) {
                 borderColor = EditorConfig::Colors::GroupColorOne;
                 fillColor = EditorConfig::Colors::GroupColorOne;

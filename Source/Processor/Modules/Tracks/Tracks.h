@@ -85,41 +85,6 @@ public:
         return true;
     }
     
-    void doCallbackForTracksInGroup(int groupIndex, std::function<void(Track* track)> cb) {
-        for (Track* track : tracks) {
-            if (track->getGroup() == groupIndex) {
-                cb(track);
-            }
-        }
-    }
-    
-    void doCallbackForEffectsInGroup(int groupIndex, std::function<void(Track* track, Effect* effect)> cb) {
-        doCallbackForTracksInGroup(groupIndex, [this, groupIndex, cb] (Track* track) {
-            for (Track* track : tracks) {
-                if (track->isInEffectGroup(groupIndex)) {
-                    Effect* effect = track->effects->effects[track->getIndex()];
-                    cb(track, effect);
-                }
-            }
-        });        
-    }
-    
-    void doCallbackForSelectedTracks(int groupIndex, std::function<void(Track* track)> cb) {
-        for (Track* track : tracks) {
-            if (track->isSelected()) {
-                cb(track);
-            }
-        }
-    }
-    
-    void doCallbackForUnselectedTracks(int groupIndex, std::function<void(Track* track)> cb) {
-        for (Track* track : tracks) {
-            if (!track->isSelected()) {
-                cb(track);
-            }
-        }
-    }
-    
     Track* getTrack(int index) {
         return tracks[index];
     }

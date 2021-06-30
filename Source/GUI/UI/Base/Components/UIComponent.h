@@ -2,12 +2,12 @@
 
 #include <JuceHeader.h>
 #include "../../../../Processor/SpoolProcessor.h"
-#include "../../../SpoolEditor.h"
+#include "../../../GUI.h"
 
 class UIComponent : public juce::Component {
 public:
     SpoolProcessor* processor;
-    SpoolEditor* editor;
+    GUI* gui;
     
     int paddingTop = 0;
     int paddingRight = 0;
@@ -18,9 +18,9 @@ public:
         setOpaque(false);
     }
     
-    void setReferences(SpoolProcessor* processor, SpoolEditor* editor) {
+    void setReferences(SpoolProcessor* processor, GUI* gui) {
         this->processor = processor;
-        this->editor = editor;
+        this->gui = gui;
         onSetReferences();
     };
     

@@ -2,10 +2,10 @@
 
 class UIButtonComponent : public UIComponentAnimated {
 public:
-    juce::Colour fillColor = EditorConfig::Colors::Light;
+    juce::Colour fillColor = GUIConfig::Colors::Light;
     juce::Colour originalFillColor = fillColor;
     
-    juce::Colour borderColor = EditorConfig::Colors::Light;
+    juce::Colour borderColor = GUIConfig::Colors::Light;
     juce::Colour originalBorderColor = fillColor;
     
     int index = 0;
@@ -21,7 +21,7 @@ public:
     juce::Graphics* graphics;
     
     UIButtonComponent(int index) {
-        setFramesPerSecond(EditorConfig::FPS);
+        setFramesPerSecond(GUIConfig::FPS);
         setMouseCursor(juce::MouseCursor::StandardCursorType::PointingHandCursor);
         this->index = index;
     };
@@ -37,7 +37,7 @@ public:
     
     void paint (juce::Graphics& g) override {
         graphics = &g;
-        g.fillAll(EditorConfig::Colors::Dark);
+        g.fillAll(GUIConfig::Colors::Dark);
         calculateButtonSize();
         getButtonColors();
         beforePaint();
@@ -54,7 +54,7 @@ public:
     }
     
     virtual void getButtonColors() {
-        fillColor = EditorConfig::Colors::Dark;
+        fillColor = GUIConfig::Colors::Dark;
     
         if (isDepressed) {
             fillColor = originalFillColor;
@@ -64,20 +64,20 @@ public:
     virtual void calculateButtonSize() {
         juce::Rectangle<float> bounds = getLocalBounds().toFloat();
 
-        buttonX = EditorConfig::BorderWidth / 2;
-        buttonY = EditorConfig::BorderWidth / 2;
-        buttonWidth = bounds.getWidth() - EditorConfig::BorderWidth;
-        buttonHeight = bounds.getHeight() - EditorConfig::BorderWidth;
+        buttonX = GUIConfig::BorderWidth / 2;
+        buttonY = GUIConfig::BorderWidth / 2;
+        buttonWidth = bounds.getWidth() - GUIConfig::BorderWidth;
+        buttonHeight = bounds.getHeight() - GUIConfig::BorderWidth;
     }
     
     virtual void drawButton() {
-        int p = EditorConfig::Padding / 2;
+        int p = GUIConfig::Padding / 2;
         
         graphics->setColour(fillColor);
-        graphics->fillRoundedRectangle(buttonX + p , buttonY + p , buttonWidth - p * 2 , buttonHeight - p * 2, EditorConfig::BorderRadius);
+        graphics->fillRoundedRectangle(buttonX + p , buttonY + p , buttonWidth - p * 2 , buttonHeight - p * 2, GUIConfig::BorderRadius);
         
         graphics->setColour(borderColor);
-        graphics->drawRoundedRectangle(buttonX + p , buttonY + p , buttonWidth - p * 2 , buttonHeight - p * 2, EditorConfig::BorderRadius, EditorConfig::BorderWidth);
+        graphics->drawRoundedRectangle(buttonX + p , buttonY + p , buttonWidth - p * 2 , buttonHeight - p * 2, GUIConfig::BorderRadius, GUIConfig::BorderWidth);
     }
     
     void resized() override {

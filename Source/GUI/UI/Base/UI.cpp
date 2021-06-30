@@ -1,5 +1,5 @@
 #include "UI.h"
-#include "../../EditorConfig.h"
+#include "../../GUIConfig.h"
 
 
 UI::UI() {
@@ -16,17 +16,17 @@ UI::~UI() {
 }
 
 void UI::onSetReferences() {
-    topAreaUI.setReferences(processor, editor);
-    tracksUI.setReferences(processor, editor);
-    sequencerUI.setReferences(processor, editor);
-    RMSMeterUI.setReferences(processor, editor);
-    controlButtonsUI.setReferences(processor, editor);
-    controlGroupOneUI.setReferences(processor, editor);
-    controlGroupTwoUI.setReferences(processor, editor);
+    topAreaUI.setReferences(processor, gui);
+    tracksUI.setReferences(processor, gui);
+    sequencerUI.setReferences(processor, gui);
+    RMSMeterUI.setReferences(processor, gui);
+    controlButtonsUI.setReferences(processor, gui);
+    controlGroupOneUI.setReferences(processor, gui);
+    controlGroupTwoUI.setReferences(processor, gui);
 }
 
 void UI::paint(juce::Graphics& g) {
-    g.fillAll(EditorConfig::Colors::Dark);
+    g.fillAll(GUIConfig::Colors::Dark);
 }
 
 
@@ -58,22 +58,22 @@ void UI::resized() {
     int leftOffset = (w - rowHeight * 4) / 2;
 
     tracksUI.setBounds(leftOffset, 0, rowHeight * 4, rowHeight * 4);
-    tracksUI.setPadding(EditorConfig::Padding / 2);
+    tracksUI.setPadding(GUIConfig::Padding / 2);
 
     controlGroupOneUI.setBounds(0, 0, leftOffset, rowHeight * 3);
-    controlGroupOneUI.setPadding(EditorConfig::Padding / 2);
+    controlGroupOneUI.setPadding(GUIConfig::Padding / 2);
     
     controlGroupTwoUI.setBounds(w - leftOffset, 0, leftOffset, rowHeight * 3);
-    controlGroupTwoUI.setPadding(EditorConfig::Padding / 2);
+    controlGroupTwoUI.setPadding(GUIConfig::Padding / 2);
 
     sequencerUI.setBounds(0, rowHeight * 3, leftOffset, rowHeight);
-    sequencerUI.setPadding(EditorConfig::Padding * 2);
+    sequencerUI.setPadding(GUIConfig::Padding * 2);
 
     RMSMeterUI.setBounds(w - leftOffset, rowHeight * 3, leftOffset, rowHeight);
-    RMSMeterUI.setPadding(EditorConfig::Padding * 1.5, EditorConfig::Padding * 2, EditorConfig::Padding * 1.5, EditorConfig::Padding * 2);
+    RMSMeterUI.setPadding(GUIConfig::Padding * 1.5, GUIConfig::Padding * 2, GUIConfig::Padding * 1.5, GUIConfig::Padding * 2);
 
     controlButtonsUI.setBounds(leftOffset, rowHeight * 4, rowHeight * 4, rowHeight);
-    controlButtonsUI.setPadding(0, EditorConfig::Padding / 2, EditorConfig::Padding / 2, EditorConfig::Padding / 2);
+    controlButtonsUI.setPadding(0, GUIConfig::Padding / 2, GUIConfig::Padding / 2, GUIConfig::Padding / 2);
 
     
 }

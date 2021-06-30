@@ -75,7 +75,7 @@ public:
     }
 
     // vars
-    std::function<void(bool isBeat, bool isUpbeat)> editorTimerCallback;
+    std::function<void(bool isBeat, bool isUpbeat)> guiTimerCallback;
     std::unique_ptr<Sequencer> sequencer;
     std::unique_ptr<Tracks> tracks;
     CommandQueue commandQueue;

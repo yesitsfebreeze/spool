@@ -1,6 +1,6 @@
 #include "TracksUI.h"
 #include "../../Config.h"
-#include "../EditorConfig.h"
+#include "../GUIConfig.h"
 
 TracksUI::TracksUI() {
     for (int i = 0; i < Config::TrackCount; ++i) {
@@ -11,10 +11,10 @@ TracksUI::TracksUI() {
         
         button->isSwitch = true;
         button->onPress = [this, button, currentTrackCommandEnum] () {
-            editor->executeCommand(currentTrackCommandEnum, true);
+            gui->executeCommand(currentTrackCommandEnum, true);
         };
         button->onRelease = [this, button, currentTrackCommandEnum] () {
-            editor->executeCommand(currentTrackCommandEnum, false);
+            gui->executeCommand(currentTrackCommandEnum, false);
         };
         addAndMakeVisible(buttons.add(button));
     }
@@ -23,7 +23,7 @@ TracksUI::TracksUI() {
 void TracksUI::onSetReferences() {
     int buttonSize = buttons.size();
     for (int i = 0; i < buttonSize; ++i) {
-        buttons[i]->setReferences(processor, editor);
+        buttons[i]->setReferences(processor, gui);
         buttons[i]->track = processor->tracks->getTrack(i);
     }
 }
@@ -31,7 +31,7 @@ void TracksUI::onSetReferences() {
 void TracksUI::resized() {
     int buttonSize = buttons.size();
     for (int i = 0; i < buttonSize; ++i) {
-        buttons[i]->calculateBounds(getLocalBounds(), i, EditorConfig::TrackColumns, EditorConfig::TrackRows);
+        buttons[i]->calculateBounds(getLocalBounds(), i, GUIConfig::TrackColumns, GUIConfig::TrackRows);
     }
 }
 
@@ -51,10 +51,10 @@ void TrackButtonUI::getButtonColors() {
     if (processor->isEffectMode()) {
         isDepressed =  track->isPressed() || track->isEffectSelected();
 
-        borderColor = EditorConfig::Colors::Blue;
-        fillColor = EditorConfig::Colors::Dark;
+        borderColor = GUIConfig::Colors::Blue;
+        fillColor = GUIConfig::Colors::Dark;
         if (isDepressed) {
-            fillColor = EditorConfig::Colors::Blue;
+            fillColor = GUIConfig::Colors::Blue;
         }
         
         return;
@@ -63,22 +63,22 @@ void TrackButtonUI::getButtonColors() {
     isDepressed = track->isPressed() || track->isSelected();
 
     if (isRecording) {
-       borderColor = EditorConfig::Colors::Red;
-       fillColor = EditorConfig::Colors::Red;
+       borderColor = GUIConfig::Colors::Red;
+       fillColor = GUIConfig::Colors::Red;
     } else if (track->isMuted()) {
-        borderColor = EditorConfig::Colors::Yellow;
-        fillColor = EditorConfig::Colors::Yellow;
+        borderColor = GUIConfig::Colors::Yellow;
+        fillColor = GUIConfig::Colors::Yellow;
     } else if (isPlaying && !track->isGrouped()) {
-        borderColor = EditorConfig::Colors::Green;
-        fillColor = EditorConfig::Colors::Green;
+        borderColor = GUIConfig::Colors::Green;
+        fillColor = GUIConfig::Colors::Green;
     } else {
         if (track->isGrouped()) {
             if (track->getGroup() == 0) {
-                borderColor = EditorConfig::Colors::GroupColorOne;
-                fillColor = EditorConfig::Colors::GroupColorOne;
+                borderColor = GUIConfig::Colors::GroupColorOne;
+                fillColor = GUIConfig::Colors::GroupColorOne;
             } else if (track->getGroup() == 1) {
-                borderColor = EditorConfig::Colors::GroupColorTwo;
-                fillColor = EditorConfig::Colors::GroupColorTwo;
+                borderColor = GUIConfig::Colors::GroupColorTwo;
+                fillColor = GUIConfig::Colors::GroupColorTwo;
             }
         } else {
             borderColor = originalBorderColor;
@@ -87,7 +87,7 @@ void TrackButtonUI::getButtonColors() {
     }
 
     if (!isDepressed && !isRecording) {
-        fillColor = EditorConfig::Colors::Dark;
+        fillColor = GUIConfig::Colors::Dark;
     }
 }
 
@@ -97,9 +97,9 @@ void TrackButtonUI::afterPaint() {
 //    if (track->percentPlayed == 0) return;
 //
 //    if (track->isSelected) {
-//        graphics->setColour(EditorConfig::Colors::dark);
+//        graphics->setColour(GUIConfig::Colors::dark);
 //    } else {
-//        graphics->setColour(EditorConfig::Colors::mid);
+//        graphics->setColour(GUIConfig::Colors::mid);
 //    }
 
     

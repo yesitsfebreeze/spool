@@ -53,7 +53,7 @@ juce::PopupMenu StandaloneMainComponent::getMenuForIndex (int menuIndex, const j
     
     if (editor == nullptr) {};
     
-    SpoolEditor* pluginEditor = (SpoolEditor*) editor.get();
+    GUI* pluginEditor = (GUI*) editor.get();
     return menu.getMenuForIndex(pluginEditor->commandManager, m, menuIndex);
 }
 

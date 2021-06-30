@@ -2,7 +2,7 @@
 
 #include "Base/UIComponents.h"
 #include "../../Config.h"
-#include "../EditorConfig.h"
+#include "../GUIConfig.h"
 
 class ControlGroupUI : public UIComponent {
   
@@ -13,11 +13,11 @@ public:
         this->index = index;
         
         if (index == 0) {
-            groupColor = EditorConfig::Colors::GroupColorOne;
+            groupColor = GUIConfig::Colors::GroupColorOne;
         }
         
         if (index == 1) {
-            groupColor = EditorConfig::Colors::GroupColorTwo;
+            groupColor = GUIConfig::Colors::GroupColorTwo;
         }
         initializeKnobs();
     }

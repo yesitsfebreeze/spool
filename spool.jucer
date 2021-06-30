@@ -4,44 +4,44 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="kHqQxn" name="spool">
     <GROUP id="{8F0165AB-93B1-F523-4B7E-BBDC1C30D57F}" name="Source">
-      <GROUP id="{54C22E89-3C49-94F6-2643-CCCA1D5C70A0}" name="Editor">
-        <GROUP id="{248EA9BB-0DE2-8464-DA09-89939D7CF616}" name="UI">
-          <GROUP id="{7314DDE8-3D63-76BC-33F4-720EE8ECAB3F}" name="Base">
-            <GROUP id="{D48B4D14-8CA0-A537-2ED9-27B8AA874691}" name="Components">
-              <FILE id="e8YdYf" name="UIComponent.h" compile="0" resource="0" file="Source/Editor/UI/Base/Components/UIComponent.h"/>
-              <FILE id="T82JVg" name="UIComponentAnimated.h" compile="0" resource="0"
-                    file="Source/Editor/UI/Base/Components/UIComponentAnimated.h"/>
-              <FILE id="QblPTZ" name="UIButtonComponent.h" compile="0" resource="0"
-                    file="Source/Editor/UI/Base/Components/UIButtonComponent.h"/>
-              <FILE id="Y0MgIf" name="UIKnobComponent.h" compile="0" resource="0"
-                    file="Source/Editor/UI/Base/Components/UIKnobComponent.h"/>
+      <GROUP id="{5016062B-3DE3-353C-5E16-81A6629781A6}" name="GUI">
+        <GROUP id="{DE20BEDE-E903-363D-0BDB-6C433CDD2312}" name="UI">
+          <GROUP id="{550F1169-A11C-72F3-B629-327D00AABB02}" name="Base">
+            <GROUP id="{249244B6-D492-3458-FD4A-94A90410E113}" name="Components">
+              <FILE id="SvCxcM" name="UIButtonComponent.h" compile="0" resource="0"
+                    file="Source/GUI/UI/Base/Components/UIButtonComponent.h"/>
+              <FILE id="xXf4CV" name="UIComponent.h" compile="0" resource="0" file="Source/GUI/UI/Base/Components/UIComponent.h"/>
+              <FILE id="fjTWyR" name="UIComponentAnimated.h" compile="0" resource="0"
+                    file="Source/GUI/UI/Base/Components/UIComponentAnimated.h"/>
+              <FILE id="tsmkY0" name="UIKnobComponent.h" compile="0" resource="0"
+                    file="Source/GUI/UI/Base/Components/UIKnobComponent.h"/>
             </GROUP>
-            <FILE id="u1azCt" name="UI.cpp" compile="1" resource="0" file="Source/Editor/UI/Base/UI.cpp"/>
-            <FILE id="AIsq3P" name="UI.h" compile="0" resource="0" file="Source/Editor/UI/Base/UI.h"/>
-            <FILE id="raH5yR" name="UIComponents.h" compile="0" resource="0" file="Source/Editor/UI/Base/UIComponents.h"/>
+            <FILE id="RCzpSP" name="UI.cpp" compile="1" resource="0" file="Source/GUI/UI/Base/UI.cpp"/>
+            <FILE id="DUuwdo" name="UI.h" compile="0" resource="0" file="Source/GUI/UI/Base/UI.h"/>
+            <FILE id="Z2D2V0" name="UIComponents.h" compile="0" resource="0" file="Source/GUI/UI/Base/UIComponents.h"/>
           </GROUP>
-          <FILE id="QRrUyF" name="ControlButtonsUI.cpp" compile="1" resource="0"
-                file="Source/Editor/UI/ControlButtonsUI.cpp"/>
-          <FILE id="iSvzfQ" name="ControlButtonsUI.h" compile="0" resource="0"
-                file="Source/Editor/UI/ControlButtonsUI.h"/>
-          <FILE id="CmwY3j" name="ControlGroupUI.cpp" compile="1" resource="0"
-                file="Source/Editor/UI/ControlGroupUI.cpp"/>
-          <FILE id="o5sBMZ" name="ControlGroupUI.h" compile="0" resource="0"
-                file="Source/Editor/UI/ControlGroupUI.h"/>
-          <FILE id="BqbeCW" name="RMSMeterUI.cpp" compile="1" resource="0" file="Source/Editor/UI/RMSMeterUI.cpp"/>
-          <FILE id="FJYyeE" name="RMSMeterUI.h" compile="0" resource="0" file="Source/Editor/UI/RMSMeterUI.h"/>
-          <FILE id="rReHNQ" name="SequencerUI.cpp" compile="1" resource="0" file="Source/Editor/UI/SequencerUI.cpp"/>
-          <FILE id="mWfmgV" name="SequencerUI.h" compile="0" resource="0" file="Source/Editor/UI/SequencerUI.h"/>
-          <FILE id="gE16pa" name="TopAreaUI.cpp" compile="1" resource="0" file="Source/Editor/UI/TopAreaUI.cpp"/>
-          <FILE id="SxeaPr" name="TopAreaUI.h" compile="0" resource="0" file="Source/Editor/UI/TopAreaUI.h"/>
-          <FILE id="JJLJ31" name="TracksUI.cpp" compile="1" resource="0" file="Source/Editor/UI/TracksUI.cpp"/>
-          <FILE id="xh9JfD" name="TracksUI.h" compile="0" resource="0" file="Source/Editor/UI/TracksUI.h"/>
+          <FILE id="aqiCgX" name="ControlButtonsUI.cpp" compile="1" resource="0"
+                file="Source/GUI/UI/ControlButtonsUI.cpp"/>
+          <FILE id="t7UeDU" name="ControlButtonsUI.h" compile="0" resource="0"
+                file="Source/GUI/UI/ControlButtonsUI.h"/>
+          <FILE id="hWxXPR" name="ControlGroupUI.cpp" compile="1" resource="0"
+                file="Source/GUI/UI/ControlGroupUI.cpp"/>
+          <FILE id="SWR647" name="ControlGroupUI.h" compile="0" resource="0"
+                file="Source/GUI/UI/ControlGroupUI.h"/>
+          <FILE id="by197A" name="RMSMeterUI.cpp" compile="1" resource="0" file="Source/GUI/UI/RMSMeterUI.cpp"/>
+          <FILE id="UOEPdp" name="RMSMeterUI.h" compile="0" resource="0" file="Source/GUI/UI/RMSMeterUI.h"/>
+          <FILE id="ucvTlQ" name="SequencerUI.cpp" compile="1" resource="0" file="Source/GUI/UI/SequencerUI.cpp"/>
+          <FILE id="YPpCK4" name="SequencerUI.h" compile="0" resource="0" file="Source/GUI/UI/SequencerUI.h"/>
+          <FILE id="HTgPB8" name="TopAreaUI.cpp" compile="1" resource="0" file="Source/GUI/UI/TopAreaUI.cpp"/>
+          <FILE id="IOJD2X" name="TopAreaUI.h" compile="0" resource="0" file="Source/GUI/UI/TopAreaUI.h"/>
+          <FILE id="HOjKLF" name="TracksUI.cpp" compile="1" resource="0" file="Source/GUI/UI/TracksUI.cpp"/>
+          <FILE id="uADlIl" name="TracksUI.h" compile="0" resource="0" file="Source/GUI/UI/TracksUI.h"/>
         </GROUP>
-        <FILE id="vFkcHo" name="CommandDefinitions.h" compile="0" resource="0"
-              file="Source/Editor/CommandDefinitions.h"/>
-        <FILE id="QkNxvT" name="EditorConfig.h" compile="0" resource="0" file="Source/Editor/EditorConfig.h"/>
-        <FILE id="ffckSo" name="SpoolEditor.cpp" compile="1" resource="0" file="Source/Editor/SpoolEditor.cpp"/>
-        <FILE id="G0tICH" name="SpoolEditor.h" compile="0" resource="0" file="Source/Editor/SpoolEditor.h"/>
+        <FILE id="UcjcvL" name="CommandDefinitions.h" compile="0" resource="0"
+              file="Source/GUI/CommandDefinitions.h"/>
+        <FILE id="uS5cht" name="GUI.cpp" compile="1" resource="0" file="Source/GUI/GUI.cpp"/>
+        <FILE id="AZPEgI" name="GUI.h" compile="0" resource="0" file="Source/GUI/GUI.h"/>
+        <FILE id="qFBBJg" name="GUIConfig.h" compile="0" resource="0" file="Source/GUI/GUIConfig.h"/>
       </GROUP>
       <GROUP id="{749F0BDF-E901-1A75-3724-2E7D40FA35C5}" name="Processor">
         <GROUP id="{5F1096FF-66A3-F2AF-05C7-1EF80F115FAB}" name="Modules">

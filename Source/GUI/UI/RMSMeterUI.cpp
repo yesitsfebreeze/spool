@@ -2,7 +2,7 @@
 #include "../../Config.h"
 
 RMSMeterUI::RMSMeterUI() {
-    setFramesPerSecond(EditorConfig::FPS);
+    setFramesPerSecond(GUIConfig::FPS);
 }
 
 RMSMeterUI::~RMSMeterUI() {
@@ -10,22 +10,22 @@ RMSMeterUI::~RMSMeterUI() {
 }
 
 void RMSMeterUI::paint(juce::Graphics& g) {
-    g.fillAll(EditorConfig::Colors::Dark);
+    g.fillAll(GUIConfig::Colors::Dark);
     juce::Rectangle<float> bounds = getLocalBounds().toFloat();
     
     int w = bounds.getWidth();
     int h = bounds.getHeight();
-    int dotSize = w / 2 * EditorConfig::DotSize;
+    int dotSize = w / 2 * GUIConfig::DotSize;
     int offsetX = (w - dotSize) / 2;
     int spacing = (h - (dotSize * 4)) / 3;
     
     
     
     for (auto peak = 0; peak < 4; peak++) {
-        if (peak == 0) g.setColour(EditorConfig::Colors::PeakFour);
-        if (peak == 1) g.setColour(EditorConfig::Colors::PeakThree);
-        if (peak == 2) g.setColour(EditorConfig::Colors::PeakTwo);
-        if (peak == 3) g.setColour(EditorConfig::Colors::PeakOne);
+        if (peak == 0) g.setColour(GUIConfig::Colors::PeakFour);
+        if (peak == 1) g.setColour(GUIConfig::Colors::PeakThree);
+        if (peak == 2) g.setColour(GUIConfig::Colors::PeakTwo);
+        if (peak == 3) g.setColour(GUIConfig::Colors::PeakOne);
 
 
         if (peak == 0) {

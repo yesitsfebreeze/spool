@@ -141,7 +141,7 @@ private:
     float dotSize = 0.15;
     float dotDistanceFromCenter = 0.8;
     
-    juce::Colour knobColor = EditorConfig::Colors::Light;
+    juce::Colour knobColor = GUIConfig::Colors::Light;
 
     float degreeToRadians(float degree) {
         return (degree * (M_PI / 180));
@@ -167,19 +167,19 @@ private:
             offsetTop = (height - width) / 2;
         }
         
-        offsetTop += EditorConfig::BorderWidth / 2;
-        offsetLeft += EditorConfig::BorderWidth / 2;
-        knobSize -= EditorConfig::BorderWidth;
+        offsetTop += GUIConfig::BorderWidth / 2;
+        offsetLeft += GUIConfig::BorderWidth / 2;
+        knobSize -= GUIConfig::BorderWidth;
         
         juce::Rectangle<float> area {offsetLeft, offsetTop, knobSize, knobSize};
         g.setColour(knobColor);
-        g.drawEllipse(area, EditorConfig::BorderWidth);
+        g.drawEllipse(area, GUIConfig::BorderWidth);
     }
     
     void paintDot(juce::Graphics& g) {
         float calculatedDotSize = knobSize * dotSize;
-        if (calculatedDotSize < EditorConfig::BorderWidth * 2) {
-            calculatedDotSize = EditorConfig::BorderWidth * 2;
+        if (calculatedDotSize < GUIConfig::BorderWidth * 2) {
+            calculatedDotSize = GUIConfig::BorderWidth * 2;
         }
         
         float radius = ((knobSize - calculatedDotSize) / 2) * dotDistanceFromCenter;
@@ -191,7 +191,7 @@ private:
             calculatedDotSize,
             calculatedDotSize
         };
-        g.setColour(EditorConfig::Colors::Light);
+        g.setColour(GUIConfig::Colors::Light);
         g.fillEllipse(dotArea);
     }
 };

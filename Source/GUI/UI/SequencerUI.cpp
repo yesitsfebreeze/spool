@@ -3,7 +3,7 @@
 #include "../../Processor/Modules/Sequencer/Sequencer.h"
 
 SequencerUI::SequencerUI() {
-    setFramesPerSecond(EditorConfig::FPS);
+    setFramesPerSecond(GUIConfig::FPS);
 }
 
 SequencerUI::~SequencerUI() {
@@ -12,12 +12,12 @@ SequencerUI::~SequencerUI() {
 
 
 void SequencerUI::paint(juce::Graphics& g) {
-    g.fillAll(EditorConfig::Colors::Dark);
+    g.fillAll(GUIConfig::Colors::Dark);
     juce::Rectangle<float> bounds = getLocalBounds().toFloat();
     
     int w = bounds.getWidth();
     int h = bounds.getHeight();
-    int dotSize = (w / 2) * EditorConfig::DotSize;
+    int dotSize = (w / 2) * GUIConfig::DotSize;
     
     float factor = (float)w/float(h);
     
@@ -47,8 +47,8 @@ void SequencerUI::paint(juce::Graphics& g) {
         if (dot == 2) pos.setXY(right, bottom);
         if (dot == 3) pos.setXY(left, bottom);
         
-        juce::Colour inactiveColor = EditorConfig::Colors::Mid;
-        juce::Colour activeColor = EditorConfig::Colors::Red;
+        juce::Colour inactiveColor = GUIConfig::Colors::Mid;
+        juce::Colour activeColor = GUIConfig::Colors::Red;
 
         if (!isRunning) {
             g.setColour(inactiveColor);

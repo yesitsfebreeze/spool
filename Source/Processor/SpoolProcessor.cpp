@@ -11,7 +11,7 @@
 #endif
 
 #include "SpoolProcessor.h"
-#include "../Editor/SpoolEditor.h"
+#include "../GUI/GUI.h"
 #include "Modules/Sequencer/Sequencer.h"
 
 //==============================================================================
@@ -40,7 +40,7 @@ void SpoolProcessor::timerCallback() {
     sequencer->update();
     commandQueue.setCurrentTime(currentTime);
     commandQueue.process(false, false);
-    editorTimerCallback(false, false);
+    guiTimerCallback(false, false);
     
     commandQueue.setFunctionDown(isFunctionDown);
     commandQueue.setMuteDown(isMuteDown);
@@ -169,11 +169,11 @@ bool SpoolProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const {
 
 //==============================================================================
 bool SpoolProcessor::hasEditor() const {
-    return true; // (change this to false if you choose to not supply an editor)
+    return true;
 }
 
 juce::AudioProcessorEditor* SpoolProcessor::createEditor() {
-    return new SpoolEditor (*this);
+    return new GUI (*this);
 }
 
 //==============================================================================

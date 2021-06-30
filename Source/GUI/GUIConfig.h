@@ -6,7 +6,7 @@
 // color scheme
 // https://coolors.co/82ddf5-ffe95e-78ffa3-ff5452-1d1c22-414148-e9e9ed-ad67ef-eda152
 
-namespace EditorConfig {
+namespace GUIConfig {
 
     const int WindowAspectRatio = 1;
     const int DefaultWindowSize = 900;

@@ -75,7 +75,7 @@ void ControlGroupUI::addVolumeKnob() {
         DBG("onAlternateRelease");
     };
 
-    volumeKnob->setColor(EditorConfig::Colors::Green);
+    volumeKnob->setColor(GUIConfig::Colors::Green);
     addAndMakeVisible(volumeKnob);
 }
 
@@ -221,7 +221,7 @@ void ControlGroupUI::resized() {
             knob->setBounds(centerX, s * (knobSize + spacing), knobSize, knobSize);
         }
         
-        knob->setPadding(EditorConfig::Padding * 0.6);
+        knob->setPadding(GUIConfig::Padding * 0.6);
     }
     
 }

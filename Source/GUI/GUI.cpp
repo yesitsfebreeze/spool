@@ -34,17 +34,16 @@ juce::ApplicationCommandTarget* GUI::getNextCommandTarget() {
     return nullptr;
 }
 
-void GUI::getAllCommands (juce::Array<juce::CommandID>& commands) {
+void GUI::getAllCommands(juce::Array<juce::CommandID>& commands) {
     commandDefinitions.getAllCommands(commands);
 }
 
-void GUI::getCommandInfo (juce::CommandID commandID, juce::ApplicationCommandInfo& result) {
+void GUI::getCommandInfo(juce::CommandID commandID, juce::ApplicationCommandInfo& result) {
     commandDefinitions.getCommandInfo(commandID, result);
 }
 
-bool GUI::perform (const InvocationInfo& info) {
-
-    bool isLatching = commandInfo->commandFlags == CommandDefinitions::CustomCommandFlags::isLatching;
+bool GUI::perform(const InvocationInfo& info) {
+    bool isLatching = info.commandFlags == CommandDefinitions::CustomCommandFlags::isLatching;
     bool executed = audioProcessor.commandQueue.triggerCommand((Config::Command::ID) info.commandID, info.isKeyDown, isLatching);
     if (!executed) DBG("Command is not implemented yet");
     return true;

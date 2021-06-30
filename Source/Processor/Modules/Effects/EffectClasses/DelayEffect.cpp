@@ -16,17 +16,10 @@ void DelayEffect::prepareToPlay(double sampleRate, int samplesPerBlock) {
 }
 
 void DelayEffect::processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
-    DBG(wet.get());
-    DBG(paramOne.get());
-    DBG(paramTwo.get());
-    DBG("-----------");
-    
     if (sampleRate < 0) return;
 
     auto buffRead = buffer.getArrayOfReadPointers();
     auto buffWrite = buffer.getArrayOfWritePointers();
-    
-    
 
     for (int sampleIndex = 0; sampleIndex < buffer.getNumSamples(); sampleIndex++) {
         float delayTime = delayTimeInterpolation.getNextValue();
@@ -35,14 +28,15 @@ void DelayEffect::processBlockAfter(juce::AudioBuffer<float>& buffer, juce::Midi
             delayLine.pushSample(channel, drySample + lastOutput[channel]);
 
             float delaySample = delayLine.popSample(channel, delayTime, true);
-            buffWrite[channel][sampleIndex] += delaySample * wet.get();
+            buffWrite[channel][sampleIndex] *= 1 - wet;
+            buffWrite[channel][sampleIndex] += delaySample * wet;
 
-            lastOutput[channel] = delaySample * paramTwo.get();
+            lastOutput[channel] = delaySample * paramTwo;
         }
     }
 }
 
 void DelayEffect::onParamOneChanged() {
-    float targetDelayTime = minDelayTime + (maxDelayTime - minDelayTime) * paramOne.get();
+    float targetDelayTime = minDelayTime + (maxDelayTime - minDelayTime) * paramOne;
     delayTimeInterpolation.setTargetValue(targetDelayTime);
 }

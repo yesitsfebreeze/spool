@@ -18,17 +18,17 @@ public:
 
     bool selected = false;
 
-    juce::Atomic<float> wetReal = 0.0f;
-    juce::Atomic<float> wetMidi = 0.0f;
-    juce::Atomic<float> wet = 0.0f;
+    float wetReal = 0.0f;
+    float wetMidi = 0.0f;
+    float wet = 0.0f;
     
-    juce::Atomic<float> paramOneReal = 0.0f;
-    juce::Atomic<float> paramOneMidi = 0.0f;
-    juce::Atomic<float> paramOne = 0.0f;
+    float paramOneReal = 0.0f;
+    float paramOneMidi = 0.0f;
+    float paramOne = 0.0f;
     
-    juce::Atomic<float> paramTwoReal = 0.0f;
-    juce::Atomic<float> paramTwoMidi = 0.0f;
-    juce::Atomic<float> paramTwo = 0.0f;
+    float paramTwoReal = 0.0f;
+    float paramTwoMidi = 0.0f;
+    float paramTwo = 0.0f;
     
     Effect(SpoolProcessor* processor, int index, int track, int sample = -1);
     

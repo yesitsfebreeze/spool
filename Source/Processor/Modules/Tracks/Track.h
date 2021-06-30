@@ -65,63 +65,63 @@ public:
 
     void beatCallback(int beat, bool isUpBeat);
 
-    void executeAction(Action action, ActionMode mode) {
+    void executeAction(Track::Action action, Track::ActionMode mode) {
         switch (action) {
-            case Action::Select:
+            case Track::Action::Select:
                 select(mode);
                 break;
-            case Action::SelectEffect:
+            case Track::Action::SelectEffect:
                 select(mode);
                 break;
-            case Action::Mute:
+            case Track::Action::Mute:
                 mute(mode);
                 break;
-            case Action::Cue:
+            case Track::Action::Cue:
                 cue(mode);
                 break;
-            case Action::Play:
+            case Track::Action::Play:
                 play(mode);
                 break;
-            case Action::Stop:
+            case Track::Action::Stop:
                 stop(mode);
                 break;
-            case Action::Restart:
+            case Track::Action::Restart:
                 restart();
                 break;
-            case Action::Record:
+            case Track::Action::Record:
                 record();
                 break;
-            case Action::CancelRecord:
+            case Track::Action::CancelRecord:
                 cancelRecord();
                 break;
-            case Action::Clear:
+            case Track::Action::Clear:
                 clear();
                 break;
-            case Action::AddTrackToGroupA:
+            case Track::Action::AddTrackToGroupA:
                 addTrackToGroupA();
                 break;
-            case Action::RemoveTrackFromGroupA:
+            case Track::Action::RemoveTrackFromGroupA:
                 removeTrackFromGroupA();
                 break;
-            case Action::AddTrackToGroupB:
+            case Track::Action::AddTrackToGroupB:
                 addTrackToGroupB();
                 break;
-            case Action::RemoveTrackFromGroupB:
+            case Track::Action::RemoveTrackFromGroupB:
                 removeTrackFromGroupB();
                 break;
-            case Action::RemoveTrackFromAllGroups:
+            case Track::Action::RemoveTrackFromAllGroups:
                 removeTrackFromAllGroups();
                 break;
-            case Action::AddEffectToGroupA:
+            case Track::Action::AddEffectToGroupA:
                 addEffectToGroupA();
                 break;
-            case Action::RemoveEffectFromGroupA:
+            case Track::Action::RemoveEffectFromGroupA:
                 removeEffectFromGroupA();
                 break;
-            case Action::AddEffectToGroupB:
+            case Track::Action::AddEffectToGroupB:
                 addEffectToGroupB();
                 break;
-            case Action::RemoveEffectFromGroupB:
+            case Track::Action::RemoveEffectFromGroupB:
                 removeEffectFromGroupB();
                 break;
             default:

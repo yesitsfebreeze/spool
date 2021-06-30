@@ -53,8 +53,8 @@ void ControlGroupUI::addVolumeKnob() {
 
         group.doForTracks([this, increase] (Track* track) {
             float value = Parameters::getTrackParam(track->getIndex(), Config::Parameters::Volume);
-            if (increase) value += Config::ParamChangePerStep;
-            if (!increase) value -= Config::ParamChangePerStep;
+            if (increase) value += (float) Config::ParamChangePerStep;
+            if (!increase) value -= (float) Config::ParamChangePerStep;
             Parameters::setTrackParam(track->getIndex(), Config::Parameters::Volume, value);
         });
     };
@@ -94,8 +94,8 @@ void ControlGroupUI::addDryWetKnob() {
         
         group.doForEffects([this, increase] (Track* track, Effect* effect) {
             float value = Parameters::getTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::Wet);
-            if (increase) value += Config::ParamChangePerStep;
-            if (!increase) value -= Config::ParamChangePerStep;
+            if (increase) value += (float) Config::ParamChangePerStep;
+            if (!increase) value -= (float) Config::ParamChangePerStep;
             Parameters::setTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::Wet, value);
         });
     };
@@ -135,8 +135,8 @@ void ControlGroupUI::addParamOneKnob() {
         
         group.doForEffects([this, increase] (Track* track, Effect* effect) {
             float value = Parameters::getTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::ParamOne);
-            if (increase) value += Config::ParamChangePerStep;
-            if (!increase) value -= Config::ParamChangePerStep;
+            if (increase) value += (float) Config::ParamChangePerStep;
+            if (!increase) value -= (float) Config::ParamChangePerStep;
             Parameters::setTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::ParamOne, value);
         });
     };
@@ -176,8 +176,8 @@ void ControlGroupUI::addParamTwoKnob() {
         
         group.doForEffects([this, increase] (Track* track, Effect* effect) {
             float value = Parameters::getTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::ParamTwo);
-            if (increase) value += Config::ParamChangePerStep;
-            if (!increase) value -= Config::ParamChangePerStep;
+            if (increase) value += (float) Config::ParamChangePerStep;
+            if (!increase) value -= (float) Config::ParamChangePerStep;
             Parameters::setTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::ParamTwo, value);
         });
     };

@@ -100,7 +100,7 @@ private:
 
     void getCurrentTime() {
         loopIndex++;
-        currentTime = timePerUpdate * loopIndex;
+        currentTime = timePerUpdate * (juce::int64) loopIndex;
     }
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SpoolProcessor)

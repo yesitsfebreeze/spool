@@ -7,7 +7,7 @@ class CommandDefinitions {
 public:
 
     enum CustomCommandFlags {
-        isLatching                  = 1 << 6,
+        isLatching = 1 << 6,
     };
     
     void getAllCommands (juce::Array<juce::CommandID>& commands)

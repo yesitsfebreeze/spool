@@ -2,9 +2,6 @@
 
 #include <JuceHeader.h>
 
-#ifndef ConfigLoaded
-#define ConfigLoaded 1
-
 namespace Config {
 
     const float UpdateHz = 60; // hertz
@@ -18,7 +15,7 @@ namespace Config {
     const int HoldTimeout = 333; // ms
     const int DebounceTimeout = 200; // ms
     const int FNResetDelay = 100; // ms
-    const int TrackResetDelay = 150; // ms
+    const int TrackResetDelay = DoublePressTimeWindow; // ms
     const int RecordLengthDebounceTime = 1000; // ms
     
 
@@ -72,6 +69,4 @@ namespace Config {
     };
 
 }
-#endif
-
 

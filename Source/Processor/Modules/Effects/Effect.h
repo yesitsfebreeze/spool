@@ -22,13 +22,13 @@ public:
     float wetMidi = 0.0f;
     float wet = 0.0f;
     
-    float paramOneReal = 0.0f;
-    float paramOneMidi = 0.0f;
-    float paramOne = 0.0f;
+    float paramAReal = 0.0f;
+    float paramAMidi = 0.0f;
+    float paramA = 0.0f;
     
-    float paramTwoReal = 0.0f;
-    float paramTwoMidi = 0.0f;
-    float paramTwo = 0.0f;
+    float paramBReal = 0.0f;
+    float paramBMidi = 0.0f;
+    float paramB = 0.0f;
     
     Effect(SpoolProcessor* processor, int index, int track, int sample = -1);
     
@@ -42,8 +42,8 @@ public:
     virtual void processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {};
     
     virtual void onWetChanged() {};
-    virtual void onParamOneChanged() {};
-    virtual void onParamTwoChanged() {};
+    virtual void onParamAChanged() {};
+    virtual void onParamBChanged() {};
     
     juce::var clampValue(juce::var value) {
         if (value.isDouble()) {

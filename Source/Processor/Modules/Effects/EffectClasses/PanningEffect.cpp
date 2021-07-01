@@ -25,10 +25,10 @@ void PanningEffect::onWetChanged() {
     
 };
 
-void PanningEffect::onParamOneChanged() {
+void PanningEffect::onParamAChanged() {
     
 };
 
-void PanningEffect::onParamTwoChanged() {
+void PanningEffect::onParamBChanged() {
     
 };

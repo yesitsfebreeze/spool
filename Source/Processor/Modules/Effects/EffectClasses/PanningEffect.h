@@ -13,6 +13,6 @@ public:
     void processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) override;
 
     void onWetChanged() override;
-    void onParamOneChanged() override;
-    void onParamTwoChanged() override;
+    void onParamAChanged() override;
+    void onParamBChanged() override;
 };

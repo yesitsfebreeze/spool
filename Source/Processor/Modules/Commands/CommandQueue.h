@@ -12,6 +12,7 @@ public:
         Hold,
         DoublePress,
         DoubleHold,
+        Change,
         
         //TODO: implement ?
         Debounce,

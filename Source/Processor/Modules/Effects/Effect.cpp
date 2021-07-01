@@ -13,30 +13,30 @@ void Effect::getParamValues(juce::ValueTree& tree, const juce::Identifier& param
     if (sample == -1) {
         if (!Parameters::isTrackEffect(tree, track, index)) return;
         wetReal = Parameters::getTrackEffectParam(track, index, Config::Parameters::Wet);
-        paramOneReal = Parameters::getTrackEffectParam(track, index, Config::Parameters::ParamOne);
-        paramTwoReal = Parameters::getTrackEffectParam(track, index, Config::Parameters::ParamTwo);
+        paramAReal = Parameters::getTrackEffectParam(track, index, Config::Parameters::ParamA);
+        paramBReal = Parameters::getTrackEffectParam(track, index, Config::Parameters::ParamB);
     } else {
         if (!Parameters::isTrackSampleEffect(tree, track, sample, index)) return;
         wetReal = Parameters::getTrackSampleEffectParam(track, sample, index, Config::Parameters::Wet);
-        paramOneReal = Parameters::getTrackSampleEffectParam(track, sample, index, Config::Parameters::ParamOne);
-        paramTwoReal = Parameters::getTrackSampleEffectParam(track, sample, index, Config::Parameters::ParamTwo);
+        paramAReal = Parameters::getTrackSampleEffectParam(track, sample, index, Config::Parameters::ParamA);
+        paramBReal = Parameters::getTrackSampleEffectParam(track, sample, index, Config::Parameters::ParamB);
     }
     
     wetMidi = clampValue(wetReal);
     wet = wetMidi / Config::MaxParamValue;
     
-    paramOneMidi = clampValue(paramOneReal);
-    paramOne = paramOneMidi / Config::MaxParamValue;
+    paramAMidi = clampValue(paramAReal);
+    paramA = paramAMidi / Config::MaxParamValue;
 
-    paramTwoMidi = clampValue(paramTwoReal);
-    paramTwo = paramTwoMidi / Config::MaxParamValue;
+    paramBMidi = clampValue(paramBReal);
+    paramB = paramBMidi / Config::MaxParamValue;
     
     if (param.isNull()) return;
     juce::String paramName = param.toString();
     
     if (paramName == Config::ParameterNames[Config::Parameters::Wet]) return onWetChanged();
-    if (paramName == Config::ParameterNames[Config::Parameters::ParamOne]) return onParamOneChanged();
-    if (paramName == Config::ParameterNames[Config::Parameters::ParamTwo]) return onParamTwoChanged();
+    if (paramName == Config::ParameterNames[Config::Parameters::ParamA]) return onParamAChanged();
+    if (paramName == Config::ParameterNames[Config::Parameters::ParamB]) return onParamBChanged();
 
 }
 

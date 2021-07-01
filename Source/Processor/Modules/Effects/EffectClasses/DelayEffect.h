@@ -11,7 +11,7 @@ public:
     void prepareToPlay(double sampleRate, int samplesPerBlock) override;
     void processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) override;
 
-    void onParamOneChanged() override;
+    void onParamAChanged() override;
 
 private:
     double sampleRate = -1;

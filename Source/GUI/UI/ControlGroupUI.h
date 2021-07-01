@@ -27,8 +27,8 @@ public:
     void addToGroup();
     
     void addVolumeKnob();
-    void addParamTwoKnob();
-    void addParamOneKnob();
+    void addParamAKnob();
+    void addParamBKnob();
     void addDryWetKnob();
 
     void paint(juce::Graphics& g) override {}

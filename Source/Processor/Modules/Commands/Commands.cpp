@@ -178,3 +178,20 @@ void Commands::registerTrackCommandActions() {
     }
 
 }
+
+
+void Commands::registerControlGroupACommands() {
+    owner->commandQueue.registerCommandAction(Cmd::Volume, Type::Change, TriggerType::Instant, [this] (bool FN) {
+        
+    });
+}
+
+void Commands::registerControlGroupBCommands() {
+//    owner->commandQueue.registerCommandAction(trackCmd, Type::DoubleHold, TriggerType::Instant, [this, track] (bool FN) {
+//        if (owner->tracks->hasSampleLayer()) {
+//            owner->tracks->unsetSampleLayer();
+//        } else {
+//            owner->tracks->setSampleLayer(track);
+//        }
+//    });
+}

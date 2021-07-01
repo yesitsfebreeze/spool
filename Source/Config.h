@@ -30,6 +30,10 @@ namespace Config {
             Function,
             Mute,
             Play,
+            Volume,
+            Wet,
+            ParamA,
+            ParamB,
             Record,
             Track1,
             Track2,
@@ -55,8 +59,8 @@ namespace Config {
         Volume,
         Panning,
         Wet,
-        ParamOne,
-        ParamTwo,
+        ParamA,
+        ParamB,
     };
 
     const juce::String ParameterNames[] {
@@ -64,8 +68,8 @@ namespace Config {
         "Volume",
         "Panning",
         "Wet",
-        "ParamOne",
-        "ParamTwo",
+        "ParamA",
+        "ParamB",
     };
 
 }

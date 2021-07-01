@@ -31,12 +31,12 @@ void DelayEffect::processBlockAfter(juce::AudioBuffer<float>& buffer, juce::Midi
             buffWrite[channel][sampleIndex] *= 1 - wet;
             buffWrite[channel][sampleIndex] += delaySample * wet;
 
-            lastOutput[channel] = delaySample * paramTwo;
+            lastOutput[channel] = delaySample * paramB;
         }
     }
 }
 
-void DelayEffect::onParamOneChanged() {
-    float targetDelayTime = minDelayTime + (maxDelayTime - minDelayTime) * paramOne;
+void DelayEffect::onParamAChanged() {
+    float targetDelayTime = minDelayTime + (maxDelayTime - minDelayTime) * paramA;
     delayTimeInterpolation.setTargetValue(targetDelayTime);
 }

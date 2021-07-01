@@ -29,6 +29,8 @@ public:
     void registerPlayCommandActions();
     void registerRecordCommandActions();
     void registerTrackCommandActions();
+    void registerControlGroupACommands();
+    void registerControlGroupBCommands();
     
     void registerCommandActions() {
         registerFunctionCommandActions();

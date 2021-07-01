@@ -4,8 +4,8 @@
 void ControlGroupUI::initializeKnobs() {
     addVolumeKnob();
     addDryWetKnob();
-    addParamOneKnob();
-    addParamTwoKnob();
+    addParamAKnob();
+    addParamBKnob();
 }
 
 void ControlGroupUI::addToGroup() {
@@ -120,86 +120,86 @@ void ControlGroupUI::addDryWetKnob() {
     addAndMakeVisible(dryWetKnob);
 }
 
-void ControlGroupUI::addParamOneKnob() {
-    UIKnobComponent* paramOneKnob = knobs.add(new UIKnobComponent());
-    paramOneKnob->setSensitivity(Config::KnobSensitivity);
+void ControlGroupUI::addParamAKnob() {
+    UIKnobComponent* paramAKnob = knobs.add(new UIKnobComponent());
+    paramAKnob->setSensitivity(Config::KnobSensitivity);
     
-    paramOneKnob->onInteract = [this] () {
+    paramAKnob->onInteract = [this] () {
         addToGroup();
     };
 
-    paramOneKnob->onValueChange = [this] (bool increase) {
+    paramAKnob->onValueChange = [this] (bool increase) {
         ControlGroup group = nullptr;
         if (index == 0) group = processor->controlGroupA;
         if (index == 1) group = processor->controlGroupB;
         
         group.doForEffects([this, increase] (Track* track, Effect* effect) {
-            float value = Parameters::getTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::ParamOne);
+            float value = Parameters::getTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::ParamA);
             if (increase) value += (float) Config::ParamChangePerStep;
             if (!increase) value -= (float) Config::ParamChangePerStep;
-            Parameters::setTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::ParamOne, value);
+            Parameters::setTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::ParamA, value);
         });
     };
 
-    paramOneKnob->onPress = [this] () {
+    paramAKnob->onPress = [this] () {
 //        app->addSelectedTracksToGroup(index);
     };
 
-    paramOneKnob->onRelease = [this] () {
+    paramAKnob->onRelease = [this] () {
 //        app->onRecordLengthRelease();
     };
 
-    paramOneKnob->onAlternatePress = [this] () {
+    paramAKnob->onAlternatePress = [this] () {
         DBG("onAlternatePress");
     };
 
-    paramOneKnob->onAlternateRelease = [this] () {
+    paramAKnob->onAlternateRelease = [this] () {
         DBG("onAlternateRelease");
     };
 
-    paramOneKnob->setColor(groupColor);
-    addAndMakeVisible(paramOneKnob);
+    paramAKnob->setColor(groupColor);
+    addAndMakeVisible(paramAKnob);
 }
 
-void ControlGroupUI::addParamTwoKnob() {
-    UIKnobComponent* paramTwoKnob = knobs.add(new UIKnobComponent());
-    paramTwoKnob->setSensitivity(Config::KnobSensitivity);
+void ControlGroupUI::addParamBKnob() {
+    UIKnobComponent* paramBKnob = knobs.add(new UIKnobComponent());
+    paramBKnob->setSensitivity(Config::KnobSensitivity);
     
-    paramTwoKnob->onInteract = [this] () {
+    paramBKnob->onInteract = [this] () {
         addToGroup();
     };
 
-    paramTwoKnob->onValueChange = [this] (bool increase) {
+    paramBKnob->onValueChange = [this] (bool increase) {
         ControlGroup group = nullptr;
         if (index == 0) group = processor->controlGroupA;
         if (index == 1) group = processor->controlGroupB;
         
         group.doForEffects([this, increase] (Track* track, Effect* effect) {
-            float value = Parameters::getTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::ParamTwo);
+            float value = Parameters::getTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::ParamB);
             if (increase) value += (float) Config::ParamChangePerStep;
             if (!increase) value -= (float) Config::ParamChangePerStep;
-            Parameters::setTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::ParamTwo, value);
+            Parameters::setTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::ParamB, value);
         });
     };
 
-    paramTwoKnob->onPress = [this] () {
+    paramBKnob->onPress = [this] () {
 //        app->addSelectedTracksToGroup(index);
     };
 
-    paramTwoKnob->onRelease = [this] () {
+    paramBKnob->onRelease = [this] () {
 //        app->onRecordLengthRelease();
     };
 
-    paramTwoKnob->onAlternatePress = [this] () {
+    paramBKnob->onAlternatePress = [this] () {
         DBG("onAlternatePress");
     };
 
-    paramTwoKnob->onAlternateRelease = [this] () {
+    paramBKnob->onAlternateRelease = [this] () {
         DBG("onAlternateRelease");
     };
 
-    paramTwoKnob->setColor(groupColor);
-    addAndMakeVisible(paramTwoKnob);
+    paramBKnob->setColor(groupColor);
+    addAndMakeVisible(paramBKnob);
 }
 
 void ControlGroupUI::resized() {

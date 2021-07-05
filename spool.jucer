@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="Lq6hAg" name="spool" projectType="audioplug" useAppConfig="1"
-              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
+              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
+              headerPath="../../Source;">
   <MAINGROUP id="kHqQxn" name="spool">
     <GROUP id="{8F0165AB-93B1-F523-4B7E-BBDC1C30D57F}" name="Source">
       <GROUP id="{5016062B-3DE3-353C-5E16-81A6629781A6}" name="GUI">
@@ -51,7 +52,6 @@
             <FILE id="Z2SLYf" name="ControlGroup.h" compile="0" resource="0" file="Source/Processor/Modules/ControlGroup/ControlGroup.h"/>
           </GROUP>
           <GROUP id="{55BE0EB3-7125-B945-0200-CE84EEB5E92D}" name="Parameters">
-            <FILE id="cxxopt" name="Parameteres.cpp" compile="1" resource="0" file="Source/Processor/Modules/Parameters/Parameteres.cpp"/>
             <FILE id="qUhFMb" name="Parameteres.h" compile="0" resource="0" file="Source/Processor/Modules/Parameters/Parameteres.h"/>
           </GROUP>
           <GROUP id="{170199A0-EE20-57B8-2499-20344D96DC51}" name="Commands">
@@ -61,25 +61,24 @@
             <FILE id="XWi5ZZ" name="QueueCommand.h" compile="0" resource="0" file="Source/Processor/Modules/Commands/QueueCommand.h"/>
           </GROUP>
           <GROUP id="{51C9340F-2FFB-60B5-7CFE-72E2EB609D60}" name="Effects">
-            <GROUP id="{5398026C-2DD7-0683-3BAF-D708456A98AF}" name="EffectClasses">
-              <FILE id="T6gL2b" name="AutoPanEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/EffectClasses/AutoPanEffect.h"/>
-              <FILE id="u0wwWD" name="CompressorEffect.h" compile="0" resource="0"
-                    file="Source/Processor/Modules/Effects/EffectClasses/CompressorEffect.h"/>
-              <FILE id="lkiWCx" name="DelayEffect.cpp" compile="1" resource="0" file="Source/Processor/Modules/Effects/EffectClasses/DelayEffect.cpp"/>
-              <FILE id="tBzwmB" name="DelayEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/EffectClasses/DelayEffect.h"/>
-              <FILE id="frUY1l" name="NoiseEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/EffectClasses/NoiseEffect.h"/>
-              <FILE id="tsP8RR" name="PanningEffect.cpp" compile="1" resource="0"
-                    file="Source/Processor/Modules/Effects/EffectClasses/PanningEffect.cpp"/>
-              <FILE id="lpVFeR" name="PanningEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/EffectClasses/PanningEffect.h"/>
-              <FILE id="LYXE7A" name="PhaserEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/EffectClasses/PhaserEffect.h"/>
-              <FILE id="eJoQSd" name="ReverbEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/EffectClasses/ReverbEffect.h"/>
-              <FILE id="WybZud" name="TremoloEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/EffectClasses/TremoloEffect.h"/>
+            <GROUP id="{829A2EDD-351B-3FC2-9854-33E652F4D3B2}" name="Base">
+              <FILE id="eWMLKv" name="Effect.cpp" compile="1" resource="0" file="Source/Processor/Modules/Effects/Base/Effect.cpp"/>
+              <FILE id="eEBczX" name="Effect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/Base/Effect.h"/>
+              <FILE id="boULeD" name="Effects.cpp" compile="1" resource="0" file="Source/Processor/Modules/Effects/Base/Effects.cpp"/>
+              <FILE id="HPQo9p" name="Effects.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/Base/Effects.h"/>
             </GROUP>
-            <FILE id="bKCcva" name="Effect.cpp" compile="1" resource="0" file="Source/Processor/Modules/Effects/Effect.cpp"/>
-            <FILE id="Cdv3JI" name="Effect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/Effect.h"/>
-            <FILE id="eXl9Tr" name="EffectList.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/EffectList.h"/>
-            <FILE id="PQqZoy" name="Effects.cpp" compile="1" resource="0" file="Source/Processor/Modules/Effects/Effects.cpp"/>
-            <FILE id="ITwu61" name="Effects.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/Effects.h"/>
+            <FILE id="ysG83O" name="AutoPanEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/AutoPanEffect.h"/>
+            <FILE id="Nivs0Z" name="CompressorEffect.h" compile="0" resource="0"
+                  file="Source/Processor/Modules/Effects/CompressorEffect.h"/>
+            <FILE id="JU4vy6" name="DelayEffect.cpp" compile="1" resource="0" file="Source/Processor/Modules/Effects/DelayEffect.cpp"/>
+            <FILE id="Jjm5Bw" name="DelayEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/DelayEffect.h"/>
+            <FILE id="vNz1aN" name="NoiseEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/NoiseEffect.h"/>
+            <FILE id="lmHJ16" name="PanningEffect.cpp" compile="1" resource="0"
+                  file="Source/Processor/Modules/Effects/PanningEffect.cpp"/>
+            <FILE id="kagydM" name="PanningEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/PanningEffect.h"/>
+            <FILE id="WAhMct" name="PhaserEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/PhaserEffect.h"/>
+            <FILE id="dla3sY" name="ReverbEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/ReverbEffect.h"/>
+            <FILE id="uMHJdi" name="TremoloEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/TremoloEffect.h"/>
           </GROUP>
           <GROUP id="{66392EEE-BB8A-6CC5-2975-118737CE6B7D}" name="Sequencer">
             <FILE id="auxOqr" name="Sequencer.cpp" compile="1" resource="0" file="Source/Processor/Modules/Sequencer/Sequencer.cpp"/>

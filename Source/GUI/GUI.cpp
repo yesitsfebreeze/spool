@@ -1,7 +1,8 @@
 #include "../Processor/SpoolProcessor.h"
 #include "GUI.h"
-#include "../Config.h"
-#include "UI/Base/UI.h"
+
+#include "Config.h"
+#include "GUI/UI/Base/UI.h"
 
 //==============================================================================
 GUI::GUI (SpoolProcessor& p) : AudioProcessorEditor (&p), audioProcessor (p) {

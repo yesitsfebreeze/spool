@@ -1,5 +1,6 @@
 #include "TopAreaUI.h"
-#include "../../Config.h"
+
+#include "Config.h"
 
 
 TopAreaUI::~TopAreaUI() {

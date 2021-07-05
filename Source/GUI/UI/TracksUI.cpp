@@ -1,6 +1,6 @@
 #include "TracksUI.h"
-#include "../../Config.h"
-#include "../GUIConfig.h"
+#include "Config.h"
+#include "GUI/GUIConfig.h"
 
 TracksUI::TracksUI() {
     for (int i = 0; i < Config::TrackCount; ++i) {

@@ -1,8 +1,9 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "Base/UIComponents.h"
-#include "../../Config.h"
+#include "Config.h"
+
+#include "GUI/UI/Base/UIComponents.h"
 
 class Track;
 

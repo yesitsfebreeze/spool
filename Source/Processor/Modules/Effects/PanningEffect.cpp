@@ -1,5 +1,5 @@
 #include "PanningEffect.h"
-#include "../../../SpoolProcessor.h"
+#include "Processor/SpoolProcessor.h"
 
 
 PanningEffect::PanningEffect(SpoolProcessor* processor, int index, int track, int sample) : Effect{ processor, index, track, sample } {

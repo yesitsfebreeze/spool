@@ -1,6 +1,7 @@
 #include "SequencerUI.h"
-#include "../../Config.h"
-#include "../../Processor/Modules/Sequencer/Sequencer.h"
+
+#include "Config.h"
+#include "Processor/Modules/Sequencer/Sequencer.h"
 
 SequencerUI::SequencerUI() {
     setFramesPerSecond(GUIConfig::FPS);

@@ -1,9 +1,10 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "SampleHolder.h"
-#include "../../../Config.h"
-#include "../Effects/Effects.h"
+#include "Config.h"
+
+#include "Processor/Modules/Tracks/SampleHolder.h"
+#include "Processor/Modules/Effects/Base/Effects.h"
 
 class Tracks;
 

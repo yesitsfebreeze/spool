@@ -1,9 +1,8 @@
 #include "Commands.h"
 
-#include "SpoolProcessor.h"
-#include "Modules/Commands/CommandQueue.h"
-#include "../Config.h"
-
+#include "Processor/SpoolProcessor.h"
+#include "Processor/Modules/Commands/CommandQueue.h"
+#include "Config.h"
 
 void Commands::registerFunctionCommands() {
 
@@ -16,15 +15,6 @@ void Commands::registerFunctionCommands() {
             processor->isFunctionDown = true;
             processor->setEffectMode(true);
         }
-    });
-
-    // FUNCTION Release
-    processor->commandQueue.registerCommand(Cmd::Function, Type::Release, TriggerType::Instant, [this] (QueueAction* action) {
-        //NOTE: give the functionrelease a bit leeway, so ppl can be sloppy with input
-        juce::Timer::callAfterDelay(Config::FNResetDelay, [this] {
-            processor->isFunctionDown = false;
-            processor->setEffectMode(false);
-        });
     });
 
     // FUNCTION Double Press

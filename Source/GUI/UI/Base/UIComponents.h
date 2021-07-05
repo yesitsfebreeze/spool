@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Components/UIComponent.h"
-#include "Components/UIComponentAnimated.h"
-#include "Components/UIButtonComponent.h"
-#include "Components/UIKnobComponent.h"
+#include "GUI/UI/Base/Components/UIComponent.h"
+#include "GUI/UI/Base/Components/UIComponentAnimated.h"
+#include "GUI/UI/Base/Components/UIButtonComponent.h"
+#include "GUI/UI/Base/Components/UIKnobComponent.h"

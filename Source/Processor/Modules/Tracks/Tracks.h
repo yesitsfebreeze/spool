@@ -1,8 +1,9 @@
 #pragma once
 #include <JuceHeader.h>
-#include "../../../Config.h"
-#include "Track.h"
-#include "../Effects/Effect.h"
+#include "Config.h"
+
+#include "Processor/Modules/Tracks/Track.h"
+#include "Processor/Modules/Effects/Base/Effect.h"
 
 class SpoolProcessor;
 

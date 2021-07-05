@@ -1,7 +1,7 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "StandalonePluginHolder.h"
+#include "Standalone/StandalonePluginHolder.h"
 
 //TODO: open settings window with menu and shortcut
 

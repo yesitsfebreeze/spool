@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Effect.h"
+#include "Base/Effect.h"
 
 class SpoolProcessor;
 

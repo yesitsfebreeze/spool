@@ -1,5 +1,5 @@
 #include "DelayEffect.h"
-#include "../../../SpoolProcessor.h"
+#include "Processor/SpoolProcessor.h"
 
 
 DelayEffect::DelayEffect(SpoolProcessor* processor, int index, int track, int sample) : Effect{ processor, index, track, sample }, delayLine(48000) {

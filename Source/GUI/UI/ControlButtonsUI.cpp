@@ -1,5 +1,6 @@
 #include "ControlButtonsUI.h"
-#include "../../Config.h"
+
+#include "Config.h"
 
 ControlButtonsUI::ControlButtonsUI() {
     setFramesPerSecond(GUIConfig::FPS);

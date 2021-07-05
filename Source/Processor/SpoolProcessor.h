@@ -1,11 +1,11 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "Modules/Tracks/Tracks.h"
-#include "Modules/Commands/CommandQueue.h"
-#include "Modules/Parameters/Parameteres.h"
-#include "Modules/ControlGroup/ControlGroup.h"
-#include "Commands.h"
+#include "Processor/Modules/Tracks/Tracks.h"
+#include "Processor/Modules/Commands/CommandQueue.h"
+#include "Processor/Modules/Parameters/Parameteres.h"
+#include "Processor/Modules/ControlGroup/ControlGroup.h"
+#include "Processor/Commands.h"
 
 
 // forward refs

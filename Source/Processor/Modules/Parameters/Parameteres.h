@@ -1,14 +1,13 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "../../../Config.h"
+
+#include "Config.h"
 
 class Parameters {
 public:
     Parameters& operator=(const Parameters&) = delete;
     Parameters(const Parameters&) = delete;
-    
-    static const int NONE = -1;
     
     static Parameters& instance() {
         static Parameters _instance;

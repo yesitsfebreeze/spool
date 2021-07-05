@@ -1,8 +1,8 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "../../../../Processor/SpoolProcessor.h"
-#include "../../../GUI.h"
+#include "Processor/SpoolProcessor.h"
+#include "GUI/GUI.h"
 
 class UIComponent : public juce::Component {
 public:

@@ -2,9 +2,10 @@
 // #include "../utility/juce_CreatePluginFilter.h"
 //#endif
 
-#include "../GUI/GUI.h"
 #include "StandaloneWindow.h"
-#include "StandaloneApp.h"
+
+#include "GUI/GUI.h"
+#include "Standalone/StandaloneApp.h"
 
 
 StandaloneWindow::StandaloneWindow(StandaloneApp& app, const juce::String& title,

@@ -1,7 +1,8 @@
 #include "Track.h"
-#include "Tracks.h"
-#include "../../SpoolProcessor.h"
-#include "../ControlGroup/ControlGroup.h"
+
+#include "Processor/Modules/Tracks/Tracks.h"
+#include "Processor/SpoolProcessor.h"
+#include "Processor/Modules/ControlGroup/ControlGroup.h"
 
 
 Track::Track(Tracks* owner, int trackIndex) : owner(owner), trackIndex(trackIndex) {

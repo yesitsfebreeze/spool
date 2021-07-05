@@ -1,5 +1,6 @@
 #include "RMSMeterUI.h"
-#include "../../Config.h"
+
+#include "Config.h"
 
 RMSMeterUI::RMSMeterUI() {
     setFramesPerSecond(GUIConfig::FPS);

@@ -1,6 +1,6 @@
 #pragma once
 #include <JuceHeader.h>
-#include "../Effects/Effects.h"
+#include "Processor/Modules/Effects/Base/Effects.h"
 
 class Track;
 

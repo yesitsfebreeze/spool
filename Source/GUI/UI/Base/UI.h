@@ -1,14 +1,16 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "UIComponents.h"
-#include "../TopAreaUI.h"
-#include "../TracksUI.h"
-#include "../SequencerUI.h"
-#include "../RMSMeterUI.h"
-#include "../ControlButtonsUI.h"
-#include "../ControlGroupUI.h"
-#include "../../../Processor/Modules/ControlGroup/ControlGroup.h"
+#include "GUI/UI/Base/UIComponents.h"
+
+#include "GUI/UI/TopAreaUI.h"
+#include "GUI/UI/TracksUI.h"
+#include "GUI/UI/SequencerUI.h"
+#include "GUI/UI/RMSMeterUI.h"
+#include "GUI/UI/ControlButtonsUI.h"
+#include "GUI/UI/ControlGroupUI.h"
+
+#include "Processor/Modules/ControlGroup/ControlGroup.h"
 
 class UI : public UIComponent  {
     

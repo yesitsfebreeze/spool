@@ -1,5 +1,6 @@
 #include "Effect.h"
-#include "../../SpoolProcessor.h"
+
+#include "Processor/SpoolProcessor.h"
 
 Effect::Effect(SpoolProcessor* processor, int index, int track, int sample) : processor(processor), index(index), track(track), sample(sample) {
     juce::ValueTree& tree = Parameters::getValueTree();

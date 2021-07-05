@@ -1,5 +1,5 @@
 #include "UI.h"
-#include "../../GUIConfig.h"
+#include "GUI/GUIConfig.h"
 
 
 UI::UI() {

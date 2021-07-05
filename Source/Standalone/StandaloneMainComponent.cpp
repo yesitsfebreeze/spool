@@ -1,8 +1,9 @@
-#include "StandaloneWindow.h"
+#include "Standalone/StandaloneWindow.h"
+
 #include "StandaloneMainComponent.h"
-#include "StandaloneWindow.h"
-#include "StandaloneApp.h"
-#include "../PluginEditor.h"
+
+#include "Standalone/StandaloneApp.h"
+#include "PluginEditor.h"
 
 StandaloneMainComponent::StandaloneMainComponent(StandaloneWindow& window) : owner (window), editor (owner.getAudioProcessor()->hasEditor() ? owner.getAudioProcessor()->createEditorIfNeeded() : new juce::GenericAudioProcessorEditor (*owner.getAudioProcessor())) {
     

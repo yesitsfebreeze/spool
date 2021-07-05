@@ -1,8 +1,9 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "../../Config.h"
-#include "Base/UIComponents.h"
+#include "Config.h"
+
+#include "GUI/UI/Base/UIComponents.h"
 
 class SequencerUI : public UIComponentAnimated {
     

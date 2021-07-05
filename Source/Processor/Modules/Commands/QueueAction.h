@@ -1,9 +1,10 @@
 #pragma once
 #include <JuceHeader.h>
 #include <map>
-#include "../../../Config.h"
-#include "../ControlGroup/ControlGroup.h"
-#include "CommandTypes.h"
+
+#include "Config.h"
+#include "Processor/Modules/ControlGroup/ControlGroup.h"
+#include "Processor/Modules/Commands/CommandTypes.h"
 
 struct QueueAction {
 public:

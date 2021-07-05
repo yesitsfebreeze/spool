@@ -1,9 +1,10 @@
 #pragma once
 
-#include "Base/UIComponents.h"
-#include "../../Config.h"
-#include "../GUIConfig.h"
-#include "../../Processor/Modules/ControlGroup/ControlGroup.h"
+#include "GUI/UI/Base/UIComponents.h"
+
+#include "Config.h"
+#include "GUI/GUIConfig.h"
+#include "Processor/Modules/ControlGroup/ControlGroup.h"
 
 class ControlGroupUI : public UIComponent {
   

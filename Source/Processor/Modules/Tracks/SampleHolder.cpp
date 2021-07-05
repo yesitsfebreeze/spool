@@ -1,6 +1,7 @@
 #include "SampleHolder.h"
-#include "Track.h"
-#include "Tracks.h"
+
+#include "Processor/Modules/Tracks/Track.h"
+#include "Processor/Modules/Tracks/Tracks.h"
 
 
 SampleHolder::SampleHolder(Track* owner, int trackIndex, int index) : owner(owner), trackIndex(trackIndex), index(index) {

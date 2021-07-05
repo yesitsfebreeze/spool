@@ -4,9 +4,10 @@
 // #include "../utility/juce_CreatePluginFilter.h"
 //#endif
 
-#include "../Config.h"
-#include "StandalonePluginHolder.h"
-#include "StandaloneMainComponent.h"
+#include "Config.h"
+
+#include "Standalone/StandalonePluginHolder.h"
+#include "Standalone/StandaloneMainComponent.h"
 
 class StandaloneApp;
 

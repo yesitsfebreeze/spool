@@ -1,7 +1,7 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "Base/UIComponents.h"
+#include "GUI/UI/Base/UIComponents.h"
 
 class ControlButtonsUI : public UIComponentAnimated {
     

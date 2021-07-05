@@ -1,7 +1,7 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "GUIConfig.h"
+#include "GUI/GUIConfig.h"
 
 class CommandDefinitions {
 public:

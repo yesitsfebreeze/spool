@@ -1,11 +1,14 @@
 #pragma once
-#include <JuceHeader.h>
 #include <map>
-#include "../../../Config.h"
-#include "../ControlGroup/ControlGroup.h"
-#include "CommandTypes.h"
-#include "QueueAction.h"
+
+#include <JuceHeader.h>
 #include "QueueCommand.h"
+
+#include "Config.h"
+#include "Processor/Modules/ControlGroup/ControlGroup.h"
+#include "Processor/Modules/Commands/CommandTypes.h"
+#include "Processor/Modules/Commands/QueueAction.h"
+
 
 class CommandQueue {
 public:

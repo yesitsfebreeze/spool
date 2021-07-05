@@ -1,5 +1,6 @@
 #include "ControlGroupUI.h"
-#include "../../Processor/Modules/Commands/CommandQueue.h"
+
+#include "Processor/Modules/Commands/CommandQueue.h"
 
 
 void ControlGroupUI::initializeKnobs() {

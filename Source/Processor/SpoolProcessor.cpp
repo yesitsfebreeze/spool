@@ -1,18 +1,10 @@
-/*
-  ==============================================================================
-
-    This file contains the basic framework code for a JUCE plugin processor.
-
-  ==============================================================================
-*/
-
 #if JUCE_USE_CUSTOM_PLUGIN_STANDALONE_APP
-#include "../Standalone/StandaloneApp.cpp"
+#include "Standalone/StandaloneApp.cpp"
 #endif
 
 #include "SpoolProcessor.h"
-#include "../GUI/GUI.h"
-#include "Modules/Sequencer/Sequencer.h"
+#include "Processor/Modules/Sequencer/Sequencer.h"
+#include "GUI/GUI.h"
 
 //==============================================================================
 SpoolProcessor::SpoolProcessor():

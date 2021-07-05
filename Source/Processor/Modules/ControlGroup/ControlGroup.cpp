@@ -1,7 +1,8 @@
 #include "ControlGroup.h"
-#include "../Tracks/Track.h"
-#include "../Effects/Effect.h"
-#include "../../SpoolProcessor.h"
+
+#include "Processor/Modules/Tracks/Track.h"
+#include "Processor/Modules/Effects/Base/Effect.h"
+#include "Processor/SpoolProcessor.h"
 
 void ControlGroup::doForTracks(std::function<void(Track* track)> callback) {
     for (int i = 0; i < Config::TrackCount; i++) {

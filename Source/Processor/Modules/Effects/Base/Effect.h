@@ -2,8 +2,8 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "../../Modules/Parameters/Parameteres.h"
-#include "../../../Config.h"
+#include "Processor/Modules/Parameters/Parameteres.h"
+#include "Config.h"
 
 class SpoolProcessor;
 

@@ -1,12 +1,30 @@
 #include <JuceHeader.h>
-#include "../../../Config.h"
 #include "Effects.h"
-#include "Effect.h"
-#include "EffectList.h"
-#include "../../SpoolProcessor.h"
+
+#include "Config.h"
+#include "Processor/SpoolProcessor.h"
+#include "Processor/Modules/Effects/Base/Effect.h"
+
+// actual effects
+#include "Processor/Modules/Effects/DelayEffect.h"
 
 Effects::Effects(SpoolProcessor* processor, int track, int sample): processor(processor), track(track), sample(sample) {
-    effects.add(new DelayEffect(processor, effects.size(), track, sample));
+    addEffect<DelayEffect>();
+    addEffect<DelayEffect>();
+    addEffect<DelayEffect>();
+    addEffect<DelayEffect>();
+    addEffect<DelayEffect>();
+    addEffect<DelayEffect>();
+    addEffect<DelayEffect>();
+    addEffect<DelayEffect>();
+    addEffect<DelayEffect>();
+    addEffect<DelayEffect>();
+    addEffect<DelayEffect>();
+    addEffect<DelayEffect>();
+    addEffect<DelayEffect>();
+    addEffect<DelayEffect>();
+    addEffect<DelayEffect>();
+    addEffect<DelayEffect>();
 }
 
 Effects::~Effects() {

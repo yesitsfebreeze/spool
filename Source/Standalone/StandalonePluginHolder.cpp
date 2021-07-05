@@ -1,7 +1,7 @@
 #include "StandalonePluginHolder.h"
-#include "StandaloneWindow.h"
-#include "StandaloneSettingsComponent.h"
 
+#include "Standalone/StandaloneWindow.h"
+#include "Standalone/StandaloneSettingsComponent.h"
 
 StandalonePluginHolder::StandalonePluginHolder (
                             juce::PropertySet* settingsToUse,

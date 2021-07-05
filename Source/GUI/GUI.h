@@ -1,8 +1,8 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "../Processor/SpoolProcessor.h"
-#include "CommandDefinitions.h"
+#include "Processor/SpoolProcessor.h"
+#include "GUI/CommandDefinitions.h"
 
 class UI;
 

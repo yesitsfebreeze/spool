@@ -3,22 +3,18 @@
 #include "Base/UIComponents.h"
 #include "../../Config.h"
 #include "../GUIConfig.h"
+#include "../../Processor/Modules/ControlGroup/ControlGroup.h"
 
 class ControlGroupUI : public UIComponent {
   
 public:
-    int index;
+    ControlGroup::Group groupID;
 
-    ControlGroupUI(int index) {
-        this->index = index;
-        
-        if (index == 0) {
-            groupColor = GUIConfig::Colors::GroupColorOne;
-        }
-        
-        if (index == 1) {
-            groupColor = GUIConfig::Colors::GroupColorTwo;
-        }
+
+    ControlGroupUI(ControlGroup::Group groupID) : groupID(groupID) {
+        if (groupID == ControlGroup::Group::A) groupColor = GUIConfig::Colors::GroupColorA;
+        if (groupID == ControlGroup::Group::B) groupColor = GUIConfig::Colors::GroupColorB;
+
         initializeKnobs();
     }
     

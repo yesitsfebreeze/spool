@@ -11,11 +11,11 @@ namespace Config {
     const int TrackCount = 16;
 
     // timing relevant stuff
-    const int DoublePressTimeWindow = 250;
+    const int DoublePressTimeout = 250;
     const int HoldTimeout = 333; // ms
     const int DebounceTimeout = 200; // ms
     const int FNResetDelay = 100; // ms
-    const int TrackResetDelay = DoublePressTimeWindow; // ms
+    const int TrackResetDelay = DoublePressTimeout; // ms
     const int RecordLengthDebounceTime = 1000; // ms
     
 

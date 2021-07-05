@@ -10,7 +10,9 @@ ControlButtonsUI::ControlButtonsUI() {
     functionButton->onPress = [this] () { gui->executeCommand(Config::Command::ID::Function, true); };
     functionButton->onRelease = [this] () { gui->executeCommand(Config::Command::ID::Function, false); };
     // right click latch
-    functionButton->onAlternatePress = [this] () { gui->executeCommand(Config::Command::ID::Function, true, true); };
+    functionButton->onAlternatePress = [this] () {
+        gui->executeCommand(Config::Command::ID::Function, true, true);
+    };
     addAndMakeVisible(functionButton);
     
     // mute button
@@ -56,6 +58,6 @@ void ControlButtonsUI::update() {
 void ControlButtonsUI::resized() {
     int buttonCount = buttons.size();
     for (int i = 0; i < buttonCount; ++i) {
-        buttons[i]->calculateBounds(getLocalBounds(), i, buttonCount, 1, 0.75);
+        buttons[i]->calculateBounds(getLocalBounds(), i, buttonCount, 1);
     }
 }

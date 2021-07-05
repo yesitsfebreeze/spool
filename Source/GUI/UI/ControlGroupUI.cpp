@@ -1,4 +1,5 @@
 #include "ControlGroupUI.h"
+#include "../../Processor/Modules/Commands/CommandQueue.h"
 
 
 void ControlGroupUI::initializeKnobs() {
@@ -8,71 +9,36 @@ void ControlGroupUI::initializeKnobs() {
     addParamBKnob();
 }
 
-void ControlGroupUI::addToGroup() {
-    
-    if (index == 0) {
-        if (processor->isEffectMode()) {
-            processor->tracks->doForAllTracks(Track::Action::RemoveEffectFromGroupA);
-            processor->tracks->doForSelectedTracks(Track::Action::AddEffectToGroupA);
-        } else {
-            processor->tracks->doForSelectedTracks(Track::Action::RemoveTrackFromGroupB);
-            processor->tracks->doForSelectedTracks(Track::Action::AddTrackToGroupA);
-        }
-    }
-    
-    if (index == 1) {
-        if (processor->isEffectMode()) {
-            processor->tracks->doForAllTracks(Track::Action::RemoveEffectFromGroupB);
-            processor->tracks->doForSelectedTracks(Track::Action::AddEffectToGroupB);
-        } else {
-            processor->tracks->doForSelectedTracks(Track::Action::RemoveTrackFromGroupA);
-            processor->tracks->doForSelectedTracks(Track::Action::AddTrackToGroupB);
-        }
-    }
-
-    processor->tracks->doForAllTracks(Track::Action::Select, Track::ActionMode::Off);
-    processor->tracks->doForAllTracks(Track::Action::SelectEffect, Track::ActionMode::Off);
-    
-    processor->setEffectMode(false);
-    processor->isFunctionDown = false;
-}
-
-
 void ControlGroupUI::addVolumeKnob() {
     UIKnobComponent* volumeKnob = knobs.add(new UIKnobComponent());
     volumeKnob->setSensitivity(Config::KnobSensitivity);
 
     volumeKnob->onInteract = [this] () {
-        addToGroup();
+        processor->commandQueue.invokeInstantly(Config::Command::Volume, CommandTypes::Action::Interact, groupID);
     };
         
     volumeKnob->onValueChange = [this] (bool increase) {
-        ControlGroup group = nullptr;
-        if (index == 0) group = processor->controlGroupA;
-        if (index == 1) group = processor->controlGroupB;
-
-        group.doForTracks([this, increase] (Track* track) {
-            float value = Parameters::getTrackParam(track->getIndex(), Config::Parameters::Volume);
-            if (increase) value += (float) Config::ParamChangePerStep;
-            if (!increase) value -= (float) Config::ParamChangePerStep;
-            Parameters::setTrackParam(track->getIndex(), Config::Parameters::Volume, value);
-        });
+        if (increase) {
+            processor->commandQueue.invokeInstantly(Config::Command::Volume, CommandTypes::Action::IncreaseValue, groupID);
+        } else {
+            processor->commandQueue.invokeInstantly(Config::Command::Volume, CommandTypes::Action::DecreaseValue, groupID);
+        }
     };
     
     volumeKnob->onPress = [this] () {
-//        app->addSelectedTracksToGroup(index);
+        processor->commandQueue.invoke(Config::Command::Volume, true);
     };
 
     volumeKnob->onRelease = [this] () {
-//        app->onRecordLengthRelease();
+        processor->commandQueue.invoke(Config::Command::Volume, false);
     };
 
     volumeKnob->onAlternatePress = [this] () {
-        DBG("onAlternatePress");
+//        DBG("onAlternatePress");
     };
 
     volumeKnob->onAlternateRelease = [this] () {
-        DBG("onAlternateRelease");
+//        DBG("onAlternateRelease");
     };
 
     volumeKnob->setColor(GUIConfig::Colors::Green);
@@ -84,27 +50,34 @@ void ControlGroupUI::addDryWetKnob() {
     dryWetKnob->setSensitivity(Config::KnobSensitivity);
 
     dryWetKnob->onInteract = [this] () {
-        addToGroup();
+        processor->commandQueue.invokeInstantly(Config::Command::Wet, CommandTypes::Action::Interact, groupID);
     };
 
     dryWetKnob->onValueChange = [this] (bool increase) {
-        ControlGroup group = nullptr;
-        if (index == 0) group = processor->controlGroupA;
-        if (index == 1) group = processor->controlGroupB;
-        
-        group.doForEffects([this, increase] (Track* track, Effect* effect) {
-            float value = Parameters::getTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::Wet);
-            if (increase) value += (float) Config::ParamChangePerStep;
-            if (!increase) value -= (float) Config::ParamChangePerStep;
-            Parameters::setTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::Wet, value);
-        });
+        if (increase) {
+            processor->commandQueue.invokeInstantly(Config::Command::Wet, CommandTypes::Action::IncreaseValue, groupID);
+        } else {
+            processor->commandQueue.invokeInstantly(Config::Command::Wet, CommandTypes::Action::DecreaseValue, groupID);
+        }
+//        ControlGroup group = nullptr;
+//        if (group == ControlGroup::Group::A) group = processor->controlGroupA;
+//        if (group == ControlGroup::Group::B) group = processor->controlGroupB;
+//
+//        group.doForEffects([this, increase] (Track* track, Effect* effect) {
+//            float value = Parameters::getTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::Wet);
+//            if (increase) value += (float) Config::ParamChangePerStep;
+//            if (!increase) value -= (float) Config::ParamChangePerStep;
+//            Parameters::setTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::Wet, value);
+//        });
     };
 
     dryWetKnob->onPress = [this] () {
+        processor->commandQueue.invoke(Config::Command::Wet, true);
 //        app->addSelectedTracksToGroup(index);
     };
 
     dryWetKnob->onRelease = [this] () {
+        processor->commandQueue.invoke(Config::Command::Wet, false);
 //        app->onRecordLengthRelease();
     };
 
@@ -125,20 +98,15 @@ void ControlGroupUI::addParamAKnob() {
     paramAKnob->setSensitivity(Config::KnobSensitivity);
     
     paramAKnob->onInteract = [this] () {
-        addToGroup();
+        processor->commandQueue.invokeInstantly(Config::Command::ParamA, CommandTypes::Action::Interact, groupID);
     };
 
     paramAKnob->onValueChange = [this] (bool increase) {
-        ControlGroup group = nullptr;
-        if (index == 0) group = processor->controlGroupA;
-        if (index == 1) group = processor->controlGroupB;
-        
-        group.doForEffects([this, increase] (Track* track, Effect* effect) {
-            float value = Parameters::getTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::ParamA);
-            if (increase) value += (float) Config::ParamChangePerStep;
-            if (!increase) value -= (float) Config::ParamChangePerStep;
-            Parameters::setTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::ParamA, value);
-        });
+        if (increase) {
+            processor->commandQueue.invokeInstantly(Config::Command::ParamA, CommandTypes::Action::IncreaseValue, groupID);
+        } else {
+            processor->commandQueue.invokeInstantly(Config::Command::ParamA, CommandTypes::Action::DecreaseValue, groupID);
+        }
     };
 
     paramAKnob->onPress = [this] () {
@@ -166,20 +134,25 @@ void ControlGroupUI::addParamBKnob() {
     paramBKnob->setSensitivity(Config::KnobSensitivity);
     
     paramBKnob->onInteract = [this] () {
-        addToGroup();
+        processor->commandQueue.invokeInstantly(Config::Command::ParamB, CommandTypes::Action::Interact, groupID);
     };
 
     paramBKnob->onValueChange = [this] (bool increase) {
-        ControlGroup group = nullptr;
-        if (index == 0) group = processor->controlGroupA;
-        if (index == 1) group = processor->controlGroupB;
-        
-        group.doForEffects([this, increase] (Track* track, Effect* effect) {
-            float value = Parameters::getTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::ParamB);
-            if (increase) value += (float) Config::ParamChangePerStep;
-            if (!increase) value -= (float) Config::ParamChangePerStep;
-            Parameters::setTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::ParamB, value);
-        });
+        if (increase) {
+            processor->commandQueue.invokeInstantly(Config::Command::ParamB, CommandTypes::Action::IncreaseValue, groupID);
+        } else {
+            processor->commandQueue.invokeInstantly(Config::Command::ParamB, CommandTypes::Action::DecreaseValue, groupID);
+        }
+//        ControlGroup group = nullptr;
+//        if (group == ControlGroup::Group::A) group = processor->controlGroupA;
+//        if (group == ControlGroup::Group::B) group = processor->controlGroupB;
+//        
+//        group.doForEffects([this, increase] (Track* track, Effect* effect) {
+//            float value = Parameters::getTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::ParamB);
+//            if (increase) value += (float) Config::ParamChangePerStep;
+//            if (!increase) value -= (float) Config::ParamChangePerStep;
+//            Parameters::setTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::ParamB, value);
+//        });
     };
 
     paramBKnob->onPress = [this] () {

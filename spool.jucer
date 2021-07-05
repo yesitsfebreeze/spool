@@ -56,8 +56,9 @@
           </GROUP>
           <GROUP id="{170199A0-EE20-57B8-2499-20344D96DC51}" name="Commands">
             <FILE id="L710yj" name="CommandQueue.h" compile="0" resource="0" file="Source/Processor/Modules/Commands/CommandQueue.h"/>
-            <FILE id="YzCz9x" name="Commands.cpp" compile="1" resource="0" file="Source/Processor/Modules/Commands/Commands.cpp"/>
-            <FILE id="BCpUCs" name="Commands.h" compile="0" resource="0" file="Source/Processor/Modules/Commands/Commands.h"/>
+            <FILE id="aYa6uK" name="CommandTypes.h" compile="0" resource="0" file="Source/Processor/Modules/Commands/CommandTypes.h"/>
+            <FILE id="gUkAOn" name="QueueAction.h" compile="0" resource="0" file="Source/Processor/Modules/Commands/QueueAction.h"/>
+            <FILE id="XWi5ZZ" name="QueueCommand.h" compile="0" resource="0" file="Source/Processor/Modules/Commands/QueueCommand.h"/>
           </GROUP>
           <GROUP id="{51C9340F-2FFB-60B5-7CFE-72E2EB609D60}" name="Effects">
             <GROUP id="{5398026C-2DD7-0683-3BAF-D708456A98AF}" name="EffectClasses">
@@ -93,6 +94,8 @@
             <FILE id="Lnmhp1" name="Tracks.h" compile="0" resource="0" file="Source/Processor/Modules/Tracks/Tracks.h"/>
           </GROUP>
         </GROUP>
+        <FILE id="FH94A9" name="Commands.cpp" compile="1" resource="0" file="Source/Processor/Commands.cpp"/>
+        <FILE id="XCGFSk" name="Commands.h" compile="0" resource="0" file="Source/Processor/Commands.h"/>
         <FILE id="Al59kZ" name="SpoolProcessor.cpp" compile="1" resource="0"
               file="Source/Processor/SpoolProcessor.cpp"/>
         <FILE id="BpJdFO" name="SpoolProcessor.h" compile="0" resource="0"

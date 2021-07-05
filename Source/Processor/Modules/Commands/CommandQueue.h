@@ -2,380 +2,236 @@
 #include <JuceHeader.h>
 #include <map>
 #include "../../../Config.h"
-
-struct QueueCommand {
-public:
-    enum ActionType {
-        Press,
-        InstantPress,
-        Release,
-        Hold,
-        DoublePress,
-        DoubleHold,
-        Change,
-        
-        //TODO: implement ?
-        Debounce,
-        BeatDebounce
-    };
-    
-    enum TriggerType {
-        Instant,
-        OnBeat,
-        OnUpBeat
-    };
-    
-    ActionType actionType;
-    TriggerType triggerType;
-    Config::Command::ID cmdID;
-    
-    std::function<void(bool withFN)> onPress;
-    TriggerType pressTriggerType = TriggerType::Instant;
-
-    std::function<void(bool withFN)> onInstantPress;
-    std::function<void(bool withFN)> onRelease;
-        
-    std::function<void(bool withFN)> onHold;
-    TriggerType holdTriggerType = TriggerType::Instant;
-
-    std::function<void(bool withFN)> onDoublePress;
-    TriggerType doublePressTriggerType = TriggerType::Instant;
-    
-    std::function<void(bool withFN)> onDoubleHold;
-    TriggerType doubleHoldTriggerType = TriggerType::Instant;
-
-    //TODO: implement ?
-    std::function<void(bool withFN)> onDebounce;
-    std::function<void(bool withFN)> onBeatDebounce;
-
-    bool isPressed = false;
-    bool isReleased = true;
-    bool wasPressed = false;
-    bool wasDoublePressed = false;
-    bool wasDoubleHeld = false;
-    bool wasHeld = false;
-    
-    int pressCounter = 0;
-    juce::int64 triggerTime = 0;
-    
-    bool clearedPress = false;
-    bool clearedDoublePress = false;
-
-    int debounceTimeout = Config::DebounceTimeout;
-    int debounceBeats = 1;
-    
-};
-
-
-struct QueueAction {
-public:
-    QueueAction(
-        Config::Command::ID cmdID,
-        juce::int64 executionTime,
-        QueueCommand::TriggerType triggerType,
-        std::function<void(bool withFN)> callback,
-        bool isFunctionDown = false
-    ) :
-    cmdID(cmdID),
-    executionTime(executionTime),
-    triggerType(triggerType),
-    callback(callback),
-    isFunctionDown(isFunctionDown) {}
-
-    Config::Command::ID cmdID;
-    juce::int64 executionTime = 0;
-    QueueCommand::TriggerType triggerType = QueueCommand::TriggerType::Instant;
-    std::function<void(bool withFN)> callback;
-    bool isFunctionDown = false;
-};
-
+#include "../ControlGroup/ControlGroup.h"
+#include "CommandTypes.h"
+#include "QueueAction.h"
+#include "QueueCommand.h"
 
 class CommandQueue {
 public:
-
-    bool _isFunctionDown = false;
-    bool _isMuteDown = false;
-    bool _isPlayDown = false;
-    bool _isRecordDown = false;
-    
-    bool setFunctionDown(bool state) {
-        _isFunctionDown = state;
-        return _isFunctionDown;
-    }
-    bool isFunctionDown() {
-        return _isFunctionDown;
-    }
-
-    bool setMuteDown(bool state) {
-        _isMuteDown = state;
-        return _isMuteDown;
-    }
-
-    bool isMuteDown() {
-        return _isMuteDown;
-    }
-
-    bool setPlayDown(bool state) {
-        _isPlayDown = state;
-        return _isPlayDown;
-    }
-
-    bool isPlayDown() {
-        return _isPlayDown;
-    }
-
-    bool setRecordDown(bool state) {
-        _isRecordDown = state;
-        return _isRecordDown;
-    }
-
-    bool isRecordDown() {
-        return _isRecordDown;
-    }
-    
-    bool canExecuteFnFunctions = true;
     juce::int64 currentTime = 0;
-    Config::Command::ID FNCommandID;
-    
     std::vector<QueueAction*> queue;
     std::map<const int, QueueCommand*> commands = {};
-
-    void registerCommandAction(Config::Command::ID commandID, QueueCommand::ActionType actionType, QueueCommand::TriggerType triggerType, std::function<void(bool withFN)> callback) {
+    
+    Config::Command::ID FNCommandID = Config::Command::Function;
+    bool _isFunctionDown = false;
+    bool canExecuteFnFunctions = true;
+    
+    void registerCommand(Config::Command::ID commandID, CommandTypes::Action action, CommandTypes::Trigger trigger, std::function<void(QueueAction* action)> callback, ControlGroup::Group group = ControlGroup::Group::Unassinged) {
+        QueueCommand* cmd = getExistingCommand(commandID, group);
         
-        int cmdIdentity = getCommandIdentifier(commandID, actionType, triggerType);
-
-        try {
-            commands.at(cmdIdentity);
-        } catch (std::out_of_range e) {
-            QueueCommand* cmd = new QueueCommand();
-            cmd->actionType = actionType;
-            cmd->triggerType = triggerType;
-            cmd->cmdID = commandID;
-            commands[cmdIdentity] = cmd;
-        }
-
-        QueueCommand* cmd = commands.at(cmdIdentity);
-        
-        switch (actionType) {
-            case QueueCommand::ActionType::Press:
-                cmd->onPress = callback;
-                cmd->pressTriggerType = triggerType;
-                break;
-            case QueueCommand::ActionType::InstantPress:
-                cmd->onInstantPress = callback;
-                break;
-            case QueueCommand::ActionType::Release:
-                cmd->onRelease = callback;
-                break;
-            case QueueCommand::ActionType::Hold:
-                cmd->onHold = callback;
-                cmd->holdTriggerType = triggerType;
-                break;
-            case QueueCommand::ActionType::DoublePress:
-                cmd->onDoublePress = callback;
-                cmd->doublePressTriggerType = triggerType;
-                break;
-            case QueueCommand::ActionType::DoubleHold:
-                cmd->onDoubleHold = callback;
-                cmd->doubleHoldTriggerType = triggerType;
-                break;
-            case QueueCommand::ActionType::Debounce:
-                cmd->onDebounce = callback;
-                break;
-            case QueueCommand::ActionType::BeatDebounce:
-                cmd->onBeatDebounce = callback;
-                break;
-            default:
-                break;
-        }
+        cmd->callbacks[action][trigger] = callback;
     };
     
-    
-    bool triggerCommand(Config::Command::ID commandID, bool isPressed, bool isLatching = false) {
+    bool invokeInstantly(Config::Command::ID commandID, CommandTypes::Action action, ControlGroup::Group group = ControlGroup::Group::Unassinged) {
         try {
-            executeForCommandsWithID(commandID, [this, &isPressed, &isLatching] (QueueCommand* command) {
-                if (command->isPressed && isLatching) isPressed = false;
-                
-                if (isPressed && !command->isPressed) {
-                    command->isPressed = true;
-                    command->triggerTime = currentTime;
-                    command->pressCounter++;
-                }
-
-                if (!isPressed && command->isPressed) {
-                    command->isPressed = false;
-                }
+            iterateCommandsWithId(commandID, [this, action, group] (QueueCommand* cmd) {
+                if (cmd->cmdGroup != group) return;
+                addActionForAvailableTypes(cmd, action);
             });
-            
             return true;
         } catch (std::out_of_range e) {
             return false;
-        }        
+        }
+    }
+    
+    bool invoke(Config::Command::ID commandID, bool isPressed = false, bool isLatching = false, ControlGroup::Group group = ControlGroup::Group::Unassinged) {
+        
+        try {
+            iterateCommandsWithId(commandID, [this, group, &isPressed, isLatching] (QueueCommand* cmd) {
+                if (cmd->cmdGroup != group) return;
+
+                if (cmd->isPressed && isLatching) isPressed = false;
+
+                if (isPressed && !cmd->isPressed) {
+                    cmd->isPressed = true;
+                    
+                    if (cmd->pressCounter == 0) {
+                        cmd->triggerTime = currentTime;
+                        cmd->holdTriggerTime = cmd->triggerTime + Config::HoldTimeout;
+                        cmd->doublePressTriggerTime = cmd->triggerTime + Config::DoublePressTimeout;
+                    }
+
+                    cmd->pressCounter++;
+                } else {
+                    cmd->isPressed = false;
+                }
+            });
+            return true;
+        } catch (std::out_of_range e) {
+            return false;
+        }
     }
 
-    void process(bool isBeat, bool isUpBeat) {
-        processCommands(currentTime);
-        processActions(currentTime, isBeat, isUpBeat);
+    void process(juce::int64 time, bool isBeat, bool isUpBeat) {
+        setCurrentTime(time);
+        processCommands();
+        processQueue(isBeat, isUpBeat);
     }
+    
+    
+    
+private:
     
     void setCurrentTime(juce::int64 time) {
         currentTime = time;
     }
-    
-private:
-    
-    int getCommandIdentifier(Config::Command::ID commandID, QueueCommand::ActionType type, QueueCommand::TriggerType triggerType) {
-        return std::stoi(std::to_string((int)commandID) + std::to_string(int(type)) + std::to_string(int(triggerType)));
-    }
-    
-    void handleCommandState(QueueCommand* command, juce::int64 currentTime) {
-        juce::int64 holdTimeoutTarget = command->triggerTime + Config::HoldTimeout;
-        
-        bool FN = _isFunctionDown || command->cmdID == FNCommandID;
-        
-        if (command->isPressed) {
-            command->isReleased = false;
-            
-            if (command->cmdID != FNCommandID) {
-                canExecuteFnFunctions = false;
-            } else if (!canExecuteFnFunctions) {
-                return;
-            }
 
-            if (!command->wasDoublePressed && command->pressCounter > 1) {
-                if (command->onInstantPress != nullptr) command->onInstantPress(FN);
-                clearQueueAction(command->cmdID);
-                command->wasDoublePressed = true;
-                return;
-            }
-
-            if (!command->wasPressed && !command->wasDoublePressed) {
-                if (command->onInstantPress != nullptr) command->onInstantPress(FN);
-                clearQueueAction(command->cmdID);
-                command->wasPressed = true;
-                return;
-            }
-
-            if (holdTimeoutTarget <= currentTime) {
-                if (command->wasDoublePressed && !command->wasDoubleHeld) {
-                    command->wasDoubleHeld = true;
-                    if (command->actionType == QueueCommand::ActionType::DoubleHold) {
-                        QueueAction* action = new QueueAction(command->cmdID, currentTime, command->doubleHoldTriggerType, command->onDoubleHold, FN);
-                        queue.push_back(action);
-                    }
-                    return;
-                }
-                if (!command->wasHeld && !command->wasDoubleHeld) {
-                    command->wasHeld = true;
-                    if (command->actionType == QueueCommand::ActionType::Hold) {
-                        QueueAction* action = new QueueAction(command->cmdID, currentTime, command->holdTriggerType, command->onHold, FN);
-                        queue.push_back(action);
-                    }
-                    return;
-                }
-            }
+    void handleCommandState(QueueCommand* cmd) {
+        if (cmd->isPressed) {
+            handleCommandPressState(cmd);
         } else {
-            command->clearedPress = false;
-            command->clearedDoublePress = false;
-            
-            if (!command->isReleased) {
-                if (command->onRelease != nullptr) command->onRelease(isFunctionDown());
-                command->isReleased = true;
-            };
-            
-            if (command->cmdID == FNCommandID && !canExecuteFnFunctions) {
-                canExecuteFnFunctions = true;
-                return;
-            }
-            
-            if (command->wasDoubleHeld) {
-                command->wasPressed = false;
-                command->wasDoublePressed = false;
-                command->wasDoubleHeld = false;
-                return;
-            }
-
-            if (command->wasHeld) {
-                command->wasPressed = false;
-                command->wasHeld = false;
-                return;
-            }
-            
-            if (command->wasDoublePressed && !command->wasDoubleHeld) {
-                if (command->actionType == QueueCommand::ActionType::DoublePress) {
-                    QueueAction* action = new QueueAction(command->cmdID, command->triggerTime, command->doublePressTriggerType, command->onDoublePress, FN);
-                    queue.push_back(action);
-                }
-                command->wasDoublePressed = false;
-                command->wasPressed = false;
-                return;
-            };
-            
-            if (command->wasPressed) {
-                if (command->actionType == QueueCommand::ActionType::Press) {
-                    QueueAction* action = new QueueAction(command->cmdID, command->triggerTime + Config::DoublePressTimeWindow, command->pressTriggerType, command->onPress, FN);
-                    queue.push_back(action);
-                }
-                command->wasPressed = false;
-            }
+            handleCommandReleaseState(cmd);
         }
     }
 
+    void handleCommandPressState(QueueCommand* cmd) {
+        checkFunctionModifier(cmd);
+        cmd->wasPressed = true;
+        cmd->isReleased = false;
+
+        if (!cmd->wasInstantPressed) {
+            addActionForAvailableTypes(cmd, CommandTypes::Action::InstantPress);
+            cmd->wasInstantPressed = true;
+        }
+
+        if (cmd->holdTriggerTime > currentTime) return;
+
+        // double hold
+        if (!cmd->wasDoubleHeld && cmd->pressCounter > 1) {
+            clearQueueByID(cmd->cmdID);
+            addActionForAvailableTypes(cmd, CommandTypes::Action::DoubleHold);
+            cmd->wasDoubleHeld = true;
+        }
+        
+        // hold
+        if (!cmd->wasHeld && !cmd->wasDoubleHeld) {
+            clearQueueByID(cmd->cmdID);
+            addActionForAvailableTypes(cmd, CommandTypes::Action::Hold);
+            cmd->wasHeld = true;
+        }
+    }
     
-    void processCommands(juce::int64 currentTime) {
+    void handleCommandReleaseState(QueueCommand* cmd) {
+        checkFunctionModifier(cmd);
+
+        if (cmd->wasPressed && !cmd->wasDoublePressed && !cmd->wasHeld && !cmd->wasDoubleHeld && cmd->pressCounter > 1) {
+            clearQueueByID(cmd->cmdID);
+            addActionForAvailableTypes(cmd, CommandTypes::Action::DoublePress);
+            cmd->wasDoublePressed = true;
+        }
+
+        if (cmd->wasPressed && !cmd->wasDoublePressed && !cmd->wasHeld && !cmd->wasDoubleHeld) {
+            addActionForAvailableTypes(cmd, CommandTypes::Action::Press, Config::DoublePressTimeout);
+        }
+
+        if (!cmd->isReleased) {
+            addActionForAvailableTypes(cmd, CommandTypes::Action::Release);
+        }
+
+        cmd->isReleased = true;
+        cmd->wasHeld = false;
+        cmd->wasDoubleHeld = false;
+        cmd->wasInstantPressed = false;
+        cmd->wasDoublePressed = false;
+        cmd->wasPressed = false;
+        
+        
+    }
+    
+    void checkFunctionModifier(QueueCommand* cmd) {
+        _isFunctionDown = cmd->cmdID == FNCommandID && cmd->isPressed;
+    }
+    
+    void addActionForAvailableTypes(QueueCommand* cmd, CommandTypes::Action action, juce::int64 delay = 0) {
+        std::map<const CommandTypes::Trigger, std::function<void(QueueAction* action)>> actions = cmd->callbacks[action];
+        for (auto it = actions.begin(); it != actions.end(); it++) {
+            queue.push_back(new QueueAction(cmd->cmdID, currentTime + delay, (CommandTypes::Trigger) it->first, actions, _isFunctionDown, cmd->cmdGroup));
+        }
+    }
+    
+    void processCommands() {
         for (auto it = commands.begin(); it != commands.end(); it++) {
-            QueueCommand* command = it->second;
-            handleCommandState(command, currentTime);
-            
-            juce::int64 inDoublePressTimeoutWindow = currentTime - command->triggerTime >= Config::DoublePressTimeWindow;
-            if (!command->isPressed && inDoublePressTimeoutWindow && command->pressCounter > 0) {
-                command->pressCounter--;
-            }
+            QueueCommand* cmd = it->second;
+            handleCommandState(cmd);
+            decreasePressCounter(cmd);
         }
     }
     
-    void processActions(juce::int64 currentTime, bool isBeat, bool isUpBeat) {
-        
-        //TODO: maybe check if the trigger times is to close to the next beat time to prevent keypresses to bleed trough
-        
+    void decreasePressCounter(QueueCommand* cmd) {
+        juce::int64 inDoublePressTimeoutWindow = currentTime - cmd->triggerTime >= Config::DoublePressTimeout;
+        if (!cmd->isPressed && inDoublePressTimeoutWindow && cmd->pressCounter > 0) cmd->pressCounter--;
+    }
+    
+    //TODO: maybe check if the trigger times is to close to the next beat time to prevent keypresses to bleed trough
+    void processQueue(bool isBeat, bool isUpBeat) {
         for(QueueAction* action: queue) {
-            bool canExecute = action->executionTime <= currentTime;
-            
-            if (action->triggerType == QueueCommand::TriggerType::OnUpBeat) {
-                if (isUpBeat && canExecute) {
-                    if (action->callback != nullptr) action->callback(action->isFunctionDown);
-                    removeQueueAction(action);
-                }
-            } else if (action->triggerType == QueueCommand::TriggerType::OnBeat) {
-                if (isBeat && canExecute) {
-                    if (action->callback != nullptr) action->callback(action->isFunctionDown);
-                    removeQueueAction(action);
-                }
-            } else if (action->triggerType == QueueCommand::TriggerType::Instant) {
-                if (canExecute) {
-                    if (action->callback != nullptr) action->callback(action->isFunctionDown);
-                    removeQueueAction(action);
-                }
-            }
+            executeUpBeatActions(action, isUpBeat);
+            executeBeatActions(action, isBeat);
+            executeInstantActions(action);
         }
     }
     
-    void executeForCommandsWithID(Config::Command::ID cmdID, std::function<void(QueueCommand* command)> cb) {
-        for (auto it = commands.begin(); it != commands.end(); it++) {
-            QueueCommand* command = it->second;
-            if (command->cmdID == cmdID) {
-                cb(command);
-            }
+    void executeUpBeatActions(QueueAction* action, bool isUpBeat) {
+        if (action->trigger != CommandTypes::Trigger::OnUpBeat) return;
+        if (!isUpBeat) return;
+        if (action->executionTime > currentTime) return;
+        if (action->callbacks[action->trigger] == nullptr) return;
+        action->callbacks[action->trigger](action);
+        removeQueueAction(action);
+    }
+    
+    void executeBeatActions(QueueAction* action, bool isBeat) {
+        if (action->trigger != CommandTypes::Trigger::OnBeat) return;
+        if (!isBeat) return;
+        if (action->executionTime > currentTime) return;
+        if (action->callbacks[action->trigger] == nullptr) return;
+        action->callbacks[action->trigger](action);
+        removeQueueAction(action);
+    }
+    
+    void executeInstantActions(QueueAction* action) {
+        if (action->trigger != CommandTypes::Trigger::Instant) return;
+        if (action->executionTime > currentTime) return;
+        if (action->callbacks[action->trigger] == nullptr) return;
+        action->callbacks[action->trigger](action);
+        removeQueueAction(action);
+    }
+    
+    int getCommandIdentifier(Config::Command::ID commandID, ControlGroup::Group group ) {
+        return std::stoi(std::to_string((int)commandID) + std::to_string(int(group)));
+    }
+    
+    QueueCommand* getExistingCommand(Config::Command::ID commandID, ControlGroup::Group group = ControlGroup::Group::Unassinged) {
+        int cmdIdentity = getCommandIdentifier(commandID, group);
+
+        try {
+            return commands.at(cmdIdentity);
+        } catch (std::out_of_range e) {
+            QueueCommand* cmd = new QueueCommand();
+            cmd->cmdID = commandID;
+            cmd->cmdGroup = group;
+            commands[cmdIdentity] = cmd;
+
+            return commands.at(cmdIdentity);
+        }
+    }
+    
+    void iterateCommandsWithId(Config::Command::ID cmdID, std::function<void(QueueCommand* cmd)> callback) {
+        for (auto cmd = commands.begin(); cmd != commands.end(); cmd++) {
+            QueueCommand* command = cmd->second;
+            if (command->cmdID == cmdID) callback(command);
         }
     }
     
     void removeQueueAction(QueueAction* action) {
         queue.erase(std::remove(queue.begin(), queue.end(), action), queue.end());
     }
-    
-    void clearQueueAction(Config::Command::ID cmdID) {
+
+    void clearQueueByID(Config::Command::ID cmdID) {
         queue.erase(std::remove_if(queue.begin(), queue.end(), [&cmdID](QueueAction* action)->bool {
             return action->cmdID == cmdID;
         }), queue.end());
     }
+    
 };

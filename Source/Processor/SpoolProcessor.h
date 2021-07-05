@@ -3,9 +3,9 @@
 #include <JuceHeader.h>
 #include "Modules/Tracks/Tracks.h"
 #include "Modules/Commands/CommandQueue.h"
-#include "Modules/Commands/Commands.h"
 #include "Modules/Parameters/Parameteres.h"
 #include "Modules/ControlGroup/ControlGroup.h"
+#include "Commands.h"
 
 
 // forward refs

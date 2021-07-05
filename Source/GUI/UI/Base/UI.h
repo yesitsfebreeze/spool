@@ -8,6 +8,7 @@
 #include "../RMSMeterUI.h"
 #include "../ControlButtonsUI.h"
 #include "../ControlGroupUI.h"
+#include "../../../Processor/Modules/ControlGroup/ControlGroup.h"
 
 class UI : public UIComponent  {
     
@@ -25,6 +26,6 @@ public:
     SequencerUI sequencerUI;
     RMSMeterUI RMSMeterUI;
     ControlButtonsUI controlButtonsUI;
-    ControlGroupUI controlGroupOneUI {0};
-    ControlGroupUI controlGroupTwoUI  {1};
+    ControlGroupUI controlGroupAUI {ControlGroup::Group::A};
+    ControlGroupUI controlGroupBUI  {ControlGroup::Group::B};
 };

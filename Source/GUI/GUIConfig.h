@@ -32,8 +32,8 @@ namespace GUIConfig {
         const juce::Colour Green = juce::Colour { 0xff78FFA3 };
         const juce::Colour Red = juce::Colour { 0xffFF5452 };
 
-        const juce::Colour GroupColorOne = juce::Colour { 0xffad67ef };
-        const juce::Colour GroupColorTwo = juce::Colour { 0xffeda152 };
+        const juce::Colour GroupColorA = juce::Colour { 0xffad67ef };
+        const juce::Colour GroupColorB = juce::Colour { 0xffeda152 };
 
         // peakmeter
         const juce::Colour PeakOne = juce::Colour { 0xffB3FA5C };

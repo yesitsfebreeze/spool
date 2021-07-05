@@ -9,6 +9,13 @@ class Effect;
 
 class ControlGroup {
 public:
+
+    enum Group {
+        Unassinged,
+        A,
+        B
+    };
+    
     ControlGroup(SpoolProcessor* processor) : processor(processor) {
         for (int i = 0; i < Config::TrackCount; i++) {
             tracks.push_back(false);

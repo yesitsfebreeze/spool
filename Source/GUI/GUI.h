@@ -18,7 +18,7 @@ public:
     void getAllCommands (juce::Array<juce::CommandID>& commands) override;
     void getCommandInfo (juce::CommandID commandID, juce::ApplicationCommandInfo& result) override;
     bool perform (const InvocationInfo& info) override;
-    void executeCommand(Config::Command::ID commandID, bool isKeyDown, bool isLatching = false);
+    void executeCommand(Config::Command::ID commandID, bool isKeyDown = false, bool isLatching = false);
 
     //==============================================================================
     void paint (juce::Graphics&) override;

@@ -24,13 +24,11 @@ controlGroupB(this)
 {
     sequencer.reset(new Sequencer(this));
     tracks.reset(new Tracks(this));
-    commands.setOwner(this);
-    commandQueue.FNCommandID = Config::Command::Function;
+    commands.setProcessor(this);
     startTimerHz(Config::UpdateHz);
 }
 
-SpoolProcessor::~SpoolProcessor()
-{
+SpoolProcessor::~SpoolProcessor() {
     sequencer.reset();
     tracks.reset();
 }
@@ -38,30 +36,22 @@ SpoolProcessor::~SpoolProcessor()
 void SpoolProcessor::timerCallback() {
     getCurrentTime();
     sequencer->update();
-    commandQueue.setCurrentTime(currentTime);
-    commandQueue.process(false, false);
+    commandQueue.process(currentTime, false, false);
     guiTimerCallback(false, false);
-    
-    commandQueue.setFunctionDown(isFunctionDown);
-    commandQueue.setMuteDown(isMuteDown);
-    commandQueue.setPlayDown(isPlayDown);
-    commandQueue.setRecordDown(isRecordDown);
 }
 
 void SpoolProcessor::beatCallback(int beat,bool isUpBeat) {
-    commandQueue.process(true, isUpBeat);
+    commandQueue.process(currentTime, true, isUpBeat);
     tracks->beatCallback(beat, isUpBeat);
 }
 
 
 //==============================================================================
-const juce::String SpoolProcessor::getName() const
-{
+const juce::String SpoolProcessor::getName() const {
     return JucePlugin_Name;
 }
 
-bool SpoolProcessor::acceptsMidi() const
-{
+bool SpoolProcessor::acceptsMidi() const {
    #if JucePlugin_WantsMidiInput
     return true;
    #else
@@ -69,8 +59,7 @@ bool SpoolProcessor::acceptsMidi() const
    #endif
 }
 
-bool SpoolProcessor::producesMidi() const
-{
+bool SpoolProcessor::producesMidi() const {
    #if JucePlugin_ProducesMidiOutput
     return true;
    #else
@@ -78,8 +67,7 @@ bool SpoolProcessor::producesMidi() const
    #endif
 }
 
-bool SpoolProcessor::isMidiEffect() const
-{
+bool SpoolProcessor::isMidiEffect() const {
    #if JucePlugin_IsMidiEffect
     return true;
    #else
@@ -87,8 +75,7 @@ bool SpoolProcessor::isMidiEffect() const
    #endif
 }
 
-double SpoolProcessor::getTailLengthSeconds() const
-{
+double SpoolProcessor::getTailLengthSeconds() const {
     return 0.0;
 }
 
@@ -183,15 +170,13 @@ void SpoolProcessor::getStateInformation (juce::MemoryBlock& destData) {
     // as intermediaries to make it easy to save and load complex data.
 }
 
-void SpoolProcessor::setStateInformation (const void* data, int sizeInBytes)
-{
+void SpoolProcessor::setStateInformation (const void* data, int sizeInBytes) {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
 }
 
 //==============================================================================
 // This creates new instances of the plugin..
-juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
-{
+juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
     return new SpoolProcessor();
 }

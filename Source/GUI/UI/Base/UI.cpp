@@ -8,8 +8,8 @@ UI::UI() {
     addAndMakeVisible(sequencerUI);
     addAndMakeVisible(RMSMeterUI);
     addAndMakeVisible(controlButtonsUI);
-    addAndMakeVisible(controlGroupOneUI);
-    addAndMakeVisible(controlGroupTwoUI);
+    addAndMakeVisible(controlGroupAUI);
+    addAndMakeVisible(controlGroupBUI);
 }
 
 UI::~UI() {
@@ -21,8 +21,8 @@ void UI::onSetReferences() {
     sequencerUI.setReferences(processor, gui);
     RMSMeterUI.setReferences(processor, gui);
     controlButtonsUI.setReferences(processor, gui);
-    controlGroupOneUI.setReferences(processor, gui);
-    controlGroupTwoUI.setReferences(processor, gui);
+    controlGroupAUI.setReferences(processor, gui);
+    controlGroupBUI.setReferences(processor, gui);
 }
 
 void UI::paint(juce::Graphics& g) {
@@ -60,11 +60,11 @@ void UI::resized() {
     tracksUI.setBounds(leftOffset, 0, rowHeight * 4, rowHeight * 4);
     tracksUI.setPadding(GUIConfig::Padding / 2);
 
-    controlGroupOneUI.setBounds(0, 0, leftOffset, rowHeight * 3);
-    controlGroupOneUI.setPadding(GUIConfig::Padding / 2);
+    controlGroupAUI.setBounds(0, 0, leftOffset, rowHeight * 3);
+    controlGroupAUI.setPadding(GUIConfig::Padding / 2);
     
-    controlGroupTwoUI.setBounds(w - leftOffset, 0, leftOffset, rowHeight * 3);
-    controlGroupTwoUI.setPadding(GUIConfig::Padding / 2);
+    controlGroupBUI.setBounds(w - leftOffset, 0, leftOffset, rowHeight * 3);
+    controlGroupBUI.setPadding(GUIConfig::Padding / 2);
 
     sequencerUI.setBounds(0, rowHeight * 3, leftOffset, rowHeight);
     sequencerUI.setPadding(GUIConfig::Padding * 2);

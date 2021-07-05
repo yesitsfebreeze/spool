@@ -29,6 +29,16 @@ public:
         return tree.getProperty(Config::ParameterNames[paramId]);
     }
     
+    static void increaseParam(int paramId) {
+        juce::var value = Parameters::getParam(paramId);
+        Parameters::setParam(paramId, (double) value + Config::ParamChangePerStep);
+    }
+    
+    static void decreaseParam(int trackId, int paramId) {
+        juce::var value = Parameters::getTrackParam(trackId, paramId);
+        Parameters::setParam(paramId, (double) value - Config::ParamChangePerStep);
+    }
+    
     static void setTrackParam(int trackId, int paramId, juce::var value) {
         juce::ValueTree& tree = getValueTree();
         juce::ValueTree trackChild = tree.getOrCreateChildWithName("Track" + juce::String(trackId), nullptr);
@@ -39,6 +49,16 @@ public:
         juce::ValueTree& tree = getValueTree();
         juce::ValueTree trackChild = tree.getOrCreateChildWithName("Track" + juce::String(trackId), nullptr);
         return trackChild.getProperty(Config::ParameterNames[paramId]);
+    }
+    
+    static void increaseTrackParam(int trackId, int paramId) {
+        juce::var value = Parameters::getTrackParam(trackId, paramId);
+        Parameters::setTrackParam(trackId, paramId, (double) value + Config::ParamChangePerStep);
+    }
+    
+    static void decreaseTrackParam(int trackId, int paramId) {
+        juce::var value = Parameters::getTrackParam(trackId, paramId);
+        Parameters::setTrackParam(trackId, paramId, (double) value - Config::ParamChangePerStep);
     }
     
     static void setTrackEffectParam(int trackId, int effectId, int paramId, juce::var value) {
@@ -55,6 +75,16 @@ public:
         return effectChild.getProperty(Config::ParameterNames[paramId]);
     }
     
+    static void increaseTrackEffectParam(int trackId, int effectId, int paramId) {
+        juce::var value = Parameters::getTrackEffectParam(trackId, effectId, paramId);
+        Parameters::setTrackEffectParam(trackId, effectId, paramId, (double) value + Config::ParamChangePerStep);
+    }
+    
+    static void decreaseTrackEffectParam(int trackId, int effectId, int paramId) {
+        juce::var value = Parameters::getTrackEffectParam(trackId, effectId, paramId);
+        Parameters::setTrackEffectParam(trackId, effectId, paramId, (double) value - Config::ParamChangePerStep);
+    }
+    
     static void setTrackSampleParam(int trackId, int sampleId, int paramId, juce::var value) {
         juce::ValueTree& tree = getValueTree();
         juce::ValueTree trackChild = tree.getOrCreateChildWithName("Track" + juce::String(trackId), nullptr);
@@ -67,6 +97,16 @@ public:
         juce::ValueTree trackChild = tree.getOrCreateChildWithName("Track" + juce::String(trackId), nullptr);
         juce::ValueTree sampleChild = trackChild.getOrCreateChildWithName("Sample" + juce::String(sampleId), nullptr);
         return sampleChild.getProperty(Config::ParameterNames[paramId]);
+    }
+    
+    static void increaseTrackSampleParam(int trackId, int sampleId, int paramId) {
+        juce::var value = Parameters::getTrackSampleParam(trackId, sampleId, paramId);
+        Parameters::setTrackSampleParam(trackId, sampleId, paramId, (double) value + Config::ParamChangePerStep);
+    }
+    
+    static void decreaseTrackSampleParam(int trackId, int sampleId, int paramId) {
+        juce::var value = Parameters::getTrackSampleParam(trackId, sampleId, paramId);
+        Parameters::setTrackSampleParam(trackId, sampleId, paramId, (double) value - Config::ParamChangePerStep);
     }
     
     static void setTrackSampleEffectParam(int trackId, int sampleId, int effectId, int paramId, juce::var value) {
@@ -83,6 +123,17 @@ public:
         juce::ValueTree sampleChild = trackChild.getOrCreateChildWithName("Sample" + juce::String(sampleId), nullptr);
         juce::ValueTree effectChild = trackChild.getOrCreateChildWithName("Effect" + juce::String(effectId), nullptr);
         return effectChild.getProperty(Config::ParameterNames[paramId]);
+    }
+    
+    
+    static void increaseTrackSampleEffectParam(int trackId, int sampleId, int effectId, int paramId) {
+        juce::var value = Parameters::getTrackSampleEffectParam(trackId, sampleId, effectId, paramId);
+        Parameters::setTrackSampleEffectParam(trackId, sampleId, effectId, paramId, (double) value + Config::ParamChangePerStep);
+    }
+    
+    static void decreaseTrackSampleEffectParam(int trackId, int sampleId, int effectId, int paramId) {
+        juce::var value = Parameters::getTrackSampleEffectParam(trackId, sampleId, effectId, paramId);
+        Parameters::setTrackSampleEffectParam(trackId, sampleId, effectId, paramId, (double) value - Config::ParamChangePerStep);
     }
     
     static bool isTrack(juce::ValueTree tree, int trackId) {

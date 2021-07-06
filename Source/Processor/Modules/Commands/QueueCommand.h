@@ -11,7 +11,7 @@ public:
     Config::Command::ID cmdID;
     ControlGroup::Group cmdGroup;
     
-    std::map<const CommandTypes::Action, std::map<const CommandTypes::Trigger, std::function<void(QueueAction* action)>>> callbacks = {};
+    std::map<const Config::Command::Action, std::map<const Config::Command::Trigger, std::function<void(QueueAction* action)>>> callbacks = {};
     
     bool isPressed = false;
     bool isReleased = true;

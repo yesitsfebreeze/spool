@@ -36,7 +36,7 @@ public:
         RemoveEffectFromGroupB,
     };
 
-    enum ActionMode {
+    enum Mode {
         Single,
         On,
         Off,
@@ -66,7 +66,7 @@ public:
 
     void beatCallback(int beat, bool isUpBeat);
 
-    void executeAction(Track::Action action, Track::ActionMode mode) {
+    void executeAction(Track::Action action, Track::Mode mode) {
         switch (action) {
             case Track::Action::Select:
                 select(mode);
@@ -130,11 +130,11 @@ public:
         }
     }
     
-    void select(ActionMode mode);
-    void mute(ActionMode mode);
-    void cue(ActionMode mode);
-    void play(ActionMode mode);
-    void stop(ActionMode mode);
+    void select(Track::Mode mode);
+    void mute(Track::Mode mode);
+    void cue(Track::Mode mode);
+    void play(Track::Mode mode);
+    void stop(Track::Mode mode);
     void restart();
     void record();
     void cancelRecord();
@@ -228,6 +228,6 @@ private:
     
 
     
-    bool getValueBasedOnMode(bool value, ActionMode mode);
+    bool getValueBasedOnMode(bool value, Track::Mode mode);
     void setLastSelectedTrackIndex();
 };

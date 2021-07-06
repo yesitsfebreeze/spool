@@ -9,9 +9,6 @@ class SpoolProcessor;
 
 class Tracks {
 
-    using Action = Track::Action;
-    using ActionMode = Track::ActionMode;
-
 public:
     SpoolProcessor* owner;
 
@@ -45,28 +42,28 @@ public:
         }
     }
     
-    bool doForAllTracks(Action action, ActionMode mode = ActionMode::Single) {
+    bool doForAllTracks(Track::Action action, Track::Mode mode = Track::Mode::Single) {
         for (Track* track : tracks) {
             doForTrack(track->getIndex(), action, mode);
         }
         return true;
     }
 
-    bool doForUnselectedTracks(Action action, ActionMode mode = ActionMode::Single) {
+    bool doForUnselectedTracks(Track::Action action, Track::Mode mode = Track::Mode::Single) {
         for (Track* track : tracks) {
             doForTrack(track->getIndex(), action, mode, false, true);
         }
         return true;
     }
     
-    bool doForSelectedTracks(Action action, ActionMode mode = ActionMode::Single) {
+    bool doForSelectedTracks(Track::Action action, Track::Mode mode = Track::Mode::Single) {
         for (Track* track : tracks) {
             doForTrack(track->getIndex(), action, mode, true);
         }
         return true;
     }
 
-    bool doForLastSelectedOrFreeTrack(Action action, ActionMode mode = ActionMode::Single) {
+    bool doForLastSelectedOrFreeTrack(Track::Action action, Track::Mode mode = Track::Mode::Single) {
         if (!hasTracksSelected()) {
             Track* track = getFirstFreeTrack();
             if (track == nullptr) return false;
@@ -78,7 +75,7 @@ public:
         return true;
     }
 
-    bool doForTrack(int trackIndex, Action action, ActionMode mode = ActionMode::Single, bool mustBeSelected = false, bool mustBeUnselected = false) {
+    bool doForTrack(int trackIndex, Track::Action action, Track::Mode mode = Track::Mode::Single, bool mustBeSelected = false, bool mustBeUnselected = false) {
         Track* track = tracks[trackIndex];
         if (mustBeSelected && (!track->isSelected() && !track->isEffectSelected())) return false;
         if (mustBeUnselected && (track->isSelected() || track->isEffectSelected())) return false;

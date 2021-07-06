@@ -17,8 +17,6 @@ Track::Track(Tracks* owner, int trackIndex) : owner(owner), trackIndex(trackInde
 void Track::valueTreePropertyChanged(juce::ValueTree& tree, const juce::Identifier& param) {
     if (!Parameters::isTrack(tree, trackIndex)) return;
     juce::String paramName = param.toString();
-    
-    DBG(paramName);
 };
 
 void Track::prepareToPlay(double sampleRate, int samplesPerBlock) {
@@ -55,7 +53,7 @@ void Track::beatCallback(int beat, bool isUpBeat) {
     }
 }
 
-void Track::select(ActionMode mode) {
+void Track::select(Track::Mode mode) {
     if (owner->owner->isEffectMode()) {
         bool value = getValueBasedOnMode(_isEffectSelected, mode);
         _isEffectSelected = value;
@@ -70,7 +68,7 @@ void Track::select(ActionMode mode) {
     setLastSelectedTrackIndex();
 };
 
-void Track::mute(ActionMode mode) {
+void Track::mute(Track::Mode mode) {
     bool value = getValueBasedOnMode(_isMuted, mode);
     _isMuted = value;
 
@@ -81,7 +79,7 @@ void Track::mute(ActionMode mode) {
     }
 };
 
-void Track::cue(ActionMode mode) {
+void Track::cue(Track::Mode mode) {
     bool value = getValueBasedOnMode(_isCueued, mode);
     _isCueued = value;
     
@@ -93,7 +91,7 @@ void Track::cue(ActionMode mode) {
     }
 };
 
-void Track::play(ActionMode mode) {
+void Track::play(Track::Mode mode) {
     bool value = getValueBasedOnMode(_isPlaying, mode);
     _isPlaying = value;
     
@@ -104,7 +102,7 @@ void Track::play(ActionMode mode) {
     }
 };
 
-void Track::stop(ActionMode mode) {
+void Track::stop(Track::Mode mode) {
     bool value = getValueBasedOnMode(_isStopped, mode);
     _isStopped = value;
     
@@ -229,15 +227,15 @@ void Track::setLastSelectedTrackIndex() {
 }
 
 
-bool Track::getValueBasedOnMode(bool value, ActionMode mode) {
+bool Track::getValueBasedOnMode(bool value, Track::Mode mode) {
     switch (mode) {
-        case ActionMode::On:
+        case Track::Mode::On:
             value = true;
             break;
-        case ActionMode::Off:
+        case Track::Mode::Off:
             value = false;
             break;
-        case ActionMode::Toggle:
+        case Track::Mode::Toggle:
             value = !value;
             break;
         default:

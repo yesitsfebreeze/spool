@@ -52,6 +52,24 @@ namespace Config {
             Track15,
             Track16
         };
+        
+        enum Action {
+            Press,
+            InstantPress,
+            Release,
+            Hold,
+            DoublePress,
+            DoubleHold,
+            Increase,
+            Decrease,
+            Interact,
+        };
+
+        enum Trigger {
+            Instant,
+            OnBeat,
+            OnUpBeat
+        };
     }
 
     enum Parameters {

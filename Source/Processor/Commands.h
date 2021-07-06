@@ -8,11 +8,13 @@ class SpoolProcessor;
 
 class Commands {
 public:
-    using Type = CommandTypes::Action;
-    using TriggerType = CommandTypes::Trigger;
-    using Cmd = Config::Command::ID;
+
+    using CmdID = Config::Command::ID;
+    using CmdAction = Config::Command::Action;
+    using CmdTrigger = Config::Command::Trigger;
+    
     using TrackAction = Track::Action;
-    using TrackActionMode = Track::ActionMode;
+    using TrackMode = Track::Mode;
     
     void setProcessor(SpoolProcessor* processor) {
         this->processor = processor;

@@ -56,7 +56,6 @@
           </GROUP>
           <GROUP id="{170199A0-EE20-57B8-2499-20344D96DC51}" name="Commands">
             <FILE id="L710yj" name="CommandQueue.h" compile="0" resource="0" file="Source/Processor/Modules/Commands/CommandQueue.h"/>
-            <FILE id="aYa6uK" name="CommandTypes.h" compile="0" resource="0" file="Source/Processor/Modules/Commands/CommandTypes.h"/>
             <FILE id="gUkAOn" name="QueueAction.h" compile="0" resource="0" file="Source/Processor/Modules/Commands/QueueAction.h"/>
             <FILE id="XWi5ZZ" name="QueueCommand.h" compile="0" resource="0" file="Source/Processor/Modules/Commands/QueueCommand.h"/>
           </GROUP>

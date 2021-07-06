@@ -15,14 +15,14 @@ void ControlGroupUI::addVolumeKnob() {
     volumeKnob->setSensitivity(Config::KnobSensitivity);
 
     volumeKnob->onInteract = [this] () {
-        processor->commandQueue.invokeInstantly(Config::Command::Volume, CommandTypes::Action::Interact, groupID);
+        processor->commandQueue.invokeInstantly(Config::Command::Volume, Config::Command::Action::Interact, groupID);
     };
         
     volumeKnob->onValueChange = [this] (bool increase) {
         if (increase) {
-            processor->commandQueue.invokeInstantly(Config::Command::Volume, CommandTypes::Action::IncreaseValue, groupID);
+            processor->commandQueue.invokeInstantly(Config::Command::Volume, Config::Command::Action::Increase, groupID);
         } else {
-            processor->commandQueue.invokeInstantly(Config::Command::Volume, CommandTypes::Action::DecreaseValue, groupID);
+            processor->commandQueue.invokeInstantly(Config::Command::Volume, Config::Command::Action::Decrease, groupID);
         }
     };
     
@@ -51,14 +51,14 @@ void ControlGroupUI::addDryWetKnob() {
     dryWetKnob->setSensitivity(Config::KnobSensitivity);
 
     dryWetKnob->onInteract = [this] () {
-        processor->commandQueue.invokeInstantly(Config::Command::Wet, CommandTypes::Action::Interact, groupID);
+        processor->commandQueue.invokeInstantly(Config::Command::Wet, Config::Command::Action::Interact, groupID);
     };
 
     dryWetKnob->onValueChange = [this] (bool increase) {
         if (increase) {
-            processor->commandQueue.invokeInstantly(Config::Command::Wet, CommandTypes::Action::IncreaseValue, groupID);
+            processor->commandQueue.invokeInstantly(Config::Command::Wet, Config::Command::Action::Increase, groupID);
         } else {
-            processor->commandQueue.invokeInstantly(Config::Command::Wet, CommandTypes::Action::DecreaseValue, groupID);
+            processor->commandQueue.invokeInstantly(Config::Command::Wet, Config::Command::Action::Decrease, groupID);
         }
 //        ControlGroup group = nullptr;
 //        if (group == ControlGroup::Group::A) group = processor->controlGroupA;
@@ -99,14 +99,14 @@ void ControlGroupUI::addParamAKnob() {
     paramAKnob->setSensitivity(Config::KnobSensitivity);
     
     paramAKnob->onInteract = [this] () {
-        processor->commandQueue.invokeInstantly(Config::Command::ParamA, CommandTypes::Action::Interact, groupID);
+        processor->commandQueue.invokeInstantly(Config::Command::ParamA, Config::Command::Action::Interact, groupID);
     };
 
     paramAKnob->onValueChange = [this] (bool increase) {
         if (increase) {
-            processor->commandQueue.invokeInstantly(Config::Command::ParamA, CommandTypes::Action::IncreaseValue, groupID);
+            processor->commandQueue.invokeInstantly(Config::Command::ParamA, Config::Command::Action::Increase, groupID);
         } else {
-            processor->commandQueue.invokeInstantly(Config::Command::ParamA, CommandTypes::Action::DecreaseValue, groupID);
+            processor->commandQueue.invokeInstantly(Config::Command::ParamA, Config::Command::Action::Decrease, groupID);
         }
     };
 
@@ -135,14 +135,14 @@ void ControlGroupUI::addParamBKnob() {
     paramBKnob->setSensitivity(Config::KnobSensitivity);
     
     paramBKnob->onInteract = [this] () {
-        processor->commandQueue.invokeInstantly(Config::Command::ParamB, CommandTypes::Action::Interact, groupID);
+        processor->commandQueue.invokeInstantly(Config::Command::ParamB, Config::Command::Action::Interact, groupID);
     };
 
     paramBKnob->onValueChange = [this] (bool increase) {
         if (increase) {
-            processor->commandQueue.invokeInstantly(Config::Command::ParamB, CommandTypes::Action::IncreaseValue, groupID);
+            processor->commandQueue.invokeInstantly(Config::Command::ParamB, Config::Command::Action::Increase, groupID);
         } else {
-            processor->commandQueue.invokeInstantly(Config::Command::ParamB, CommandTypes::Action::DecreaseValue, groupID);
+            processor->commandQueue.invokeInstantly(Config::Command::ParamB, Config::Command::Action::Decrease, groupID);
         }
 //        ControlGroup group = nullptr;
 //        if (group == ControlGroup::Group::A) group = processor->controlGroupA;

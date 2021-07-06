@@ -6,7 +6,6 @@
 
 #include "Config.h"
 #include "Processor/Modules/ControlGroup/ControlGroup.h"
-#include "Processor/Modules/Commands/CommandTypes.h"
 #include "Processor/Modules/Commands/QueueAction.h"
 
 
@@ -20,13 +19,13 @@ public:
     bool _isFunctionDown = false;
     bool canExecuteFnFunctions = true;
     
-    void registerCommand(Config::Command::ID commandID, CommandTypes::Action action, CommandTypes::Trigger trigger, std::function<void(QueueAction* action)> callback, ControlGroup::Group group = ControlGroup::Group::Unassinged) {
+    void registerCommand(Config::Command::ID commandID, Config::Command::Action action, Config::Command::Trigger trigger, std::function<void(QueueAction* action)> callback, ControlGroup::Group group = ControlGroup::Group::Unassinged) {
         QueueCommand* cmd = getExistingCommand(commandID, group);
         
         cmd->callbacks[action][trigger] = callback;
     };
     
-    bool invokeInstantly(Config::Command::ID commandID, CommandTypes::Action action, ControlGroup::Group group = ControlGroup::Group::Unassinged) {
+    bool invokeInstantly(Config::Command::ID commandID, Config::Command::Action action, ControlGroup::Group group = ControlGroup::Group::Unassinged) {
         try {
             iterateCommandsWithId(commandID, [this, action, group] (QueueCommand* cmd) {
                 if (cmd->cmdGroup != group) return;
@@ -94,7 +93,7 @@ private:
         cmd->isReleased = false;
 
         if (!cmd->wasInstantPressed) {
-            addActionForAvailableTypes(cmd, CommandTypes::Action::InstantPress);
+            addActionForAvailableTypes(cmd, Config::Command::Action::InstantPress);
             cmd->wasInstantPressed = true;
         }
 
@@ -103,14 +102,14 @@ private:
         // double hold
         if (!cmd->wasDoubleHeld && cmd->pressCounter > 1) {
             clearQueueByID(cmd->cmdID);
-            addActionForAvailableTypes(cmd, CommandTypes::Action::DoubleHold);
+            addActionForAvailableTypes(cmd, Config::Command::Action::DoubleHold);
             cmd->wasDoubleHeld = true;
         }
         
         // hold
         if (!cmd->wasHeld && !cmd->wasDoubleHeld) {
             clearQueueByID(cmd->cmdID);
-            addActionForAvailableTypes(cmd, CommandTypes::Action::Hold);
+            addActionForAvailableTypes(cmd, Config::Command::Action::Hold);
             cmd->wasHeld = true;
         }
     }
@@ -120,16 +119,16 @@ private:
 
         if (cmd->wasPressed && !cmd->wasDoublePressed && !cmd->wasHeld && !cmd->wasDoubleHeld && cmd->pressCounter > 1) {
             clearQueueByID(cmd->cmdID);
-            addActionForAvailableTypes(cmd, CommandTypes::Action::DoublePress);
+            addActionForAvailableTypes(cmd, Config::Command::Action::DoublePress);
             cmd->wasDoublePressed = true;
         }
 
         if (cmd->wasPressed && !cmd->wasDoublePressed && !cmd->wasHeld && !cmd->wasDoubleHeld) {
-            addActionForAvailableTypes(cmd, CommandTypes::Action::Press, Config::DoublePressTimeout);
+            addActionForAvailableTypes(cmd, Config::Command::Action::Press, Config::DoublePressTimeout);
         }
 
         if (!cmd->isReleased) {
-            addActionForAvailableTypes(cmd, CommandTypes::Action::Release);
+            addActionForAvailableTypes(cmd, Config::Command::Action::Release);
         }
 
         cmd->isReleased = true;
@@ -146,10 +145,10 @@ private:
         _isFunctionDown = cmd->cmdID == FNCommandID && cmd->isPressed;
     }
     
-    void addActionForAvailableTypes(QueueCommand* cmd, CommandTypes::Action action, juce::int64 delay = 0) {
-        std::map<const CommandTypes::Trigger, std::function<void(QueueAction* action)>> actions = cmd->callbacks[action];
+    void addActionForAvailableTypes(QueueCommand* cmd, Config::Command::Action action, juce::int64 delay = 0) {
+        std::map<const Config::Command::Trigger, std::function<void(QueueAction* action)>> actions = cmd->callbacks[action];
         for (auto it = actions.begin(); it != actions.end(); it++) {
-            queue.push_back(new QueueAction(cmd->cmdID, currentTime + delay, (CommandTypes::Trigger) it->first, actions, _isFunctionDown, cmd->cmdGroup));
+            queue.push_back(new QueueAction(cmd->cmdID, currentTime + delay, (Config::Command::Trigger) it->first, actions, _isFunctionDown, cmd->cmdGroup));
         }
     }
     
@@ -176,7 +175,7 @@ private:
     }
     
     void executeUpBeatActions(QueueAction* action, bool isUpBeat) {
-        if (action->trigger != CommandTypes::Trigger::OnUpBeat) return;
+        if (action->trigger != Config::Command::Trigger::OnUpBeat) return;
         if (!isUpBeat) return;
         if (action->executionTime > currentTime) return;
         if (action->callbacks[action->trigger] == nullptr) return;
@@ -185,7 +184,7 @@ private:
     }
     
     void executeBeatActions(QueueAction* action, bool isBeat) {
-        if (action->trigger != CommandTypes::Trigger::OnBeat) return;
+        if (action->trigger != Config::Command::Trigger::OnBeat) return;
         if (!isBeat) return;
         if (action->executionTime > currentTime) return;
         if (action->callbacks[action->trigger] == nullptr) return;
@@ -194,7 +193,7 @@ private:
     }
     
     void executeInstantActions(QueueAction* action) {
-        if (action->trigger != CommandTypes::Trigger::Instant) return;
+        if (action->trigger != Config::Command::Trigger::Instant) return;
         if (action->executionTime > currentTime) return;
         if (action->callbacks[action->trigger] == nullptr) return;
         action->callbacks[action->trigger](action);

@@ -117,7 +117,7 @@ public:
     
     Track* getFirstFreeTrack() {
         for (Track* track : tracks) {
-            if (!track->hasRecords()) {
+            if (!track->hasSamples()) {
                 return track;
             }
         }

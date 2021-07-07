@@ -229,6 +229,18 @@ void Commands::registerControlGroupCommands(ControlGroup::Group group) {
         });
     }, group);
     
+    processor->commandQueue.registerCommand(CmdID::Balance, CmdAction::Increase, CmdTrigger::Instant, [this, processorGroup] (QueueAction* action) {
+        processorGroup->doForTracks([this, action] (Track* track) {
+            Parameters::get(track->getEnum(), Config::Parameter::Balance).increase(Config::ParamChangePerStep);
+        });
+    }, group);
+    
+    processor->commandQueue.registerCommand(CmdID::Balance, CmdAction::Decrease, CmdTrigger::Instant, [this, processorGroup] (QueueAction* action) {
+        processorGroup->doForTracks([this, action] (Track* track) {
+            Parameters::get(track->getEnum(), Config::Parameter::Balance).decrease(Config::ParamChangePerStep);
+        });
+    }, group);
+    
     processor->commandQueue.registerCommand(CmdID::Wet, CmdAction::Increase, CmdTrigger::Instant, [this, processorGroup] (QueueAction* action) {
         processorGroup->doForEffects([this, action] (Track* track, Effect* effect) {
             Parameters::get(track->getEnum(), effect->getEnum(), Config::Parameter::Wet).increase(Config::ParamChangePerStep);

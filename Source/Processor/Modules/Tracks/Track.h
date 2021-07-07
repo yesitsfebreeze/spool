@@ -62,8 +62,6 @@ public:
         return (Config::TrackID) index;
     }
     
-    
-    void setParameterDefaults();
 
     void prepareToPlay(double sampleRate, int samplesPerBlock);
     void processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages);
@@ -206,13 +204,13 @@ public:
         return _wantsToRecord;
     }
     
-    bool setHasRecords(bool state) {
-        _hasRecords = state;
-        return _hasRecords;
+    bool setHasSamples(bool state) {
+        _hasSamples = state;
+        return _hasSamples;
     }
     
-    bool hasRecords() {
-        return _hasRecords;
+    bool hasSamples() {
+        return _hasSamples;
     }
     
 private:
@@ -221,6 +219,9 @@ private:
     int index = -1;
     ParameterValue& volume;
     ParameterValue& balance;
+    
+    float balanceL = 1.0f;
+    float balanceR = 1.0f;
 
     bool _isPressed = false;
     bool _isPlaying = false;
@@ -231,8 +232,16 @@ private:
     bool _isEffectSelected = false;
     bool _wantsToRecord = false;
     bool _isRecording = false;
-    bool _hasRecords = false;
+    bool _hasSamples = false;
 
+    void setupParameters();
+    void calculateBalance();
     bool getValueBasedOnMode(bool value, Track::Mode mode);
     void setLastSelectedTrackIndex();
+    
+    float clampValue(float value, float min, float max) {
+        if (value >= max) return max;
+        if (value <= min) return min;
+        return value;
+    }
 };

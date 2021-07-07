@@ -61,7 +61,7 @@ void Sample::stopRecording(int beat) {
     _wantsToRecord = false;
     owner->setWantsToRecord(_wantsToRecord);
     _isFilled = true;
-    owner->setHasRecords(true);
+    owner->setHasSamples(true);
     startBeat = beat;
     
     if (!_isPlaying) {
@@ -107,9 +107,9 @@ void Sample::clear() {
     _isFilled = false;
     
     // always reset has Recordings of track after deletion
-    owner->setHasRecords(false);
+    owner->setHasSamples(false);
     for (Sample* sample : owner->samples) {
-        if (sample->isFilled()) owner->setHasRecords(true);
+        if (sample->isFilled()) owner->setHasSamples(true);
     }
 }
 

@@ -26,6 +26,14 @@ void ControlGroupUI::addVolumeKnob() {
         }
     };
     
+    volumeKnob->onAlternateValueChange = [this] (bool increase) {
+        if (increase) {
+            processor->commandQueue.invokeInstantly(Config::Command::Balance, Config::Command::Action::Increase, groupID);
+        } else {
+            processor->commandQueue.invokeInstantly(Config::Command::Balance, Config::Command::Action::Decrease, groupID);
+        }
+    };
+    
     volumeKnob->onPress = [this] () {
         processor->commandQueue.invoke(Config::Command::Volume, true);
     };

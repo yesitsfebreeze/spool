@@ -22,6 +22,10 @@ namespace Config {
     const int KnobSensitivity = 360 / 36;
     const double ParamChangePerStep = MaxParameterValue/ 360 * KnobSensitivity;
 
+    const int CHCount = 2;
+    const int CHLeft = 0;
+    const int CHRight = 1;
+    
     enum TrackID {
         t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16
     };
@@ -41,6 +45,7 @@ namespace Config {
             Mute,
             Play,
             Volume,
+            Balance,
             Wet,
             ParamA,
             ParamB,

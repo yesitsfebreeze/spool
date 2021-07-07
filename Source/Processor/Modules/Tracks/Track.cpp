@@ -11,12 +11,27 @@ Track::Track(Tracks* owner, int index, ParameterValue& volume, ParameterValue& b
     }
 
     effects.reset(new Effects(owner->owner, index));
-    setParameterDefaults();
+    setupParameters();
 }
 
-void Track::setParameterDefaults() {
+void Track::setupParameters() {
     volume.set(0.75f, true);
     balance.set(0.5f, true);
+    balance.onChange = [this] (ParameterValue& value) { calculateBalance(); };
+}
+
+void Track::calculateBalance() {
+    balanceL = 1.0f;
+    balanceR = 1.0f;
+
+    if (balance.percent > 0.5f) {
+      balanceL = (1 - balance.percent) * 2;
+      balanceR = 1;
+    }
+    if (balance.percent < 0.5f) {
+      balanceL = 1;
+      balanceR = balance.percent * 2;
+    }
 }
  
 void Track::prepareToPlay(double sampleRate, int samplesPerBlock) {
@@ -28,24 +43,50 @@ void Track::prepareToPlay(double sampleRate, int samplesPerBlock) {
 
 void Track::processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
     for (Sample* sample : samples) sample->processBlockBefore(buffer, midiMessages);
-    if (hasRecords()) effects->processBlockBefore(buffer, midiMessages);
+    if (hasSamples()) effects->processBlockBefore(buffer, midiMessages);
 }
 
 
 void Track::processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
-    int numChannels = buffer.getNumChannels();
     int numSamples = buffer.getNumSamples();
-    trackBuffer.setSize(numChannels, numSamples);
+    trackBuffer.setSize(Config::CHCount, numSamples);
     trackBuffer.clear();
-    
+
+    if (!hasSamples()) return;
+
     for (Sample* sample : samples) sample->processBlockAfter(trackBuffer, midiMessages);
+    effects->processBlockAfter(trackBuffer, midiMessages);
+
+    auto buffRead = trackBuffer.getArrayOfReadPointers();
+    auto buffWrite = trackBuffer.getArrayOfWritePointers();
+
     
-    if (hasRecords()) effects->processBlockAfter(trackBuffer, midiMessages);
+    for (int sampleIndex = 0; sampleIndex < trackBuffer.getNumSamples(); sampleIndex++) {
+        float drySampleL = buffRead[Config::CHLeft][sampleIndex];
+        float drySampleR = buffRead[Config::CHRight][sampleIndex];
+        float tmpSampleL = drySampleL;
+        float tmpSampleR = drySampleR;
+
+        tmpSampleL *= balanceL;
+        if (balanceR < 1) {
+            tmpSampleL *= balanceR;
+            tmpSampleL += drySampleR * (1 - balanceR);
+        }
+        tmpSampleL *= volume.percent;
+        
+        tmpSampleR *= balanceR;
+        if (balanceL < 1) {
+            tmpSampleR *= balanceL;
+            tmpSampleR += drySampleL * (1 - balanceL);
+        }
+        tmpSampleR *= volume.percent;
     
-    trackBuffer.applyGain(volume.percent);
-    for (int ch = 0; ch < numChannels; ++ch) {
-        buffer.addFrom(ch, 0, trackBuffer, ch, 0, numSamples);
+        buffWrite[Config::CHLeft][sampleIndex] = tmpSampleL;
+        buffWrite[Config::CHRight][sampleIndex] = tmpSampleR;
     }
+
+    buffer.addFrom(Config::CHLeft, 0, trackBuffer, Config::CHLeft, 0, numSamples);
+    buffer.addFrom(Config::CHRight, 0, trackBuffer, Config::CHRight, 0, numSamples);
 }
 
 void Track::beatCallback(int beat, bool isUpBeat) {

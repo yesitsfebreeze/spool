@@ -53,6 +53,8 @@
           </GROUP>
           <GROUP id="{55BE0EB3-7125-B945-0200-CE84EEB5E92D}" name="Parameters">
             <FILE id="qUhFMb" name="Parameteres.h" compile="0" resource="0" file="Source/Processor/Modules/Parameters/Parameteres.h"/>
+            <FILE id="dvpcn8" name="ParameterValue.h" compile="0" resource="0"
+                  file="Source/Processor/Modules/Parameters/ParameterValue.h"/>
           </GROUP>
           <GROUP id="{170199A0-EE20-57B8-2499-20344D96DC51}" name="Commands">
             <FILE id="L710yj" name="CommandQueue.h" compile="0" resource="0" file="Source/Processor/Modules/Commands/CommandQueue.h"/>

@@ -2,9 +2,11 @@
 #include "Processor/SpoolProcessor.h"
 
 
-DelayEffect::DelayEffect(SpoolProcessor* processor, int index, int track, int sample) : Effect{ processor, index, track, sample }, delayLine(48000) {
-}
-
+DelayEffect::DelayEffect(SpoolProcessor* processor, ParameterValue& wet, ParameterValue& paramA, ParameterValue& paramB, int index, int track, int sample) :
+    Effect{ processor, wet, paramA, paramB, index, track, sample },
+    delayLine(48000)
+{}
+    
 DelayEffect::~DelayEffect() {
 }
 
@@ -28,15 +30,15 @@ void DelayEffect::processBlockAfter(juce::AudioBuffer<float>& buffer, juce::Midi
             delayLine.pushSample(channel, drySample + lastOutput[channel]);
 
             float delaySample = delayLine.popSample(channel, delayTime, true);
-            buffWrite[channel][sampleIndex] *= 1 - wet;
-            buffWrite[channel][sampleIndex] += delaySample * wet;
+            buffWrite[channel][sampleIndex] *= 1 - wet.percent;
+            buffWrite[channel][sampleIndex] += delaySample * wet.percent;
 
-            lastOutput[channel] = delaySample * paramB;
+            lastOutput[channel] = delaySample * paramB.percent;
         }
     }
 }
 
 void DelayEffect::onParamAChanged() {
-    float targetDelayTime = minDelayTime + (maxDelayTime - minDelayTime) * paramA;
+    float targetDelayTime = minDelayTime + (maxDelayTime - minDelayTime) * paramA.percent;
     delayTimeInterpolation.setTargetValue(targetDelayTime);
 }

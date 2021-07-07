@@ -14,7 +14,9 @@ public:
 
     Tracks(SpoolProcessor* owner) : owner(owner) {
         for (int track = 0; track < Config::TrackCount; track++) {
-            tracks.add(new Track(this, track));
+            ParameterValue& volume = Parameters::get((Config::TrackID) track, Config::Parameter::Volume);
+            ParameterValue& balance = Parameters::get((Config::TrackID) track, Config::Parameter::Balance);
+            tracks.add(new Track(this, track, volume, balance));
         }
     }
     

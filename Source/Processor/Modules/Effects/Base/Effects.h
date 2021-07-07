@@ -19,7 +19,19 @@ public:
     
     template<class EffectClass>
     void addEffect() {
-        effects.add(new EffectClass(processor, effects.size(), track, sample));
+        
+        const int effectIndex = effects.size();
+        if (sample == -1) {
+            ParameterValue& wet = Parameters::get((Config::TrackID) track, (Config::EffectID) effectIndex, Config::Parameter::Wet);
+            ParameterValue& paramA = Parameters::get((Config::TrackID) track, (Config::EffectID) effectIndex, Config::Parameter::ParamA);
+            ParameterValue& paramB = Parameters::get((Config::TrackID) track, (Config::EffectID) effectIndex, Config::Parameter::ParamB);
+            effects.add(new EffectClass(processor, wet, paramA, paramB, effectIndex, track, sample));
+        } else {
+            ParameterValue& wet = Parameters::get((Config::TrackID) track, (Config::SampleID) sample, (Config::EffectID) effectIndex, Config::Parameter::Wet);
+            ParameterValue& paramA = Parameters::get((Config::TrackID) track, (Config::SampleID) sample, (Config::EffectID) effectIndex, Config::Parameter::ParamA);
+            ParameterValue& paramB = Parameters::get((Config::TrackID) track, (Config::SampleID) sample, (Config::EffectID) effectIndex, Config::Parameter::ParamB);
+            effects.add(new EffectClass(processor, wet, paramA, paramB, effectIndex, track, sample));
+        }
     };
 
     void prepareToPlay(double sampleRate, int samplesPerBlock);

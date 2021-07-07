@@ -184,19 +184,19 @@ void Commands::registerControlGroupCommands(ControlGroup::Group group) {
     }
 
     std::function<void(QueueAction* action)> onInteract = [this, group] (QueueAction* action) {
-        
+
         Track::Action removeTrackAction = TrackAction::RemoveTrackFromGroupB;
         Track::Action removeEffectAction = TrackAction::RemoveEffectFromGroupB;
         Track::Action addTrackAction = TrackAction::AddTrackToGroupA;
         Track::Action addEffectAction = TrackAction::AddEffectToGroupA;
-        
+
         if (group == ControlGroup::Group::B) {
             removeTrackAction = TrackAction::RemoveTrackFromGroupA;
             removeEffectAction = TrackAction::RemoveEffectFromGroupA;
             addTrackAction = TrackAction::AddTrackToGroupB;
             addEffectAction = TrackAction::AddEffectToGroupB;
         }
-        
+
         if (processor->isEffectMode()) {
             processor->tracks->doForAllTracks(removeTrackAction);
             processor->tracks->doForSelectedTracks(addEffectAction);
@@ -216,53 +216,53 @@ void Commands::registerControlGroupCommands(ControlGroup::Group group) {
     processor->commandQueue.registerCommand(CmdID::Wet, CmdAction::Interact, CmdTrigger::Instant, onInteract, group);
     processor->commandQueue.registerCommand(CmdID::ParamA, CmdAction::Interact, CmdTrigger::Instant, onInteract, group);
     processor->commandQueue.registerCommand(CmdID::ParamB, CmdAction::Interact, CmdTrigger::Instant, onInteract, group);
-    
+
     processor->commandQueue.registerCommand(CmdID::Volume, CmdAction::Increase, CmdTrigger::Instant, [this, processorGroup] (QueueAction* action) {
         processorGroup->doForTracks([this, action] (Track* track) {
-            Parameters::increaseTrackParam(track->getIndex(), Config::Parameters::Volume);
+            Parameters::get(track->getEnum(), Config::Parameter::Volume).increase(Config::ParamChangePerStep);
         });
     }, group);
     
     processor->commandQueue.registerCommand(CmdID::Volume, CmdAction::Decrease, CmdTrigger::Instant, [this, processorGroup] (QueueAction* action) {
         processorGroup->doForTracks([this, action] (Track* track) {
-            Parameters::decreaseTrackParam(track->getIndex(), Config::Parameters::Volume);
+            Parameters::get(track->getEnum(), Config::Parameter::Volume).decrease(Config::ParamChangePerStep);
         });
     }, group);
     
     processor->commandQueue.registerCommand(CmdID::Wet, CmdAction::Increase, CmdTrigger::Instant, [this, processorGroup] (QueueAction* action) {
         processorGroup->doForEffects([this, action] (Track* track, Effect* effect) {
-            Parameters::increaseTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::Wet);
+            Parameters::get(track->getEnum(), effect->getEnum(), Config::Parameter::Wet).increase(Config::ParamChangePerStep);
         });
     }, group);
     
     processor->commandQueue.registerCommand(CmdID::Wet, CmdAction::Decrease, CmdTrigger::Instant, [this, processorGroup] (QueueAction* action) {
         processorGroup->doForEffects([this, action] (Track* track, Effect* effect) {
-            Parameters::decreaseTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::Wet);
+            Parameters::get(track->getEnum(), effect->getEnum(), Config::Parameter::Wet).decrease(Config::ParamChangePerStep);
         });
     }, group);
     
     
     processor->commandQueue.registerCommand(CmdID::ParamA, CmdAction::Increase, CmdTrigger::Instant, [this, processorGroup] (QueueAction* action) {
         processorGroup->doForEffects([this, action] (Track* track, Effect* effect) {
-            Parameters::increaseTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::ParamA);
+            Parameters::get(track->getEnum(), effect->getEnum(), Config::Parameter::ParamA).increase(Config::ParamChangePerStep);
         });
     }, group);
     
     processor->commandQueue.registerCommand(CmdID::ParamA, CmdAction::Decrease, CmdTrigger::Instant, [this, processorGroup] (QueueAction* action) {
         processorGroup->doForEffects([this, action] (Track* track, Effect* effect) {
-            Parameters::decreaseTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::ParamA);
+            Parameters::get(track->getEnum(), effect->getEnum(), Config::Parameter::ParamA).decrease(Config::ParamChangePerStep);
         });
     }, group);
     
     processor->commandQueue.registerCommand(CmdID::ParamB, CmdAction::Increase, CmdTrigger::Instant, [this, processorGroup] (QueueAction* action) {
         processorGroup->doForEffects([this, action] (Track* track, Effect* effect) {
-            Parameters::increaseTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::ParamB);
+            Parameters::get(track->getEnum(), effect->getEnum(), Config::Parameter::ParamB).increase(Config::ParamChangePerStep);
         });
     }, group);
     
     processor->commandQueue.registerCommand(CmdID::ParamB, CmdAction::Decrease, CmdTrigger::Instant, [this, processorGroup] (QueueAction* action) {
         processorGroup->doForEffects([this, action] (Track* track, Effect* effect) {
-            Parameters::decreaseTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::ParamB);
+            Parameters::get(track->getEnum(), effect->getEnum(), Config::Parameter::ParamB).decrease(Config::ParamChangePerStep);
         });
     }, group);
 

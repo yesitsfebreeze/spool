@@ -2,9 +2,9 @@
 #include "Processor/SpoolProcessor.h"
 
 
-PanningEffect::PanningEffect(SpoolProcessor* processor, int index, int track, int sample) : Effect{ processor, index, track, sample } {
-}
-
+PanningEffect::PanningEffect(SpoolProcessor* processor, ParameterValue& wet, ParameterValue& paramA, ParameterValue& paramB, int index, int track, int sample) :
+    Effect{ processor, wet, paramA, paramB, index, track, sample }
+{}
 PanningEffect::~PanningEffect() {
 }
 

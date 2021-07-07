@@ -5,20 +5,20 @@
 #include "Processor/Modules/ControlGroup/ControlGroup.h"
 
 
-Track::Track(Tracks* owner, int trackIndex) : owner(owner), trackIndex(trackIndex) {
-    for (int index = 0; index < Config::TrackCount; index++) {
-        sampleHolders.add(new SampleHolder(this, trackIndex, index));
+Track::Track(Tracks* owner, int index, ParameterValue& volume, ParameterValue& balance) : owner(owner), index(index), volume(volume), balance(balance) {
+    for (int smpl = 0; smpl < Config::TrackCount; smpl++) {
+        sampleHolders.add(new SampleHolder(this, index, smpl));
     }
 
-    effects.reset(new Effects(owner->owner, trackIndex));
-    Parameters::getValueTree().addListener(this);
+    effects.reset(new Effects(owner->owner, index));
+    setParameterDefaults();
 }
 
-void Track::valueTreePropertyChanged(juce::ValueTree& tree, const juce::Identifier& param) {
-    if (!Parameters::isTrack(tree, trackIndex)) return;
-    juce::String paramName = param.toString();
-};
-
+void Track::setParameterDefaults() {
+    volume.set(0.75f, true);
+    balance.set(0.5f, true);
+}
+ 
 void Track::prepareToPlay(double sampleRate, int samplesPerBlock) {
     effects->prepareToPlay(sampleRate, samplesPerBlock);
     for (SampleHolder* sampleHolder : sampleHolders) {
@@ -42,6 +42,7 @@ void Track::processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer
     
     if (hasRecords()) effects->processBlockAfter(trackBuffer, midiMessages);
     
+    trackBuffer.applyGain(volume.percent);
     for (int ch = 0; ch < numChannels; ++ch) {
         buffer.addFrom(ch, 0, trackBuffer, ch, 0, numSamples);
     }
@@ -63,7 +64,7 @@ void Track::select(Track::Mode mode) {
     
     bool value = getValueBasedOnMode(_isSelected, mode);
     _isSelected = value;
-    if (value == true) owner->setLastSelectedTrackIndex(trackIndex);
+    if (value == true) owner->setLastSelectedTrackIndex(index);
     
     setLastSelectedTrackIndex();
 };
@@ -156,14 +157,14 @@ bool Track::isInGroup(int group) {
     ControlGroup controlGroup = nullptr;
     if (group == 0) controlGroup = owner->owner->controlGroupA;
     if (group == 1) controlGroup = owner->owner->controlGroupB;
-    return controlGroup.containsTrack(trackIndex);
+    return controlGroup.containsTrack(index);
 }
 
 int Track::getGroup() {
     ControlGroup groupA = owner->owner->controlGroupA;
     ControlGroup groupB = owner->owner->controlGroupB;
-    if (groupA.containsTrack(trackIndex)) return 0;
-    if (groupB.containsTrack(trackIndex)) return 1;
+    if (groupA.containsTrack(index)) return 0;
+    if (groupB.containsTrack(index)) return 1;
 
     return -1;
 }
@@ -172,44 +173,44 @@ int Track::isInEffectGroup(int group) {
     ControlGroup controlGroup = nullptr;
     if (group == 0) controlGroup = owner->owner->controlGroupA;
     if (group == 1) controlGroup = owner->owner->controlGroupB;
-    return controlGroup.containsEffect(trackIndex);
+    return controlGroup.containsEffect(index);
 }
 
 void Track::addTrackToGroupA() {
-    owner->owner->controlGroupA.addTrack(trackIndex);
+    owner->owner->controlGroupA.addTrack(index);
 }
 
 void Track::removeTrackFromGroupA() {
-    owner->owner->controlGroupA.removeTrack(trackIndex);
+    owner->owner->controlGroupA.removeTrack(index);
 }
 
 void Track::addTrackToGroupB() {
-    owner->owner->controlGroupB.addTrack(trackIndex);
+    owner->owner->controlGroupB.addTrack(index);
 }
 
 void Track::removeTrackFromGroupB() {
-    owner->owner->controlGroupB.removeTrack(trackIndex);
+    owner->owner->controlGroupB.removeTrack(index);
 }
 
 void Track::removeTrackFromAllGroups() {
-    owner->owner->controlGroupA.removeTrack(trackIndex);
-    owner->owner->controlGroupB.removeTrack(trackIndex);
+    owner->owner->controlGroupA.removeTrack(index);
+    owner->owner->controlGroupB.removeTrack(index);
 }
 
 void Track::addEffectToGroupA() {
-    owner->owner->controlGroupA.addEffect(trackIndex);
+    owner->owner->controlGroupA.addEffect(index);
 }
 
 void Track::removeEffectFromGroupA() {
-    owner->owner->controlGroupA.removeEffect(trackIndex);
+    owner->owner->controlGroupA.removeEffect(index);
 }
 
 void Track::addEffectToGroupB() {
-    owner->owner->controlGroupB.addEffect(trackIndex);
+    owner->owner->controlGroupB.addEffect(index);
 }
 
 void Track::removeEffectFromGroupB() {
-    owner->owner->controlGroupB.removeEffect(trackIndex);
+    owner->owner->controlGroupB.removeEffect(index);
 }
 
 

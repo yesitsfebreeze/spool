@@ -18,15 +18,25 @@ namespace Config {
     const int TrackResetDelay = DoublePressTimeout; // ms
     const int RecordLengthDebounceTime = 1000; // ms
     
-
-    const double MaxParamValue = 255;
-    const double MinParamValue = 0;
+    const double MaxParameterValue = 255;
     const int KnobSensitivity = 360 / 36;
-    const double ParamChangePerStep = MaxParamValue / 360 * KnobSensitivity;
+    const double ParamChangePerStep = MaxParameterValue/ 360 * KnobSensitivity;
 
+    enum TrackID {
+        t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16
+    };
+    
+    enum EffectID {
+        e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14, e15, e16
+    };
+    
+    enum SampleID {
+        s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16
+    };
+    
     namespace Command {
         enum ID {
-            Settings = 1,
+            Settings = 1, 
             Function,
             Mute,
             Play,
@@ -35,22 +45,7 @@ namespace Config {
             ParamA,
             ParamB,
             Record,
-            Track1,
-            Track2,
-            Track3,
-            Track4,
-            Track5,
-            Track6,
-            Track7,
-            Track8,
-            Track9,
-            Track10,
-            Track11,
-            Track12,
-            Track13,
-            Track14,
-            Track15,
-            Track16
+            Track1, Track2, Track3, Track4, Track5, Track6, Track7, Track8, Track9, Track10, Track11, Track12, Track13, Track14, Track15, Track16
         };
         
         enum Action {
@@ -72,19 +67,19 @@ namespace Config {
         };
     }
 
-    enum Parameters {
+    enum Parameter {
         Bypass,
         Volume,
-        Panning,
+        Balance,
         Wet,
         ParamA,
         ParamB,
     };
 
-    const juce::String ParameterNames[] {
+    const juce::String ParameterName[] {
         "Bypass",
         "Volume",
-        "Panning",
+        "Balance",
         "Wet",
         "ParamA",
         "ParamB",

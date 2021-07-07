@@ -65,10 +65,10 @@ void ControlGroupUI::addDryWetKnob() {
 //        if (group == ControlGroup::Group::B) group = processor->controlGroupB;
 //
 //        group.doForEffects([this, increase] (Track* track, Effect* effect) {
-//            float value = Parameters::getTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::Wet);
+//            float value = Parameters::getTrackEffectParam(track->getIndex(), effect->index, Config::Parameter::Wet);
 //            if (increase) value += (float) Config::ParamChangePerStep;
 //            if (!increase) value -= (float) Config::ParamChangePerStep;
-//            Parameters::setTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::Wet, value);
+//            Parameters::setTrackEffectParam(track->getIndex(), effect->index, Config::Parameter::Wet, value);
 //        });
     };
 
@@ -149,10 +149,10 @@ void ControlGroupUI::addParamBKnob() {
 //        if (group == ControlGroup::Group::B) group = processor->controlGroupB;
 //        
 //        group.doForEffects([this, increase] (Track* track, Effect* effect) {
-//            float value = Parameters::getTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::ParamB);
+//            float value = Parameters::getTrackEffectParam(track->getIndex(), effect->index, Config::Parameter::ParamB);
 //            if (increase) value += (float) Config::ParamChangePerStep;
 //            if (!increase) value -= (float) Config::ParamChangePerStep;
-//            Parameters::setTrackEffectParam(track->getIndex(), effect->index, Config::Parameters::ParamB, value);
+//            Parameters::setTrackEffectParam(track->getIndex(), effect->index, Config::Parameter::ParamB, value);
 //        });
     };
 

@@ -168,36 +168,45 @@ private:
     //TODO: maybe check if the trigger times is to close to the next beat time to prevent keypresses to bleed trough
     void processQueue(bool isBeat, bool isUpBeat) {
         for(QueueAction* action: queue) {
-            executeUpBeatActions(action, isUpBeat);
-            executeBeatActions(action, isBeat);
-            executeInstantActions(action);
+            if (executeUpBeatActions(action, isUpBeat)) continue;
+            if (executeBeatActions(action, isBeat)) continue;
+            if (executeInstantActions(action)) continue;
         }
     }
     
-    void executeUpBeatActions(QueueAction* action, bool isUpBeat) {
-        if (action->trigger != Config::Command::Trigger::OnUpBeat) return;
-        if (!isUpBeat) return;
-        if (action->executionTime > currentTime) return;
-        if (action->callbacks[action->trigger] == nullptr) return;
+    bool executeUpBeatActions(QueueAction* action, bool isUpBeat) {
+        if (!action) return false;
+        if (action->trigger != Config::Command::Trigger::OnUpBeat) return false;
+        if (!isUpBeat) return false;
+        if (action->executionTime > currentTime) return false;
+        if (action->callbacks[action->trigger] == nullptr) return false;
         action->callbacks[action->trigger](action);
         removeQueueAction(action);
+        
+        return true;
     }
     
-    void executeBeatActions(QueueAction* action, bool isBeat) {
-        if (action->trigger != Config::Command::Trigger::OnBeat) return;
-        if (!isBeat) return;
-        if (action->executionTime > currentTime) return;
-        if (action->callbacks[action->trigger] == nullptr) return;
+    bool executeBeatActions(QueueAction* action, bool isBeat) {
+        if (!action) return false;
+        if (action->trigger != Config::Command::Trigger::OnBeat) return false;
+        if (!isBeat) return false;
+        if (action->executionTime > currentTime) return false;
+        if (action->callbacks[action->trigger] == nullptr) return false;
         action->callbacks[action->trigger](action);
         removeQueueAction(action);
+ 
+        return true;
     }
     
-    void executeInstantActions(QueueAction* action) {
-        if (action->trigger != Config::Command::Trigger::Instant) return;
-        if (action->executionTime > currentTime) return;
-        if (action->callbacks[action->trigger] == nullptr) return;
+    bool executeInstantActions(QueueAction* action) {
+        if (!action) return false;
+        if (action->trigger != Config::Command::Trigger::Instant) return false;
+        if (action->executionTime > currentTime) return false;
+        if (action->callbacks[action->trigger] == nullptr) return false;
         action->callbacks[action->trigger](action);
         removeQueueAction(action);
+
+        return true;
     }
     
     int getCommandIdentifier(Config::Command::ID commandID, ControlGroup::Group group ) {

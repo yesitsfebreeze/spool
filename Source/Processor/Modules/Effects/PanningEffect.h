@@ -6,7 +6,7 @@ class SpoolProcessor;
 
 class PanningEffect : public Effect {
 public:
-    PanningEffect(SpoolProcessor* processor, int index, int track, int sample = -1);
+    PanningEffect(SpoolProcessor* processor, ParameterValue& wet, ParameterValue& paramA, ParameterValue& paramB, int index, int track, int sample = -1);
     ~PanningEffect();
     void prepareToPlay(double sampleRate, int samplesPerBlock) override;
     void processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) override;

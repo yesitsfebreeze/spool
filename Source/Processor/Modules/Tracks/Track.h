@@ -5,6 +5,7 @@
 
 #include "Processor/Modules/Tracks/SampleHolder.h"
 #include "Processor/Modules/Effects/Base/Effects.h"
+#include "Processor/Modules/Parameters/ParameterValue.h"
 
 class Tracks;
 
@@ -43,7 +44,7 @@ public:
         Toggle
     };
     
-    Track(Tracks* owner, int trackIndex);
+    Track(Tracks* owner, int index, ParameterValue& volume, ParameterValue& balance);
     
     ~Track() {
         effects.reset();
@@ -54,11 +55,15 @@ public:
     }
     
     int getIndex() {
-        return trackIndex;
+        return index;
+    }
+    
+    Config::TrackID getEnum() {
+        return (Config::TrackID) index;
     }
     
     
-    void valueTreePropertyChanged(juce::ValueTree& tree, const juce::Identifier& param) override;
+    void setParameterDefaults();
 
     void prepareToPlay(double sampleRate, int samplesPerBlock);
     void processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages);
@@ -213,7 +218,9 @@ public:
 private:
     juce::AudioBuffer<float> trackBuffer;
     
-    int trackIndex = -1;
+    int index = -1;
+    ParameterValue& volume;
+    ParameterValue& balance;
 
     bool _isPressed = false;
     bool _isPlaying = false;
@@ -225,9 +232,7 @@ private:
     bool _wantsToRecord = false;
     bool _isRecording = false;
     bool _hasRecords = false;
-    
 
-    
     bool getValueBasedOnMode(bool value, Track::Mode mode);
     void setLastSelectedTrackIndex();
 };

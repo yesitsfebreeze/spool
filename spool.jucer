@@ -85,10 +85,11 @@
             <FILE id="auxOqr" name="Sequencer.cpp" compile="1" resource="0" file="Source/Processor/Modules/Sequencer/Sequencer.cpp"/>
             <FILE id="QFq4ZV" name="Sequencer.h" compile="0" resource="0" file="Source/Processor/Modules/Sequencer/Sequencer.h"/>
           </GROUP>
+          <GROUP id="{3AAD55AB-AA68-15BA-D15A-47894E2C12AF}" name="Sample">
+            <FILE id="rkXStJ" name="Sample.cpp" compile="1" resource="0" file="Source/Processor/Modules/Sample/Sample.cpp"/>
+            <FILE id="osYK7y" name="Sample.h" compile="0" resource="0" file="Source/Processor/Modules/Sample/Sample.h"/>
+          </GROUP>
           <GROUP id="{925DF0E7-C796-96F8-A8ED-9819DD1F4E76}" name="Tracks">
-            <FILE id="jJ2wEL" name="SampleHolder.cpp" compile="1" resource="0"
-                  file="Source/Processor/Modules/Tracks/SampleHolder.cpp"/>
-            <FILE id="eQI57B" name="SampleHolder.h" compile="0" resource="0" file="Source/Processor/Modules/Tracks/SampleHolder.h"/>
             <FILE id="aF4brt" name="Track.cpp" compile="1" resource="0" file="Source/Processor/Modules/Tracks/Track.cpp"/>
             <FILE id="Mkg0to" name="Track.h" compile="0" resource="0" file="Source/Processor/Modules/Tracks/Track.h"/>
             <FILE id="Lnmhp1" name="Tracks.h" compile="0" resource="0" file="Source/Processor/Modules/Tracks/Tracks.h"/>

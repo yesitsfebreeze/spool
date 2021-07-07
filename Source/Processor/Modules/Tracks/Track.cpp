@@ -7,7 +7,7 @@
 
 Track::Track(Tracks* owner, int index, ParameterValue& volume, ParameterValue& balance) : owner(owner), index(index), volume(volume), balance(balance) {
     for (int smpl = 0; smpl < Config::TrackCount; smpl++) {
-        sampleHolders.add(new SampleHolder(this, index, smpl));
+        samples.add(new Sample(this, index, smpl));
     }
 
     effects.reset(new Effects(owner->owner, index));
@@ -21,13 +21,13 @@ void Track::setParameterDefaults() {
  
 void Track::prepareToPlay(double sampleRate, int samplesPerBlock) {
     effects->prepareToPlay(sampleRate, samplesPerBlock);
-    for (SampleHolder* sampleHolder : sampleHolders) {
-        sampleHolder->prepareToPlay(sampleRate, sampleRate);
+    for (Sample* sample : samples) {
+        sample->prepareToPlay(sampleRate, sampleRate);
     }
 }
 
 void Track::processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
-    for (SampleHolder* sampleHolder : sampleHolders) sampleHolder->processBlockBefore(buffer, midiMessages);
+    for (Sample* sample : samples) sample->processBlockBefore(buffer, midiMessages);
     if (hasRecords()) effects->processBlockBefore(buffer, midiMessages);
 }
 
@@ -38,7 +38,7 @@ void Track::processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer
     trackBuffer.setSize(numChannels, numSamples);
     trackBuffer.clear();
     
-    for (SampleHolder* sampleHolder : sampleHolders) sampleHolder->processBlockAfter(trackBuffer, midiMessages);
+    for (Sample* sample : samples) sample->processBlockAfter(trackBuffer, midiMessages);
     
     if (hasRecords()) effects->processBlockAfter(trackBuffer, midiMessages);
     
@@ -49,8 +49,8 @@ void Track::processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer
 }
 
 void Track::beatCallback(int beat, bool isUpBeat) {
-    for (SampleHolder* sampleHolder : sampleHolders) {
-        sampleHolder->beatCallback(beat, isUpBeat);
+    for (Sample* sample : samples) {
+        sample->beatCallback(beat, isUpBeat);
     }
 }
 
@@ -74,9 +74,9 @@ void Track::mute(Track::Mode mode) {
     _isMuted = value;
 
     if (owner->hasSampleLayer()) {
-        sampleHolders[owner->getSampleLayer()]->mute(_isMuted);
+        samples[owner->getSampleLayer()]->mute(_isMuted);
     } else {
-        for (SampleHolder* sampleHolder : sampleHolders) sampleHolder->mute(_isMuted);
+        for (Sample* sample : samples) sample->mute(_isMuted);
     }
 };
 
@@ -97,9 +97,9 @@ void Track::play(Track::Mode mode) {
     _isPlaying = value;
     
     if (owner->hasSampleLayer()) {
-        sampleHolders[owner->getSampleLayer()]->play(_isPlaying);
+        samples[owner->getSampleLayer()]->play(_isPlaying);
     } else {
-        for (SampleHolder* sampleHolder : sampleHolders) sampleHolder->play(_isPlaying);
+        for (Sample* sample : samples) sample->play(_isPlaying);
     }
 };
 
@@ -108,24 +108,24 @@ void Track::stop(Track::Mode mode) {
     _isStopped = value;
     
     if (owner->hasSampleLayer()) {
-        sampleHolders[owner->getSampleLayer()]->stop(_isStopped);
+        samples[owner->getSampleLayer()]->stop(_isStopped);
     } else {
-        for (SampleHolder* sampleHolder : sampleHolders) sampleHolder->stop(_isStopped);
+        for (Sample* sample : samples) sample->stop(_isStopped);
     }
 };
 
 void Track::restart() {
-    for (SampleHolder* sampleHolder : sampleHolders) {
-        sampleHolder->restart();
+    for (Sample* sample : samples) {
+        sample->restart();
     }
 }
 
 void Track::record() {
     int recordLength = owner->owner->getRecordLength();
     
-    for (SampleHolder* sampleHolder : sampleHolders) {
-        if (!sampleHolder->hasSample()) {
-            sampleHolder->wantsToRecord(recordLength);
+    for (Sample* sample : samples) {
+        if (!sample->isFilled()) {
+            sample->wantsToRecord(recordLength);
             return;
         }
     }
@@ -136,16 +136,16 @@ void Track::record() {
 };
 
 void Track::cancelRecord() {
-    for (SampleHolder* sampleHolder : sampleHolders) {
-        sampleHolder->cancelRecord();
+    for (Sample* sample : samples) {
+        sample->cancelRecord();
     }
 };
 
 void Track::clear() {
     if (owner->hasSampleLayer()) {
-        sampleHolders[owner->getSampleLayer()]->clear();
+        samples[owner->getSampleLayer()]->clear();
     } else {
-        for (SampleHolder* sampleHolder : sampleHolders) sampleHolder->clear();
+        for (Sample* sample : samples) sample->clear();
     }
 };
 

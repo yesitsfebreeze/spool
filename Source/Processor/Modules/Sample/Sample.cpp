@@ -1,45 +1,45 @@
-#include "SampleHolder.h"
+#include "Sample.h"
 
 #include "Processor/Modules/Tracks/Track.h"
 #include "Processor/Modules/Tracks/Tracks.h"
 
 
-SampleHolder::SampleHolder(Track* owner, int trackIndex, int index) : owner(owner), trackIndex(trackIndex), index(index) {
+Sample::Sample(Track* owner, int trackIndex, int index) : owner(owner), trackIndex(trackIndex), index(index) {
     effects.reset(new Effects(owner->owner->owner, trackIndex, index));
 }
 
-SampleHolder::~SampleHolder() {
+Sample::~Sample() {
     effects.reset();
 }
 
 
-void SampleHolder::prepareToPlay(double sampleRate, int samplesPerBlock) {
+void Sample::prepareToPlay(double sampleRate, int samplesPerBlock) {
     effects->prepareToPlay(sampleRate, samplesPerBlock);
 }
 
-void SampleHolder::processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
+void Sample::processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
     record(buffer);
-    if (_hasSample) effects->processBlockBefore(buffer, midiMessages);
+    if (_isFilled) effects->processBlockBefore(buffer, midiMessages);
 };
 
-void SampleHolder::processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
-    if (_hasSample) effects->processBlockAfter(buffer, midiMessages);
+void Sample::processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages) {
+    if (_isFilled) effects->processBlockAfter(buffer, midiMessages);
     playBuffer(buffer);
 };
 
 
-void SampleHolder::beatCallback(int beat, bool isUpBeat) {
+void Sample::beatCallback(int beat, bool isUpBeat) {
     setRecordState(beat, isUpBeat);
     setPlayState(beat, isUpBeat);
 }
 
-void SampleHolder::wantsToRecord(int beatLength) {
+void Sample::wantsToRecord(int beatLength) {
     this->beatLength = beatLength;
     _wantsToRecord = true;
     owner->setWantsToRecord(_wantsToRecord);
 }
 
-void SampleHolder::cancelRecord() {
+void Sample::cancelRecord() {
     if (!_wantsToRecord) return;
 
     this->beatLength = 0;
@@ -47,7 +47,7 @@ void SampleHolder::cancelRecord() {
     owner->setWantsToRecord(_wantsToRecord);
 }
 
-void SampleHolder::startRecording(int beat) {
+void Sample::startRecording(int beat) {
     recordedBeats = 0;
     _isRecording = true;
     owner->setRecording(_isRecording);
@@ -55,12 +55,12 @@ void SampleHolder::startRecording(int beat) {
     owner->setWantsToRecord(_wantsToRecord);
 }
 
-void SampleHolder::stopRecording(int beat) {
+void Sample::stopRecording(int beat) {
     _isRecording = false;
     owner->setRecording(_isRecording);
     _wantsToRecord = false;
     owner->setWantsToRecord(_wantsToRecord);
-    _hasSample = true;
+    _isFilled = true;
     owner->setHasRecords(true);
     startBeat = beat;
     
@@ -72,7 +72,7 @@ void SampleHolder::stopRecording(int beat) {
 }
 
 
-void SampleHolder::setRecordState(int beat, bool isUpBeat) {
+void Sample::setRecordState(int beat, bool isUpBeat) {
     if (isUpBeat && _wantsToRecord) {
         startRecording(beat);
         return;
@@ -88,32 +88,32 @@ void SampleHolder::setRecordState(int beat, bool isUpBeat) {
 }
 
 
-void SampleHolder::setPlayState(int beat, bool isUpBeat) {
+void Sample::setPlayState(int beat, bool isUpBeat) {
     if (sampleSize == 0 || _isRecording) return;
     if (beatsPlayed % beatLength == 0) restart();
     
     beatsPlayed++;
 }
 
-void SampleHolder::restart() {
+void Sample::restart() {
     samplesPlayed = 0;
     beatsPlayed = 0;
 }
 
-void SampleHolder::clear() {
+void Sample::clear() {
     restart();
     sampleBuffer.clear(0, 0);
     sampleSize = 0;
-    _hasSample = false;
+    _isFilled = false;
     
     // always reset has Recordings of track after deletion
     owner->setHasRecords(false);
-    for (SampleHolder* sampleHolder : owner->sampleHolders) {
-        if (sampleHolder->hasSample()) owner->setHasRecords(true);
+    for (Sample* sample : owner->samples) {
+        if (sample->isFilled()) owner->setHasRecords(true);
     }
 }
 
-void SampleHolder::record(juce::AudioBuffer<float>& buffer) {
+void Sample::record(juce::AudioBuffer<float>& buffer) {
     if (!_isRecording) return;
     
     int numSamples = buffer.getNumSamples();
@@ -124,7 +124,7 @@ void SampleHolder::record(juce::AudioBuffer<float>& buffer) {
 }
 
 
-void SampleHolder::addToBuffer(juce::AudioBuffer<float>& buffer, int sourceChannel, int outNumSamples, int numSamples) {
+void Sample::addToBuffer(juce::AudioBuffer<float>& buffer, int sourceChannel, int outNumSamples, int numSamples) {
     if (_isMuted) return;
 
     int numRemainingSamples = numSamples - samplesPlayed;
@@ -146,7 +146,7 @@ void SampleHolder::addToBuffer(juce::AudioBuffer<float>& buffer, int sourceChann
 }
 
 
-void SampleHolder::playBuffer(juce::AudioBuffer<float>& buffer) {
+void Sample::playBuffer(juce::AudioBuffer<float>& buffer) {
     if (_isRecording) return;
     if (sampleSize == 0) return;
     if (!_isPlaying) return;

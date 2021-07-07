@@ -4,12 +4,12 @@
 
 class Track;
 
-class SampleHolder {
+class Sample {
 public:
     std::unique_ptr<Effects> effects;
     
-    SampleHolder(Track* owner, int trackIndex, int index);
-    ~SampleHolder();
+    Sample(Track* owner, int trackIndex, int index);
+    ~Sample();
     
     void prepareToPlay(double sampleRate, int samplesPerBlock);
     void processBlockBefore(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages);
@@ -20,8 +20,8 @@ public:
     void clear();
     void restart();
     
-    bool hasSample() {
-        return _hasSample;
+    bool isFilled() {
+        return _isFilled;
     };
     
     void play(bool state) {
@@ -66,7 +66,7 @@ private:
     bool _isStopped = true;
     bool _isRecording = false;
     bool _isMuted = false;
-    bool _hasSample = false;
+    bool _isFilled = false;
 
     int beatLength = 0;
     int sampleSize = 0;

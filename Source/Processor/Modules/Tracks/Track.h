@@ -3,7 +3,7 @@
 #include <JuceHeader.h>
 #include "Config.h"
 
-#include "Processor/Modules/Tracks/SampleHolder.h"
+#include "Processor/Modules/Sample/Sample.h"
 #include "Processor/Modules/Effects/Base/Effects.h"
 #include "Processor/Modules/Parameters/ParameterValue.h"
 
@@ -13,7 +13,7 @@ class Track : public juce::ValueTree::Listener {
 public:
     Tracks* owner;
     std::unique_ptr<Effects> effects;
-    juce::OwnedArray<SampleHolder> sampleHolders;
+    juce::OwnedArray<Sample> samples;
 
     enum Action {
         Select,

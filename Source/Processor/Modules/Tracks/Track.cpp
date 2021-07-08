@@ -17,21 +17,6 @@ Track::Track(Tracks* owner, int index, ParameterValue& volume, ParameterValue& b
 void Track::setupParameters() {
     volume.set(0.75f, true);
     balance.set(0.5f, true);
-    balance.onChange = [this] (ParameterValue& value) { calculateBalance(); };
-}
-
-void Track::calculateBalance() {
-    balanceL = 1.0f;
-    balanceR = 1.0f;
-
-    if (balance.percent > 0.5f) {
-      balanceL = (1 - balance.percent) * 2;
-      balanceR = 1;
-    }
-    if (balance.percent < 0.5f) {
-      balanceL = 1;
-      balanceR = balance.percent * 2;
-    }
 }
  
 void Track::prepareToPlay(double sampleRate, int samplesPerBlock) {
@@ -57,36 +42,34 @@ void Track::processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer
     for (Sample* sample : samples) sample->processBlockAfter(trackBuffer, midiMessages);
     effects->processBlockAfter(trackBuffer, midiMessages);
 
-    auto buffRead = trackBuffer.getArrayOfReadPointers();
-    auto buffWrite = trackBuffer.getArrayOfWritePointers();
 
+    basicProcessing.setBuffer(trackBuffer).setBalance(balance).setVolume(volume).addTo(buffer).process();
     
-    for (int sampleIndex = 0; sampleIndex < trackBuffer.getNumSamples(); sampleIndex++) {
-        float drySampleL = buffRead[Config::CHLeft][sampleIndex];
-        float drySampleR = buffRead[Config::CHRight][sampleIndex];
-        float tmpSampleL = drySampleL;
-        float tmpSampleR = drySampleR;
+//    for (int sampleIndex = 0; sampleIndex < trackBuffer.getNumSamples(); sampleIndex++) {
+//        float drySampleL = buffRead[Config::CHLeft][sampleIndex];
+//        float drySampleR = buffRead[Config::CHRight][sampleIndex];
+//        float tmpSampleL = drySampleL;
+//        float tmpSampleR = drySampleR;
+//
+//        tmpSampleL *= balanceL;
+//        if (balanceR < 1) {
+//            tmpSampleL *= balanceR;
+//            tmpSampleL += drySampleR * (1 - balanceR);
+//        }
+//        tmpSampleL *= volume.percent;
+//        
+//        tmpSampleR *= balanceR;
+//        if (balanceL < 1) {
+//            tmpSampleR *= balanceL;
+//            tmpSampleR += drySampleL * (1 - balanceL);
+//        }
+//        tmpSampleR *= volume.percent;
+//    
+//        buffWrite[Config::CHLeft][sampleIndex] = tmpSampleL;
+//        buffWrite[Config::CHRight][sampleIndex] = tmpSampleR;
+//    }
+//
 
-        tmpSampleL *= balanceL;
-        if (balanceR < 1) {
-            tmpSampleL *= balanceR;
-            tmpSampleL += drySampleR * (1 - balanceR);
-        }
-        tmpSampleL *= volume.percent;
-        
-        tmpSampleR *= balanceR;
-        if (balanceL < 1) {
-            tmpSampleR *= balanceL;
-            tmpSampleR += drySampleL * (1 - balanceL);
-        }
-        tmpSampleR *= volume.percent;
-    
-        buffWrite[Config::CHLeft][sampleIndex] = tmpSampleL;
-        buffWrite[Config::CHRight][sampleIndex] = tmpSampleR;
-    }
-
-    buffer.addFrom(Config::CHLeft, 0, trackBuffer, Config::CHLeft, 0, numSamples);
-    buffer.addFrom(Config::CHRight, 0, trackBuffer, Config::CHRight, 0, numSamples);
 }
 
 void Track::beatCallback(int beat, bool isUpBeat) {

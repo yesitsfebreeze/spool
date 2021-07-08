@@ -87,6 +87,19 @@
             <FILE id="auxOqr" name="Sequencer.cpp" compile="1" resource="0" file="Source/Processor/Modules/Sequencer/Sequencer.cpp"/>
             <FILE id="QFq4ZV" name="Sequencer.h" compile="0" resource="0" file="Source/Processor/Modules/Sequencer/Sequencer.h"/>
           </GROUP>
+          <GROUP id="{5F5D9ED9-B0EA-37A4-C085-D1621B8D617B}" name="BasicProcessing">
+            <GROUP id="{B4D6996C-5176-5245-34C3-61B6AAE94A7C}" name="Processors">
+              <FILE id="fnAFbO" name="BalanceProcessor.h" compile="0" resource="0"
+                    file="Source/Processor/Modules/BasicProcessing/Processors/BalanceProcessor.h"/>
+              <FILE id="MMlSIq" name="EQPocessor.h" compile="0" resource="0" file="Source/Processor/Modules/BasicProcessing/Processors/EQPocessor.h"/>
+              <FILE id="us91Yz" name="FilterProcessor.h" compile="0" resource="0"
+                    file="Source/Processor/Modules/BasicProcessing/Processors/FilterProcessor.h"/>
+              <FILE id="RgQkT0" name="VolumeProcessor.h" compile="0" resource="0"
+                    file="Source/Processor/Modules/BasicProcessing/Processors/VolumeProcessor.h"/>
+            </GROUP>
+            <FILE id="KXvRd4" name="BasicProcessing.h" compile="0" resource="0"
+                  file="Source/Processor/Modules/BasicProcessing/BasicProcessing.h"/>
+          </GROUP>
           <GROUP id="{3AAD55AB-AA68-15BA-D15A-47894E2C12AF}" name="Sample">
             <FILE id="rkXStJ" name="Sample.cpp" compile="1" resource="0" file="Source/Processor/Modules/Sample/Sample.cpp"/>
             <FILE id="osYK7y" name="Sample.h" compile="0" resource="0" file="Source/Processor/Modules/Sample/Sample.h"/>

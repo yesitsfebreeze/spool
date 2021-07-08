@@ -6,6 +6,7 @@
 #include "Processor/Modules/Sample/Sample.h"
 #include "Processor/Modules/Effects/Base/Effects.h"
 #include "Processor/Modules/Parameters/ParameterValue.h"
+#include "Processor/Modules/BasicProcessing/BasicProcessing.h"
 
 class Tracks;
 
@@ -219,9 +220,8 @@ private:
     int index = -1;
     ParameterValue& volume;
     ParameterValue& balance;
-    
-    float balanceL = 1.0f;
-    float balanceR = 1.0f;
+
+    BasicProcessing basicProcessing;
 
     bool _isPressed = false;
     bool _isPlaying = false;

@@ -78,6 +78,8 @@
                   file="Source/Processor/Modules/Effects/PanningEffect.cpp"/>
             <FILE id="kagydM" name="PanningEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/PanningEffect.h"/>
             <FILE id="WAhMct" name="PhaserEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/PhaserEffect.h"/>
+            <FILE id="XCTXo6" name="ReverbEffect.cpp" compile="1" resource="0"
+                  file="Source/Processor/Modules/Effects/ReverbEffect.cpp"/>
             <FILE id="dla3sY" name="ReverbEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/ReverbEffect.h"/>
             <FILE id="uMHJdi" name="TremoloEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/TremoloEffect.h"/>
           </GROUP>

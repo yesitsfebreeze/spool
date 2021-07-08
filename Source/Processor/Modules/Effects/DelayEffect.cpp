@@ -39,6 +39,7 @@ void DelayEffect::processBlockAfter(juce::AudioBuffer<float>& buffer, juce::Midi
 }
 
 void DelayEffect::onParamAChanged() {
+    DBG("delay");
     float targetDelayTime = minDelayTime + (maxDelayTime - minDelayTime) * paramA.percent;
     delayTimeInterpolation.setTargetValue(targetDelayTime);
 }

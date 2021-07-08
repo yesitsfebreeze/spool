@@ -48,6 +48,5 @@ void ReverbEffect::onParamAChanged()
 {
     reverbParameters.roomSize = paramA.percent;
     reverb.setParameters(reverbParameters);
-    reverb.setParameters(reverbParameters);
 }
 

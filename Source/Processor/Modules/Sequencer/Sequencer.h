@@ -6,7 +6,7 @@
 
 class Sequencer {
 public:
-    Sequencer(SpoolProcessor* owner):owner(owner) {
+    Sequencer(SpoolProcessor* owner) : owner(owner) {
         
     }
     

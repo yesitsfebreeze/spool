@@ -61,6 +61,10 @@
             <FILE id="gUkAOn" name="QueueAction.h" compile="0" resource="0" file="Source/Processor/Modules/Commands/QueueAction.h"/>
             <FILE id="XWi5ZZ" name="QueueCommand.h" compile="0" resource="0" file="Source/Processor/Modules/Commands/QueueCommand.h"/>
           </GROUP>
+          <GROUP id="{0AD32EC0-83EB-5A59-1B13-DC607E6F884D}" name="Dispatcher">
+            <FILE id="HRBR7b" name="Dispatcher.cpp" compile="1" resource="0" file="Source/Processor/Modules/Dispatcher/Dispatcher.cpp"/>
+            <FILE id="zQLXCY" name="Dispatcher.h" compile="0" resource="0" file="Source/Processor/Modules/Dispatcher/Dispatcher.h"/>
+          </GROUP>
           <GROUP id="{51C9340F-2FFB-60B5-7CFE-72E2EB609D60}" name="Effects">
             <GROUP id="{829A2EDD-351B-3FC2-9854-33E652F4D3B2}" name="Base">
               <FILE id="eWMLKv" name="Effect.cpp" compile="1" resource="0" file="Source/Processor/Modules/Effects/Base/Effect.cpp"/>

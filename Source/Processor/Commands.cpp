@@ -19,14 +19,14 @@ void Commands::registerFunctionCommands() {
 
     // FUNCTION Double Press
     processor->commandQueue.registerCommand(CmdID::Function, CmdAction::DoublePress, CmdTrigger::Instant, [this] (QueueAction* action) {
-        processor->tracks->doForUnselectedTracks(TrackAction::UnsetGroup);
-        processor->tracks->doForAllTracks(TrackAction::Select, TrackMode::Off);
+        processor->dispatch->unselected(TrackAction::UnsetGroup);
+        processor->dispatch->all(TrackAction::Select, TrackMode::Off);
 
     });
 
     // FUNCTION Double Hold
     processor->commandQueue.registerCommand(CmdID::Function, CmdAction::DoubleHold, CmdTrigger::Instant, [this] (QueueAction* action) {
-        processor->tracks->doForAllTracks(TrackAction::Select, TrackMode::Toggle);
+        processor->dispatch->all(TrackAction::Select, TrackMode::Toggle);
     });
 }
 
@@ -45,19 +45,19 @@ void Commands::registerMuteCommands() {
 
     // MUTE Press
     processor->commandQueue.registerCommand(CmdID::Mute, CmdAction::Press, CmdTrigger::OnBeat, [this] (QueueAction* action) {
-        if (!action->isFunctionDown) processor->tracks->doForSelectedTracks(TrackAction::Mute, TrackMode::Toggle);
-        if (action->isFunctionDown) processor->tracks->doForAllTracks(TrackAction::Mute, TrackMode::Off);
+        if (!action->isFunctionDown) processor->dispatch->selected(TrackAction::Mute, TrackMode::Toggle);
+        if (action->isFunctionDown) processor->dispatch->all(TrackAction::Mute, TrackMode::Off);
     });
 
     // MUTE Double Press
     processor->commandQueue.registerCommand(CmdID::Mute, CmdAction::DoublePress, CmdTrigger::OnBeat, [this] (QueueAction* action) {
-        processor->tracks->doForAllTracks(TrackAction::Mute, TrackMode::Toggle);
+        processor->dispatch->all(TrackAction::Mute, TrackMode::Toggle);
     });
 
     // MUTE Hold
     processor->commandQueue.registerCommand(CmdID::Mute, CmdAction::Hold, CmdTrigger::Instant, [this] (QueueAction* action) {
-        if (!action->isFunctionDown) processor->tracks->doForSelectedTracks(TrackAction::Cue, TrackMode::Toggle);
-        if (action->isFunctionDown) processor->tracks->doForAllTracks(TrackAction::Cue, TrackMode::Off);
+        if (!action->isFunctionDown) processor->dispatch->selected(TrackAction::Cue, TrackMode::Toggle);
+        if (action->isFunctionDown) processor->dispatch->all(TrackAction::Cue, TrackMode::Off);
     });
 }
 
@@ -76,14 +76,14 @@ void Commands::registerPlayCommands() {
 
     // PLAY Press
     processor->commandQueue.registerCommand(CmdID::Play, CmdAction::Press, CmdTrigger::OnUpBeat, [this] (QueueAction* action) {
-        if (!action->isFunctionDown) processor->tracks->doForSelectedTracks(TrackAction::Play, TrackMode::Toggle);
-        if (action->isFunctionDown) processor->tracks->doForAllTracks(TrackAction::Play, TrackMode::Off);
+        if (!action->isFunctionDown) processor->dispatch->selected(TrackAction::Play, TrackMode::Toggle);
+        if (action->isFunctionDown) processor->dispatch->all(TrackAction::Play, TrackMode::Off);
     });
 
     // PLAY Double Press
     processor->commandQueue.registerCommand(CmdID::Play, CmdAction::DoublePress, CmdTrigger::OnUpBeat, [this] (QueueAction* action) {
-        if (!action->isFunctionDown) processor->tracks->doForAllTracks(TrackAction::Play, TrackMode::On);
-        if (action->isFunctionDown) processor->tracks->doForSelectedTracks(TrackAction::Restart);
+        if (!action->isFunctionDown) processor->dispatch->all(TrackAction::Play, TrackMode::On);
+        if (action->isFunctionDown) processor->dispatch->selected(TrackAction::Restart);
     });
 }
 
@@ -102,24 +102,24 @@ void Commands::registerRecordCommands() {
 
     // RECORD Press
     processor->commandQueue.registerCommand(CmdID::Record, CmdAction::Press, CmdTrigger::Instant, [this] (QueueAction* action) {
-        if (!action->isFunctionDown) processor->tracks->doForLastSelectedOrFreeTrack(TrackAction::Record);
+        if (!action->isFunctionDown) processor->dispatch->freeOrLastSelected(TrackAction::Record);
     });
 
     // RECORD Double Press
     processor->commandQueue.registerCommand(CmdID::Record, CmdAction::DoublePress, CmdTrigger::OnBeat, [this] (QueueAction* action) {
-        if (!action->isFunctionDown) processor->tracks->doForAllTracks(TrackAction::CancelRecord);
+        if (!action->isFunctionDown) processor->dispatch->all(TrackAction::CancelRecord);
     });
 
     // RECORD Hold
     processor->commandQueue.registerCommand(CmdID::Record, CmdAction::Hold, CmdTrigger::OnUpBeat, [this] (QueueAction* action) {
-        if (!action->isFunctionDown) processor->tracks->doForSelectedTracks(TrackAction::Stop, TrackMode::On);
-        if (action->isFunctionDown) processor->tracks->doForAllTracks(TrackAction::Stop, TrackMode::On);
+        if (!action->isFunctionDown) processor->dispatch->selected(TrackAction::Stop, TrackMode::On);
+        if (action->isFunctionDown) processor->dispatch->all(TrackAction::Stop, TrackMode::On);
     });
 
     // RECORD Double Hold
     processor->commandQueue.registerCommand(CmdID::Record, CmdAction::DoubleHold, CmdTrigger::OnUpBeat, [this] (QueueAction* action) {
-        if (!action->isFunctionDown) processor->tracks->doForSelectedTracks(TrackAction::Clear);
-        if (action->isFunctionDown) processor->tracks->doForAllTracks(TrackAction::Clear);
+        if (!action->isFunctionDown) processor->dispatch->selected(TrackAction::Clear);
+        if (action->isFunctionDown) processor->dispatch->all(TrackAction::Clear);
     });
 }
 
@@ -149,20 +149,20 @@ void Commands::registerTrackCommands() {
 
         // TRACK Press
         processor->commandQueue.registerCommand(trackCmd, CmdAction::Press, CmdTrigger::Instant, [this, track] (QueueAction* action) {
-            if (!action->isFunctionDown) processor->tracks->doForTrack(track, TrackAction::Select, TrackMode::Toggle);
-            if (action->isFunctionDown) processor->tracks->doForTrack(track, TrackAction::SelectEffect, TrackMode::Toggle);
+            if (!action->isFunctionDown) processor->dispatch->single(track, TrackAction::Select, TrackMode::Toggle);
+            if (action->isFunctionDown) processor->dispatch->single(track, TrackAction::SelectEffect, TrackMode::Toggle);
         });
 
         // TRACK Double Press
         processor->commandQueue.registerCommand(trackCmd, CmdAction::DoublePress, CmdTrigger::OnUpBeat, [this, track] (QueueAction* action) {
-            if (!action->isFunctionDown) processor->tracks->doForTrack(track, TrackAction::Play, TrackMode::Toggle);
-            if (action->isFunctionDown) processor->tracks->doForTrack(track, TrackAction::Stop, TrackMode::Toggle);
+            if (!action->isFunctionDown) processor->dispatch->single(track, TrackAction::Play, TrackMode::Toggle);
+            if (action->isFunctionDown) processor->dispatch->single(track, TrackAction::Stop, TrackMode::Toggle);
         });
 
         // TRACK Hold
         processor->commandQueue.registerCommand(trackCmd, CmdAction::Hold, CmdTrigger::OnBeat, [this, track] (QueueAction* action) {
-            if (!action->isFunctionDown) processor->tracks->doForTrack(track, TrackAction::Mute, TrackMode::Toggle);
-            if (action->isFunctionDown) processor->tracks->doForTrack(track, TrackAction::Cue, TrackMode::Toggle);
+            if (!action->isFunctionDown) processor->dispatch->single(track, TrackAction::Mute, TrackMode::Toggle);
+            if (action->isFunctionDown) processor->dispatch->single(track, TrackAction::Cue, TrackMode::Toggle);
         });
 
         // TRACK Double Hold
@@ -183,14 +183,15 @@ void Commands::registerControlGroupCommands(ControlGroup::Group group) {
     std::function<void(QueueAction* action)> onInteract = [this, group, controlGroup] (QueueAction* action) {
         
         if (processor->isEffectMode()) {
-            processor->tracks->doForAllEffects(TrackAction::SetEffectGroup, TrackMode::Off, group);
-            processor->tracks->doForSelectedEffects(TrackAction::SetEffectGroup, TrackMode::On, group);
+            processor->dispatch->all(TrackAction::SetEffectGroup, TrackMode::Off, group);
+            processor->dispatch->selected(TrackAction::SetEffectGroup, TrackMode::On, group);
         } else {
-            processor->tracks->doForSelectedTracks(TrackAction::SetGroup, TrackMode::On, group);
+            processor->dispatch->selected(TrackAction::UnsetGroup);
+            processor->dispatch->selected(TrackAction::SetGroup, TrackMode::On, group);
         }
         
-        processor->tracks->doForAllTracks(TrackAction::Select, TrackMode::Off);
-        processor->tracks->doForAllTracks(TrackAction::SelectEffect, TrackMode::Off);
+        processor->dispatch->all(TrackAction::Select, TrackMode::Off);
+        processor->dispatch->all(TrackAction::SelectEffect, TrackMode::Off);
 
         processor->isFunctionDown = false;
         processor->setEffectMode(false);

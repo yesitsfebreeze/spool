@@ -17,6 +17,7 @@ SpoolProcessor::SpoolProcessor():
 
     sequencer.reset(new Sequencer(this));
     tracks.reset(new Tracks(this));
+    dispatch.reset(new Dispatcher(this));
     commands.setProcessor(this);
     startTimerHz(Config::UpdateHz);
 }
@@ -24,6 +25,7 @@ SpoolProcessor::SpoolProcessor():
 SpoolProcessor::~SpoolProcessor() {
     sequencer.reset();
     tracks.reset();
+    dispatch.reset();
 }
 
 void SpoolProcessor::timerCallback() {

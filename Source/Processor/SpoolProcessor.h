@@ -5,6 +5,7 @@
 #include "Processor/Modules/Commands/CommandQueue.h"
 #include "Processor/Modules/Parameters/Parameteres.h"
 #include "Processor/Modules/ControlGroup/ControlGroup.h"
+#include "Processor/Modules/Dispatcher/Dispatcher.h"
 #include "Processor/Commands.h"
 
 
@@ -78,6 +79,7 @@ public:
     std::function<void(bool isBeat, bool isUpbeat)> guiTimerCallback;
     std::unique_ptr<Sequencer> sequencer;
     std::unique_ptr<Tracks> tracks;
+    std::unique_ptr<Dispatcher> dispatch;
     CommandQueue commandQueue;
     std::map<ControlGroup::Group, ControlGroup*> controlGroups;
     juce::dsp::ProcessSpec processSpec;

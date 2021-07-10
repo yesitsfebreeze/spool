@@ -79,8 +79,7 @@ public:
     std::unique_ptr<Sequencer> sequencer;
     std::unique_ptr<Tracks> tracks;
     CommandQueue commandQueue;
-    ControlGroup controlGroupA;
-    ControlGroup controlGroupB;
+    std::map<ControlGroup::Group, ControlGroup*> controlGroups;
     juce::dsp::ProcessSpec processSpec;
     
     bool isFunctionDown = false;

@@ -42,34 +42,7 @@ void Track::processBlockAfter(juce::AudioBuffer<float>& buffer, juce::MidiBuffer
     for (Sample* sample : samples) sample->processBlockAfter(trackBuffer, midiMessages);
     effects->processBlockAfter(trackBuffer, midiMessages);
 
-
     basicProcessing.setBuffer(trackBuffer).setBalance(balance).setVolume(volume).addTo(buffer).process();
-    
-//    for (int sampleIndex = 0; sampleIndex < trackBuffer.getNumSamples(); sampleIndex++) {
-//        float drySampleL = buffRead[Config::CHLeft][sampleIndex];
-//        float drySampleR = buffRead[Config::CHRight][sampleIndex];
-//        float tmpSampleL = drySampleL;
-//        float tmpSampleR = drySampleR;
-//
-//        tmpSampleL *= balanceL;
-//        if (balanceR < 1) {
-//            tmpSampleL *= balanceR;
-//            tmpSampleL += drySampleR * (1 - balanceR);
-//        }
-//        tmpSampleL *= volume.percent;
-//        
-//        tmpSampleR *= balanceR;
-//        if (balanceL < 1) {
-//            tmpSampleR *= balanceL;
-//            tmpSampleR += drySampleL * (1 - balanceL);
-//        }
-//        tmpSampleR *= volume.percent;
-//    
-//        buffWrite[Config::CHLeft][sampleIndex] = tmpSampleL;
-//        buffWrite[Config::CHRight][sampleIndex] = tmpSampleR;
-//    }
-//
-
 }
 
 void Track::beatCallback(int beat, bool isUpBeat) {
@@ -174,67 +147,69 @@ void Track::clear() {
 };
 
 bool Track::isGrouped() {
-    return (isInGroup(0) || isInGroup(1));
+    return (isInGroup(ControlGroup::Group::A) || isInGroup(ControlGroup::Group::B));
 }
 
-bool Track::isInGroup(int group) {
-    ControlGroup controlGroup = nullptr;
-    if (group == 0) controlGroup = owner->owner->controlGroupA;
-    if (group == 1) controlGroup = owner->owner->controlGroupB;
-    return controlGroup.containsTrack(index);
+bool Track::isInGroup(ControlGroup::Group group) {
+    ControlGroup* controlGroup = owner->owner->controlGroups[group];
+    return controlGroup->containsTrack(index);
 }
 
-int Track::getGroup() {
-    ControlGroup groupA = owner->owner->controlGroupA;
-    ControlGroup groupB = owner->owner->controlGroupB;
-    if (groupA.containsTrack(index)) return 0;
-    if (groupB.containsTrack(index)) return 1;
+ControlGroup::Group Track::getGroup() {
+    ControlGroup* controlGroupA = owner->owner->controlGroups[ControlGroup::Group::A];
+    ControlGroup* controlGroupB = owner->owner->controlGroups[ControlGroup::Group::B];
+    if (controlGroupA->containsTrack(index)) return ControlGroup::Group::A;
+    if (controlGroupB->containsTrack(index)) return ControlGroup::Group::B;
 
-    return -1;
+    return ControlGroup::Group::Unassinged;
 }
 
-int Track::isInEffectGroup(int group) {
-    ControlGroup controlGroup = nullptr;
-    if (group == 0) controlGroup = owner->owner->controlGroupA;
-    if (group == 1) controlGroup = owner->owner->controlGroupB;
-    return controlGroup.containsEffect(index);
+bool Track::isEffectGrouped() {
+    return (isInEffectGroup(ControlGroup::Group::A) || isInEffectGroup(ControlGroup::Group::B));
 }
 
-void Track::addTrackToGroupA() {
-    owner->owner->controlGroupA.addTrack(index);
+bool Track::isInEffectGroup(ControlGroup::Group group) {
+    ControlGroup* controlGroup = owner->owner->controlGroups[group];
+    return controlGroup->containsEffect(index);
 }
 
-void Track::removeTrackFromGroupA() {
-    owner->owner->controlGroupA.removeTrack(index);
+ControlGroup::Group Track::getEffectGroup() {
+    ControlGroup* controlGroupA = owner->owner->controlGroups[ControlGroup::Group::A];
+    ControlGroup* controlGroupB = owner->owner->controlGroups[ControlGroup::Group::B];
+    if (controlGroupA->containsEffect(index)) return ControlGroup::Group::A;
+    if (controlGroupB->containsEffect(index)) return ControlGroup::Group::B;
+
+    return ControlGroup::Group::Unassinged;
 }
 
-void Track::addTrackToGroupB() {
-    owner->owner->controlGroupB.addTrack(index);
+void Track::setGroup(Track::Mode mode, ControlGroup::Group group) {
+    bool value = getValueBasedOnMode(isInGroup(group), mode);
+    if (!value) {
+        owner->owner->controlGroups[group]->removeTrack(index);
+    } else {
+        owner->owner->controlGroups[group]->addTrack(index);
+    }
 }
 
-void Track::removeTrackFromGroupB() {
-    owner->owner->controlGroupB.removeTrack(index);
+
+void Track::unsetGroup() {
+    owner->owner->controlGroups[ControlGroup::Group::A]->removeTrack(index);
+    owner->owner->controlGroups[ControlGroup::Group::B]->removeTrack(index);
 }
 
-void Track::removeTrackFromAllGroups() {
-    owner->owner->controlGroupA.removeTrack(index);
-    owner->owner->controlGroupB.removeTrack(index);
+
+void Track::setEffectGroup(Track::Mode mode, ControlGroup::Group group) {
+    bool value = getValueBasedOnMode(isInEffectGroup(group), mode);
+    if (!value) {
+        owner->owner->controlGroups[group]->removeEffect(index);
+    } else {
+        owner->owner->controlGroups[group]->addEffect(index);
+    }
 }
 
-void Track::addEffectToGroupA() {
-    owner->owner->controlGroupA.addEffect(index);
-}
-
-void Track::removeEffectFromGroupA() {
-    owner->owner->controlGroupA.removeEffect(index);
-}
-
-void Track::addEffectToGroupB() {
-    owner->owner->controlGroupB.addEffect(index);
-}
-
-void Track::removeEffectFromGroupB() {
-    owner->owner->controlGroupB.removeEffect(index);
+void Track::unsetEffectGroup() {
+    owner->owner->controlGroups[ControlGroup::Group::A]->removeEffect(index);
+    owner->owner->controlGroups[ControlGroup::Group::B]->removeEffect(index);
 }
 
 

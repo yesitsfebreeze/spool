@@ -73,10 +73,10 @@ void TrackButtonUI::getButtonColors() {
         fillColor = GUIConfig::Colors::Green;
     } else {
         if (track->isGrouped()) {
-            if (track->getGroup() == 0) {
+            if (track->isInGroup(ControlGroup::Group::A)) {
                 borderColor = GUIConfig::Colors::GroupColorA;
                 fillColor = GUIConfig::Colors::GroupColorA;
-            } else if (track->getGroup() == 1) {
+            } else if (track->isInGroup(ControlGroup::Group::B)) {
                 borderColor = GUIConfig::Colors::GroupColorB;
                 fillColor = GUIConfig::Colors::GroupColorB;
             }

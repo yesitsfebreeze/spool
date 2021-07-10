@@ -9,11 +9,12 @@
 //==============================================================================
 SpoolProcessor::SpoolProcessor():
 #ifndef JucePlugin_PreferredChannelConfigurations
-    AudioProcessor (BusesProperties().withInput  ("Input",  juce::AudioChannelSet::stereo(), true).withOutput ("Output", juce::AudioChannelSet::stereo(), true)),
+    AudioProcessor (BusesProperties().withInput  ("Input",  juce::AudioChannelSet::stereo(), true).withOutput ("Output", juce::AudioChannelSet::stereo(), true))
 #endif
-controlGroupA(this),
-controlGroupB(this)
 {
+    controlGroups[ControlGroup::Group::A] = new ControlGroup(this);
+    controlGroups[ControlGroup::Group::B] = new ControlGroup(this);
+
     sequencer.reset(new Sequencer(this));
     tracks.reset(new Tracks(this));
     commands.setProcessor(this);

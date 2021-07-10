@@ -10,8 +10,8 @@
 #include "Processor/Modules/Effects/ReverbEffect.h"
 
 Effects::Effects(SpoolProcessor* processor, int track, int sample): processor(processor), track(track), sample(sample) {
-    addEffect<ReverbEffect>();
     addEffect<DelayEffect>();
+    addEffect<ReverbEffect>();
     addEffect<DelayEffect>();
     addEffect<DelayEffect>();
     addEffect<DelayEffect>();

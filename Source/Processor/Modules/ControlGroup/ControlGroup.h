@@ -45,7 +45,6 @@ public:
     
     bool containsTrack(int index);
     bool containsEffect(int index);
-
     
 private:
     SpoolProcessor* processor;

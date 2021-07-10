@@ -5,6 +5,7 @@
 
 #include "Processor/Modules/Sample/Sample.h"
 #include "Processor/Modules/Effects/Base/Effects.h"
+#include "Processor/Modules/ControlGroup/ControlGroup.h"
 #include "Processor/Modules/Parameters/ParameterValue.h"
 #include "Processor/Modules/BasicProcessing/BasicProcessing.h"
 
@@ -27,15 +28,10 @@ public:
         Record,
         CancelRecord,
         Clear,
-        AddTrackToGroupA,
-        RemoveTrackFromGroupA,
-        AddTrackToGroupB,
-        RemoveTrackFromGroupB,
-        RemoveTrackFromAllGroups,
-        AddEffectToGroupA,
-        RemoveEffectFromGroupA,
-        AddEffectToGroupB,
-        RemoveEffectFromGroupB,
+        SetGroup,
+        UnsetGroup,
+        SetEffectGroup,
+        UnsetEffectGroup,
     };
 
     enum Mode {
@@ -70,7 +66,7 @@ public:
 
     void beatCallback(int beat, bool isUpBeat);
 
-    void executeAction(Track::Action action, Track::Mode mode) {
+    void executeAction(Track::Action action, Track::Mode mode, ControlGroup::Group group = ControlGroup::Group::Unassinged) {
         switch (action) {
             case Track::Action::Select:
                 select(mode);
@@ -102,32 +98,17 @@ public:
             case Track::Action::Clear:
                 clear();
                 break;
-            case Track::Action::AddTrackToGroupA:
-                addTrackToGroupA();
+            case Track::Action::SetGroup:
+                setGroup(mode, group);
                 break;
-            case Track::Action::RemoveTrackFromGroupA:
-                removeTrackFromGroupA();
+            case Track::Action::UnsetGroup:
+                unsetGroup();
                 break;
-            case Track::Action::AddTrackToGroupB:
-                addTrackToGroupB();
+            case Track::Action::SetEffectGroup:
+                setEffectGroup(mode, group);
                 break;
-            case Track::Action::RemoveTrackFromGroupB:
-                removeTrackFromGroupB();
-                break;
-            case Track::Action::RemoveTrackFromAllGroups:
-                removeTrackFromAllGroups();
-                break;
-            case Track::Action::AddEffectToGroupA:
-                addEffectToGroupA();
-                break;
-            case Track::Action::RemoveEffectFromGroupA:
-                removeEffectFromGroupA();
-                break;
-            case Track::Action::AddEffectToGroupB:
-                addEffectToGroupB();
-                break;
-            case Track::Action::RemoveEffectFromGroupB:
-                removeEffectFromGroupB();
+            case Track::Action::UnsetEffectGroup:
+                unsetEffectGroup();
                 break;
             default:
                 break;
@@ -143,22 +124,19 @@ public:
     void record();
     void cancelRecord();
     void clear();
-    void addTrackToGroupA();
-    void removeTrackFromGroupA();
-    void addTrackToGroupB();
-    void removeTrackFromGroupB();
-    void removeTrackFromAllGroups();
-    void addEffectToGroupA();
-    void removeEffectFromGroupA();
-    void addEffectToGroupB();
-    void removeEffectFromGroupB();
-    
+    void setGroup(Track::Mode mode, ControlGroup::Group group);
+    void unsetGroup();
+    void setEffectGroup(Track::Mode mode, ControlGroup::Group group);
+    void unsetEffectGroup();
     
     //  grouping
     bool isGrouped();
-    bool isInGroup(int group);
-    int getGroup();
-    int isInEffectGroup(int group);
+    bool isInGroup(ControlGroup::Group group);
+    ControlGroup::Group getGroup();
+    
+    bool isEffectGrouped();
+    bool isInEffectGroup(ControlGroup::Group group);
+    ControlGroup::Group getEffectGroup();
     
     // flags
     bool isSelected() {

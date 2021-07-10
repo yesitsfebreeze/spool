@@ -44,23 +44,23 @@ public:
         }
     }
     
-    bool doForAllTracks(Track::Action action, Track::Mode mode = Track::Mode::Single) {
+    bool doForAllTracks(Track::Action action, Track::Mode mode = Track::Mode::Single, ControlGroup::Group group = ControlGroup::Group::Unassinged) {
         for (Track* track : tracks) {
-            doForTrack(track->getIndex(), action, mode);
+            doForTrack(track->getIndex(), action, mode, false, false, group);
         }
         return true;
     }
 
-    bool doForUnselectedTracks(Track::Action action, Track::Mode mode = Track::Mode::Single) {
+    bool doForUnselectedTracks(Track::Action action, Track::Mode mode = Track::Mode::Single, ControlGroup::Group group = ControlGroup::Group::Unassinged) {
         for (Track* track : tracks) {
-            doForTrack(track->getIndex(), action, mode, false, true);
+            doForTrack(track->getIndex(), action, mode, false, true, group);
         }
         return true;
     }
     
-    bool doForSelectedTracks(Track::Action action, Track::Mode mode = Track::Mode::Single) {
+    bool doForSelectedTracks(Track::Action action, Track::Mode mode = Track::Mode::Single, ControlGroup::Group group = ControlGroup::Group::Unassinged) {
         for (Track* track : tracks) {
-            doForTrack(track->getIndex(), action, mode, true);
+            doForTrack(track->getIndex(), action, mode, true, false, group);
         }
         return true;
     }
@@ -77,11 +77,40 @@ public:
         return true;
     }
 
-    bool doForTrack(int trackIndex, Track::Action action, Track::Mode mode = Track::Mode::Single, bool mustBeSelected = false, bool mustBeUnselected = false) {
+    bool doForTrack(int trackIndex, Track::Action action, Track::Mode mode = Track::Mode::Single, bool mustBeSelected = false, bool mustBeUnselected = false, ControlGroup::Group group = ControlGroup::Group::Unassinged) {
         Track* track = tracks[trackIndex];
-        if (mustBeSelected && (!track->isSelected() && !track->isEffectSelected())) return false;
-        if (mustBeUnselected && (track->isSelected() || track->isEffectSelected())) return false;
-        track->executeAction(action, mode);
+        if (mustBeSelected && !track->isSelected()) return false;
+        if (mustBeUnselected && track->isSelected()) return false;
+        track->executeAction(action, mode, group);
+        return true;
+    }
+    
+    bool doForAllEffects(Track::Action action, Track::Mode mode = Track::Mode::Single, ControlGroup::Group group = ControlGroup::Group::Unassinged) {
+        for (Track* track : tracks) {
+            doForEffect(track->getIndex(), action, mode, false, false, group);
+        }
+        return true;
+    }
+
+    bool doForUnselectedEffects(Track::Action action, Track::Mode mode = Track::Mode::Single, ControlGroup::Group group = ControlGroup::Group::Unassinged) {
+        for (Track* track : tracks) {
+            doForEffect(track->getIndex(), action, mode, false, true, group);
+        }
+        return true;
+    }
+    
+    bool doForSelectedEffects(Track::Action action, Track::Mode mode = Track::Mode::Single, ControlGroup::Group group = ControlGroup::Group::Unassinged) {
+        for (Track* track : tracks) {
+            doForEffect(track->getIndex(), action, mode, true, false, group);
+        }
+        return true;
+    }
+    
+    bool doForEffect(int trackIndex, Track::Action action, Track::Mode mode = Track::Mode::Single, bool mustBeSelected = false, bool mustBeUnselected = false, ControlGroup::Group group = ControlGroup::Group::Unassinged) {
+        Track* track = tracks[trackIndex];
+        if (mustBeSelected && !track->isEffectSelected()) return false;
+        if (mustBeUnselected && track->isEffectSelected()) return false;
+        track->executeAction(action, mode, group);
         return true;
     }
     

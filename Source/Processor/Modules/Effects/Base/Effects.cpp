@@ -8,11 +8,12 @@
 // actual effects
 #include "Processor/Modules/Effects/DelayEffect.h"
 #include "Processor/Modules/Effects/ReverbEffect.h"
+#include "Processor/Modules/Effects/AutoPanEffect.h"
 
 Effects::Effects(SpoolProcessor* processor, int track, int sample): processor(processor), track(track), sample(sample) {
     addEffect<DelayEffect>();
     addEffect<ReverbEffect>();
-    addEffect<DelayEffect>();
+    addEffect<AutoPanEffect>();
     addEffect<DelayEffect>();
     addEffect<DelayEffect>();
     addEffect<DelayEffect>();

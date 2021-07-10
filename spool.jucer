@@ -72,6 +72,8 @@
               <FILE id="boULeD" name="Effects.cpp" compile="1" resource="0" file="Source/Processor/Modules/Effects/Base/Effects.cpp"/>
               <FILE id="HPQo9p" name="Effects.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/Base/Effects.h"/>
             </GROUP>
+            <FILE id="eJRaoG" name="AutoPanEffect.cpp" compile="1" resource="0"
+                  file="Source/Processor/Modules/Effects/AutoPanEffect.cpp"/>
             <FILE id="ysG83O" name="AutoPanEffect.h" compile="0" resource="0" file="Source/Processor/Modules/Effects/AutoPanEffect.h"/>
             <FILE id="Nivs0Z" name="CompressorEffect.h" compile="0" resource="0"
                   file="Source/Processor/Modules/Effects/CompressorEffect.h"/>

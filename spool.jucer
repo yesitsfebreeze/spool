@@ -45,6 +45,9 @@
         <FILE id="qFBBJg" name="GUIConfig.h" compile="0" resource="0" file="Source/GUI/GUIConfig.h"/>
       </GROUP>
       <GROUP id="{749F0BDF-E901-1A75-3724-2E7D40FA35C5}" name="Processor">
+        <GROUP id="{D422A6AD-659A-0E00-22B3-16131FC6DA8D}" name="Utils">
+          <FILE id="QBAbz3" name="RandomLFO.h" compile="0" resource="0" file="Source/Processor/Utils/RandomLFO.h"/>
+        </GROUP>
         <GROUP id="{5F1096FF-66A3-F2AF-05C7-1EF80F115FAB}" name="Modules">
           <GROUP id="{FE56A13E-9F1C-57FD-673E-31D3A6C6C5F9}" name="ControlGroup">
             <FILE id="bUTfcA" name="ControlGroup.cpp" compile="1" resource="0"
